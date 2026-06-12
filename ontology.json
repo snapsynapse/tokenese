@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "last_updated": "2026-06-12",
+  "url": "https://tokenese.org/ontology.json",
+  "mission": "Bring color to machine-to-machine communication: denser and more precise than any human language, in plain auditable text.",
+  "definitions": {
+    "tokenese": "A token-native interlingua for LLM-to-LLM communication whose lexicon is admitted by empirical tokenizer audit.",
+    "token_space": "The constraint that all exchange crosses the wire as plain text each party tokenizes independently; no embeddings, KV-cache, or latent channels.",
+    "admissible_symbol": "A symbol or word costing exactly 1 token, worst case (bare and space-prefixed), in every certified tokenizer.",
+    "symbol_table": "In-band session bindings (@N=referent) that compress repeated referents to single-token references.",
+    "misparse_retry_rate": "The fraction of dense statements requiring a ?? repair; the metric that validates or kills the design.",
+    "dense_mode": "The state after a successful handshake in which parties exchange Tokenese rather than natural language.",
+    "repair_protocol": "The mandatory ?? signal and plain-English escape hatch that make dense mode safe."
+  }
+}

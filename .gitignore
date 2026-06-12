@@ -1,4 +1,18 @@
-.venv/
+# Baseline per LocalBrain 0_Across/Repo Standards.md v0.4
+.DS_Store
+.env
+.env.*
+!*.example
+.vercel
+node_modules/
 __pycache__/
 *.pyc
-.DS_Store
+.vscode/
+.idea/
+dist/
+build/
+.venv/
+venv/
+.claude/
+handoffs/
+working/

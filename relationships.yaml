@@ -1,0 +1,32 @@
+version: 0.1.0
+last_updated: 2026-06-12
+canonical_url: https://tokenese.org/relationships.yaml
+ontology: https://tokenese.org/ontology.json
+
+core_thesis: LLMs conforming to human language is film in black and white. Tokenese is a token-native interlingua that is denser and more precise than any human language, with every lexicon element admitted by reproducible tokenizer audit.
+
+relationships:
+  turnfile:
+    url: https://turnfile.work/
+    relation: candidate envelope for multi-agent sessions speaking Tokenese
+    binding: non-binding
+  graceful_boundaries:
+    url: https://gracefulboundaries.dev/
+    relation: refusal-adjacent surfaces (plain escape, repair) may adopt GB formatting
+    binding: non-binding
+  hardguard25:
+    url: https://hardguard25.com/
+    relation: token-budget metadata is a natural Tokenese payload
+    binding: non-binding
+
+prior_art:
+  agora_protocol:
+    url: https://arxiv.org/abs/2410.11905
+    borrowed: in-band negotiated bindings
+  gibberlink:
+    url: https://github.com/PennyroyalTea/gibberlink
+    borrowed: capability handshake before dense mode
+  llmlingua:
+    relation: complementary payload compression, out of scope
+  droidspeak_cipher_coconut:
+    relation: latent-space exchange, reviewed and rejected per design invariant 1

@@ -1,8 +1,12 @@
-# Tokenese v0.1 (draft)
+# Tokenese Specification
+Version: 0.1.0
+Date: 2026-06-12
+Status: draft
+Canonical: https://tokenese.org/
 
 A token-based interlingua for LLM-to-LLM communication. Goal: exchanges that are both more compressed and more accurate than any natural language, measured in actual tokenizer tokens, not characters.
 
-Status: draft. Authored 2026-06-12 in session with Sam Rogers. Not yet tested against a second model family.
+Authored 2026-06-12 in session with Sam Rogers. Not yet tested against a second model family.
 
 ## Design principles
 
@@ -64,7 +68,7 @@ One statement per line. Line = newline-terminated. No prose between statements i
 First use binds, all later uses reference:
 
 ```
-@1=~/Git/tokenese/SPEC.md
+@1=~/Git/tokenese/spec.md
 @2=anthropic count-tokens endpoint
 fix @1 add:handshake // 3 tokens for what cost 9
 ```
