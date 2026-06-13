@@ -11,7 +11,7 @@ LLMs conforming to human language is like watching film in black and white. Huma
 ## Design invariants
 
 1. Token-space only. No embeddings, no KV-cache sharing, no latent-channel exchange. Everything crosses the wire as text each party tokenizes independently. Security and cross-vendor portability both require this.
-2. Tokenizer-audited lexicon. A symbol or word enters the core vocabulary only if it costs 1 token, worst case (bare and space-prefixed), in every tokenizer in use. Claims are reproducible via the audit scripts in this repo.
+2. Tokenizer-audited lexicon. Every lexicon element carries an empirically audited worst-case cost (bare and space-prefixed) in every tokenizer in use; no element ships unaudited. The closed function vocabulary (sigils, reserved operators, evidentials) must be 1 token worst case on all sides. Content vocabulary is admitted on tokens-per-semantic-unit advantage over the natural-language alternative: a 2-token CJK ideograph that replaces a 3-token English phrase wins admission. Any UTF-8 character is candidate space. Claims are reproducible via the audit scripts in this repo. (Amended 2026-06-12 per Sam: CJK welcome; the audit prices it, density justifies it.)
 3. Not a pidgin. A pidgin trades precision for ease of acquisition. Tokenese trades acquisition cost (it must be specified and learned, not picked up) for precision and density. Any change that dulls precision to gain compression is rejected.
 4. Accuracy is a feature. Fixed field grammar, controlled vocabulary (one sense per word), and typed literals must make Tokenese misparse less than the equivalent English, not more.
 5. Self-repairing. The `??` repair signal and plain-English escape hatch are mandatory in every conforming implementation. A dense language without a repair channel is a liability.
@@ -51,4 +51,5 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 
 ## Changelog
 
+- 2026-06-12 (later): Invariant 2 amended per Sam: 1-token rule narrowed to the closed function vocabulary; content vocabulary admitted on tokens-per-semantic-unit advantage, reopening CJK and other multi-token UTF-8 candidates. Invariant 7 (human-auditability, hard) added per Sam. Evidential surfaces audited and selected: ev:obs / ev:heard / ev:mem / ev:guess, default = inferred.
 - 2026-06-12: INTENT.md created at repo provisioning. Spec v0.1.0 draft, dual-tokenizer audit complete (o200k_base + Anthropic count-tokens), tokenese.org registered as canonical home.

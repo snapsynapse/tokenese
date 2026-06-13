@@ -41,7 +41,7 @@ K4. Stake-scaled paraphrase readback. `!`-flagged statements require the receive
 
 K5. Framesets + canonical form. Registry entries are typed slot signatures (`deploy :: who what to:env -> status`), not word glosses. Malformed statements become structurally detectable before semantic misparse. Canonical slot order per op makes string equality approximate semantic equality and concentrates both generators on one surface form. Zero wire cost; this IS the teaching document.
 
-K6. Evidentials, with the structural fix. Source-of-knowledge marking per claim, ~25% of human languages grammaticalize this; English buries it in expensive hedges. Hallucination is an evidentiality failure. But models confabulate provenance (reporting parametric memory as observation), so: `ev:obs` is reserved for harness-verifiable claims (tool output present in context), self-reported lanes default-elide to inferred, and the calibration audit (section 6) gates trust. Audited surfaces: `ev` `obs` `src` `guess` pass dual; `saw told recall infer` FAIL audit and are out. Hearsay and parametric-memory surfaces still need audited words (candidates: `said`, `mem`, `know`; pending).
+K6. Evidentials, with the structural fix. Source-of-knowledge marking per claim, ~25% of human languages grammaticalize this; English buries it in expensive hedges. Hallucination is an evidentiality failure. But models confabulate provenance (reporting parametric memory as observation), so: `ev:obs` is reserved for harness-verifiable claims (tool output present in context), self-reported lanes default-elide to inferred, and the calibration audit (section 6) gates trust. Audited surfaces, resolved 2026-06-12 with homonym-reduction guidance from Sam: `ev:obs` (harness-verifiable), `ev:heard` (reported by another party), `ev:mem` (parametric memory), `ev:guess` (working assumption); elided default = inferred. All dual-audited 1 token. `saw told recall infer ack <-` failed audit and are out.
 
 K7. Contrast pins and worked-pair analogy. `like throttle not retry` pins a meaning by its nearest confusable; the `not` anchor transmits the sender's model of the receiver's likely misreading, which is theory-of-mind in two tokens. `like a:b @x:?` transports a relation via exemplar pairs (real mechanism: ICL relation transport, demonstrated in base models). Constraint: analogy is admissible for teaching and querying, never load-bearing for facts; any `like`-derived fact carries `^<=6` or gets verified. The folklore justification (king-man+woman vector arithmetic) is banned from spec prose; worked pairs are the honest version.
 
@@ -128,8 +128,11 @@ The v0.1 uses of `=` (binding) and `#` (tag) stand. `>>` and `<<` are unallocate
 
 ## 8. Audit deltas this round (merged into anthropic_costs.json)
 
-Dual-pass additions: `because like cf val zone but same other before after most except guess drop fill sum head tail dense plain sync hold set when who what why how where more less very kind part still ev src obs ..`
-Failures: `infer` (2 Anthropic), `ack` (2 Anthropic), `<-` (2 Anthropic), `saw` `told` `recall` (2 o200k bare). Pending: `said`, `mem`, `know`, `prior` for the remaining evidential surfaces.
+Dual-pass additions: `because like cf val zone but same other before after most except guess drop fill sum head tail dense plain sync hold set when who what why how where more less very kind part still ev src obs ..` and (evidential round) `said quote cite heard report claim via per relay mem prior stored train weights seen wit`.
+Failures: `infer` (2 Anthropic), `ack` (2 Anthropic), `<-` (2 Anthropic), `saw` `told` `recall` `innate` `learned` `baked` `attest` (2 o200k bare).
+Evidential surfaces selected by homonym reduction (Sam's guidance: each audit should reduce uncertainty; eliminate homographs/homonyms): `heard` over `said`/`quote`/`cite` for hearsay; `mem` over `prior`/`train`/`weights` for parametric memory.
+
+Maintainer amendment 2026-06-12: invariant 2 narrowed. The 1-token rule binds the closed function vocabulary only; content vocabulary is admitted on tokens-per-semantic-unit advantage, which reopens CJK (2 Anthropic-side tokens, but one ideograph can replace a multi-token English phrase). Any UTF-8 is candidate space. OQ-006 tracks the CJK candidate sweep.
 
 ## 9. v0.2 admission queue
 

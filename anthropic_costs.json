@@ -183,5 +183,21 @@
  "src": 1,
  "obs": 1,
  "ack": 2,
- "<-": 2
+ "<-": 2,
+ "said": 1,
+ "quote": 1,
+ "cite": 1,
+ "heard": 1,
+ "report": 1,
+ "claim": 1,
+ "via": 1,
+ "per": 1,
+ "relay": 1,
+ "mem": 1,
+ "prior": 1,
+ "stored": 1,
+ "train": 1,
+ "weights": 1,
+ "seen": 1,
+ "wit": 1
 }
