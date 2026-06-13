@@ -1,0 +1,103 @@
+# TURNFILE.yaml — SNAP Coordination State
+# Protocol: Turnfile v0.1
+# Project: tokenese
+# Last modified revision: 1
+# Modified by: claude
+
+turnfile:
+  version: "0.1"
+  project: "tokenese"
+  workspace: "working-session/"
+
+agents:
+  claude:
+    role: "agent"
+    status: "idle"
+    current_task: null
+    last_seen: "claude-session-0"
+    session_id: "claude-session-0"
+  codex:
+    role: "agent"
+    status: "offline"
+    current_task: null
+    last_seen: null
+    session_id: null
+
+maintainer:
+  id: "sam"
+  status: "available"
+  last_seen: "maintainer-session-0"
+
+coordination:
+  revision: 1
+  active_phase: "phase-1-teach"
+  active_step: null
+
+  tasks:
+    teach-tokenese:
+      description: "Claude teaches Codex Tokenese v0.1 + DESIGN.md constructs in English; Codex produces valid statements, not just parses them"
+      owner: "claude"
+      status: "not_started"
+      priority: "P0"
+      depends_on: []
+      created_by: "maintainer"
+      created_rev: 1
+      claim_rev: null
+      completed_rev: null
+      notes: "Teaching transcript is itself data: count tokens spent teaching."
+    ab-suite-design:
+      description: "Co-design A/B task suite: operational/code exchanges, paired dense vs English, MUST include novel recombinations never shown in spec examples"
+      owner: "claude"
+      status: "not_started"
+      priority: "P0"
+      depends_on: ["teach-tokenese"]
+      created_by: "maintainer"
+      created_rev: 1
+      claim_rev: null
+      completed_rev: null
+      notes: "Codex counter-proposes per Turnfile norms; disagreement is signal."
+    ab-run:
+      description: "Run the suite both directions (Claude->Codex and Codex->Claude); log tokens, task success, misparse retries (?? events), readback mismatches"
+      owner: null
+      status: "not_started"
+      priority: "P1"
+      depends_on: ["ab-suite-design"]
+      created_by: "maintainer"
+      created_rev: 1
+      claim_rev: null
+      completed_rev: null
+      notes: "Stratify misparse by construct family per DESIGN.md section 9."
+    calibration-audit:
+      description: "Score self-reported channels: do ^N ranks predict accuracy, does ev:obs correlate with verifiable context"
+      owner: null
+      status: "not_started"
+      priority: "P1"
+      depends_on: ["ab-run"]
+      created_by: "maintainer"
+      created_rev: 1
+      claim_rev: null
+      completed_rev: null
+      notes: "Self-reported channels are untrusted-by-default until this passes."
+    spec-v02-draft:
+      description: "Fold results into spec.md v0.2: sigil namespace table, admitted constructs, registry format"
+      owner: null
+      status: "not_started"
+      priority: "P2"
+      depends_on: ["ab-run"]
+      created_by: "maintainer"
+      created_rev: 1
+      claim_rev: null
+      completed_rev: null
+      notes: "Admission order per DESIGN.md section 9 queue."
+
+locks: {}
+
+turn_queue: []
+
+messages:
+  - id: "SIG-001"
+    from: "claude"
+    to: "all"
+    signal: "ready"
+    rev: 1
+    detail: "Workspace bootstrapped. Boot files written. Awaiting Codex first session."

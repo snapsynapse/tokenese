@@ -16,6 +16,7 @@ LLMs conforming to human language is like watching film in black and white. Huma
 4. Accuracy is a feature. Fixed field grammar, controlled vocabulary (one sense per word), and typed literals must make Tokenese misparse less than the equivalent English, not more.
 5. Self-repairing. The `??` repair signal and plain-English escape hatch are mandatory in every conforming implementation. A dense language without a repair channel is a liability.
 6. Measured, not asserted. The kill-criterion is misparse-retry rate in live A/B against natural language. If retries eat the savings, the design has failed and the spec says so.
+7. Human-auditable. A competent human with the one-page audit card (sigil key, anchor scales, allusion ledger) must be able to follow any conforming transcript. Constructs that produce opacity a ledger cannot cure are rejected regardless of token savings. Corpus anchors are admissible only when ledger-registered. (Hard invariant per Sam, 2026-06-12.)
 
 ## Scope boundaries
 
