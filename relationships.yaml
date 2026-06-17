@@ -1,9 +1,41 @@
-version: 0.1.0
-last_updated: 2026-06-12
+version: 1.0.0
+last_updated: 2026-06-17
 canonical_url: https://tokenese.org/relationships.yaml
 ontology: https://tokenese.org/ontology.json
+roadmap: https://github.com/snapsynapse/tokenese/blob/main/ROADMAP.md
 
 core_thesis: LLMs conforming to human language is film in black and white. Tokenese is a token-native interlingua that is denser and more precise than any human language, with every lexicon element admitted by reproducible tokenizer audit.
+
+grammar:
+  current: v0.3
+  delta_doc: https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md
+  design_rationale: https://github.com/snapsynapse/tokenese/blob/main/DESIGN.md
+  conformance: https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md
+
+reference_implementation:
+  language: Python 3.11+
+  package: tokenese_translator
+  scorer_package: tkab
+  install_path: tools/translator/
+  test_count: 132
+  cli:
+    - tokenese-translate
+    - tokenese-check
+  mcp_server: tokenese_translator.mcp_server
+  schema_versions:
+    grammar: v0.3
+    tkab_output: tkab-check-1.1
+    framesets: tokenese-framesets-0.1
+  audit_scripts:
+    - audit_symbols.py   # OpenAI o200k_base
+    - audit_anthropic.py # Anthropic count-tokens
+
+trust_anchors:
+  assistant_guide:
+    path: assistant-guide.txt
+    profile: human-verifiable-assistant-guide 0.6.0
+    level: 3
+    level_4_pending: DNS TXT at _assistant-guide.tokenese.org
 
 relationships:
   turnfile:
