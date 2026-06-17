@@ -47,9 +47,10 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 - `relationships.yaml` and `ontology.json` are minimal v0 stubs pending first public release.
 - `RELEASE_CHECKLIST.md` deferred until the repo gains a hosted or agent-facing surface (tokenese.org landing page not yet built).
 - Hosted-tier rows (imgs/og.png, robots.txt, llms.txt, sitemap, CNAME) not yet applicable; apply via canonical-spec-page when tokenese.org goes live.
-- Ownership: drafted under PAICE.work PBC following the open-spec sibling pattern (graceful-boundaries, obligation-first). Admission to `~/Git/portfolio.yaml` is pending Sam's decision and is not implied by this file.
+- Ownership: drafted under PAICE.work PBC following the open-spec sibling pattern (graceful-boundaries, obligation-first). Admitted to `~/Git/portfolio.yaml` as an open-spec component 2026-06-16 (private repo, pre-release; hosted-tier rows still deferred until tokenese.org ships).
 
 ## Changelog
 
+- 2026-06-16: Repo-standards walk + repo-polish. Private GitHub repo created and pushed, v0.1.0 tagged + released, `.github/` templates + GH metadata added, admitted to `portfolio.yaml` as an open-spec component. HANDOFF docs moved to gitignored `working/`.
 - 2026-06-12 (later): Invariant 2 amended per Sam: 1-token rule narrowed to the closed function vocabulary; content vocabulary admitted on tokens-per-semantic-unit advantage, reopening CJK and other multi-token UTF-8 candidates. Invariant 7 (human-auditability, hard) added per Sam. Evidential surfaces audited and selected: ev:obs / ev:heard / ev:mem / ev:guess, default = inferred.
 - 2026-06-12: INTENT.md created at repo provisioning. Spec v0.1.0 draft, dual-tokenizer audit complete (o200k_base + Anthropic count-tokens), tokenese.org registered as canonical home.
