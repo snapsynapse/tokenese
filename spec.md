@@ -19,19 +19,22 @@ A token-native interlingua for LLM-to-LLM communication: exchanges that are both
 5. Self-repairing. A dedicated misparse signal forces fallback to natural language for the failed span only. Misparse-retry rate is the metric that validates the whole scheme: if retries eat the savings, the design has failed.
 6. The v0.3 invariants. INTENT.md §"Design invariants" is the normative list; in one line each: token-space only; audited lexicon (closed function vocabulary 1 token worst case, content admitted on tokens-per-semantic-unit advantage); not a pidgin (acquisition cost traded for precision); accuracy is a feature; self-repairing (`??` and the plain escape are mandatory); measured, not asserted (the A/B kill-criterion); human-auditable (the one-page audit card must let a competent human follow any conforming transcript). See INTENT.md §Design invariants for the normative list (this section is a teaching summary).
 
-## Admissible alphabet (audited 2026-06-12; columns: OpenAI o200k_base + Anthropic count-tokens claude-haiku-4-5; further tokenizer columns tracked in ROADMAP X2)
+## Admissible alphabet (audited 2026-06-17; columns: OpenAI o200k_base + Anthropic count-tokens claude-haiku-4-5 + Gemini gemini-2.5-flash + Qwen Qwen2.5-7B + DeepSeek DeepSeek-V3 + Llama Llama-3-8B + Gemma gemma-2-9b)
 
-Single-token in both o200k_base and Anthropic (claude-haiku-4-5) tokenizers, worst case:
+Single-token, worst case (bare and space-prefixed), in **every** tokenizer column above. Gemini (`gemini-2.5-flash`) is audited via the count-tokens REST endpoint and is gated behind `GEMINI_API_KEY`; the other six columns are offline-reproducible (`tiktoken` + Hugging Face `tokenizers`). Gemma 4 is unreleased as of this audit, so `gemma-2-9b` stands as its proxy column. Re-derive with `audit_*.py` + `audit_check_intersection.py`.
 
 - ASCII sigils (22): `@ # $ % & * + - / | ~ ! ? ^ _ = < > : ; . ,`
 - Digraphs (12): `-> => :: || && >> << == ++ -- .. //`
   - Excluded by audit: `!= >= <=` (2 tokens Anthropic side)
 - Brackets (9): `( ) [ ] { } [[ {{ }}`
   - Caution: `]]` costs 2 tokens Anthropic side; avoid `[[...]]` pairs in dense spans
-- Unicode survivors (8): `→ √ • □ † § α β η π`
-  - Everything else tested (arrows, math, geometric, most Greek, all CJK, all emoji except possibly `✅`) costs 2+ tokens on at least one side. Do not use.
-- Core verb/word set (30, all 1 token both sides): `do go if or and not yes no ok ask say get put run fix new old big all none true false done fail need want must may can will`
+- Unicode survivors (6): `→ • § α β π`
+  - Excluded by audit: `√` (Qwen: 1/2 tokens), `□` (Qwen: 1/2; Llama: 1/2), `†` (Qwen: 1/2), `η` (Qwen: 1/2) — dropped in the 5-column expansion (2026-06-17); each costs 2 tokens space-prefixed on Qwen (and `□` on Llama too).
+  - Everything else tested (other arrows, math, geometric, most Greek, all CJK, all emoji) costs 2+ tokens on at least one column. Do not use.
+- Core verb/word set (30, all 1 token every column): `do go if or and not yes no ok ask say get put run fix new old big all none true false done fail need want must may can will`
 - Plus: any common English word may be used as a content token; prefer short, frequent words (high prior of single-token encoding). When in doubt, audit.
+
+Of the 81 v0.2 admissible elements (22 sigils + 12 digraphs + 9 brackets + 8 Unicode survivors + 30 core words), 77 survive the 5-column expansion; 4 Unicode survivors (`√ □ † η`) drop out as noted above.
 
 ## Wire grammar
 
