@@ -1,0 +1,3 @@
+deploy! @cfg env:prod cause:oom^6|disk^3
+say cause:a^6|b^5|c^4|d^3
+set a:□ b:□ c:□

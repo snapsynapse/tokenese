@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tokenese-translator"
+version = "0.1.0"
+description = "Deterministic Tokenese -> English translator with MCP service. Targets spec v0.2 (DESIGN.md governs)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "See repository LICENSE / LICENSE-SPEC" }
+authors = [{ name = "Tokenese contributors" }]
+dependencies = []
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+tokenese-translate = "tokenese_translator.cli:main"
+tokenese-mcp = "tokenese_translator.mcp_server:main"
+tokenese-check = "tkab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tokenese_translator*", "tkab*"]
+
+[tool.setuptools.package-data]
+tokenese_translator = ["../data/*.json"]
+tkab = ["fixtures/*.pair.json", "AUDIT_CARD.md"]

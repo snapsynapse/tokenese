@@ -1,0 +1,5 @@
+tokenese? v:0.1
+tokenese ok v:0.1
+@cfg=supabase edge fn deploy
+get? @cfg status
+if fail -> get logs first-error +time

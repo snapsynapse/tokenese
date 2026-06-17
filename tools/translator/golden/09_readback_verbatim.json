@@ -1,0 +1,9 @@
+{
+  "label": "readback_verbatim_fails_k4",
+  "original": "deploy! @cfg env:prod ^7 ev:obs",
+  "readback": "deploy! @cfg env:prod ^7 ev:obs",
+  "expect": {
+    "readback.verdict": "verbatim"
+  },
+  "notes": "K4 requires a TRANSFORMED restatement; verbatim echo proves copying, not comprehension."
+}

@@ -1,0 +1,15 @@
+{
+  "label": "canonical_conformant",
+  "expect": {
+    "conformance.L1_lexicon": true,
+    "conformance.L2_grammar": true,
+    "conformance.L3_repair": true,
+    "misparse.by_family.binding": 0,
+    "misparse.by_family.scope": 0,
+    "misparse.by_family.sense": 0,
+    "misparse.by_family.triangulation": 0,
+    "unparseable_lines_count": 0,
+    "tokenese_anthropic_lt_english_anthropic": true
+  },
+  "notes": "spec.md \u00a7'Example exchange'. All ops are in the closed vocab; positional args like 'first-error' are content vocabulary, not gated. Cached counter is conservative but still shows tokenese.anthropic < english.anthropic on this corpus."
+}

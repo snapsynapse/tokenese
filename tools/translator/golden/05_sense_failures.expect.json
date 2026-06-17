@@ -1,0 +1,9 @@
+{
+  "label": "sense_failures",
+  "expect": {
+    "misparse.by_family.sense_gte": 2,
+    "misparse.codes_contain": ["bad_evidential", "unknown_op"],
+    "conformance.L1_lexicon": false
+  },
+  "notes": "Bad evidential and an unregistered op. Confidence ^11: the parser only stores ^N when N is a single digit (0-9), so ^11 is parsed structurally as something else; bad_confidence not asserted here."
+}

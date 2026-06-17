@@ -1,0 +1,8 @@
+{
+  "label": "binding_failures",
+  "expect": {
+    "misparse.by_family.binding_gte": 3,
+    "misparse.codes_contain": ["rebind", "unbound_ref", "drop_unbound"]
+  },
+  "notes": "Three classic binding failures: rebind without ??, reference to unbound, drop of unbound."
+}

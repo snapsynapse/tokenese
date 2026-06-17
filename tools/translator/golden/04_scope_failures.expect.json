@@ -1,0 +1,8 @@
+{
+  "label": "scope_failures",
+  "expect": {
+    "misparse.by_family.scope_gte": 3,
+    "misparse.codes_contain": ["dist_on_imperative", "dist_too_wide", "too_many_holes"]
+  },
+  "notes": "K3 forbids distribution on `!`, k>3 alternatives, K10 caps holes per exchange at 2."
+}

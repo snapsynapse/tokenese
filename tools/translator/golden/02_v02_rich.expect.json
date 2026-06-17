@@ -1,0 +1,26 @@
+{
+  "label": "v02_rich_conformant",
+  "expect": {
+    "conformance.L1_lexicon": true,
+    "conformance.L2_grammar": true,
+    "conformance.L3_repair": true,
+    "misparse.by_family.sense": 1,
+    "misparse.by_family.binding": 0,
+    "misparse.by_family.scope": 0,
+    "misparse.by_family.triangulation": 0,
+    "unparseable_lines_count": 0,
+    "decoded_contains_all": [
+      "observed",
+      "working assumption",
+      "confidence 7/9",
+      "rank 1",
+      "rank 2",
+      "rank 3",
+      "unfilled hole: date",
+      "unfilled hole: any",
+      "negotiation pending",
+      "paraphrase"
+    ]
+  },
+  "notes": "Exercises K1 handles, K3 distribution, K4 imperative readback marker, K6 evidentials + confidence, K10 typed holes, comments. Sense=1 because 'deploy' is content vocab."
+}

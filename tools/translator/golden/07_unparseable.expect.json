@@ -1,0 +1,8 @@
+{
+  "label": "unparseable_input",
+  "expect": {
+    "unparseable_lines_count_gte": 2,
+    "decoded_contains_all": ["UNPARSEABLE"]
+  },
+  "notes": "Lines whose first field is a slot-internal sigil (`:` `|` `^`) cannot be ops. The translator refuses to invent meaning and emits an explicit UNPARSEABLE marker rather than a guess."
+}

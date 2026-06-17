@@ -1,0 +1,9 @@
+{
+  "label": "readback_transformed_passes_k4",
+  "original": "deploy the edge function to production at confidence 7/9, observed",
+  "readback": "rolling the production edge build now, observed input, confidence seven out of nine",
+  "expect": {
+    "readback.verdict": "transformed"
+  },
+  "notes": "Reordered, partial unit conversion, content preserved. Passes K4."
+}
