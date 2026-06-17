@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-17 (post N3/X1/X2/L6 batch).
+Status: living document. Last updated 2026-06-17 (post N3/X1/X2/L6 batch; +N4/X5/X6/X7/L7/L8/L9 added).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -48,6 +48,15 @@ Publish the guide `sha256` on one independent control plane: a DNS TXT record at
 posture and full Level 4. Small, finishes the conformance story.
 Tie: adoptability (verifiable provenance for any assistant that fetches the guide).
 
+### N4. DNS-anchor drift guard (CI)
+
+A CI check that resolves `_assistant-guide.tokenese.org` (TXT) and asserts the
+advertised `sha256` equals the live hash of `docs/.well-known/assistant-guide.txt`.
+Runs on push to `main` and on a daily schedule. Fails loudly if the two diverge
+— e.g. when the guide is edited but the DNS record is not, or vice versa.
+Tie: invariant 7 (human-auditable). Keeps GuideCheck Level 4 honest after every
+guide edit without depending on someone remembering to update the registrar.
+
 ### N2. The validating A/B experiment (the kill-criterion)
 
 The central claim, more compressed AND more accurate, is unproven until measured.
@@ -80,6 +89,33 @@ A verifier-anywhere web surface at `tokenese.dev` (reserved for tooling) that
 validates a pasted or fetched transcript against the grammar and returns the
 per-pair outcome, mirroring the offline checker. Add a conformance badge.
 Tie: conformance philosophy (no central oracle, verifier-anywhere); adoptability.
+
+### X5. Promote Gemma column from proxy to native
+
+X2 (v0.3.5) shipped the Gemma column using `unsloth/gemma-2-9b` as a proxy
+because Gemma 4 was unreleased on 2026-06-17. Swap to the native Gemma 4
+tokenizer the moment it ships, re-derive the admissible alphabet, and update
+`spec.md`/`audit_gemma.py`/the provenance JSON. This is the only column in the
+7-column audit currently flagged as a proxy.
+Tie: invariant 5 (audited lexicon), closes X2's explicit caveat.
+
+### X6. Live tokenizer CI for the gated column
+
+X2's Gemini column is gated behind `GEMINI_API_KEY` and skips cleanly without
+one, so it currently rides on a single 2026-06-17 audit. Wire a CI secret and a
+nightly job so the Gemini column is re-derived at the same cadence as the
+offline columns and drift is caught fast. Same pattern can extend to any future
+API-gated tokenizer (e.g. a hosted Anthropic model swap).
+Tie: invariant 5, parity between offline and API-gated columns.
+
+### X7. Skill-bundle hash drift guard
+
+X1 (v0.3.4) pins three hashes in `skills/tokenese/MANIFEST.yaml` (SKILL.md,
+audit_card.md, install_guide.md). Add a CI check via the shipped
+`tools/skills/compute_hashes.sh` that fails when any of those files change
+without the manifest being re-hashed. Mirrors the spirit of N4 at the skill
+level.
+Tie: skill provenance, GuideCheck alignment for the skill's own install guide.
 
 ## Later (ecosystem and reach)
 
@@ -116,6 +152,33 @@ Generate the `og.png` social card (currently omitted) and run the promo flow
 (dev.to, blog, LinkedIn) once N2 has a result worth announcing. Announce on
 evidence, not intent.
 Tie: adoption; deliberately sequenced after N2 so the pitch is measured.
+
+### L7. Provenance-pin policy
+
+Both N3 (v0.3.3) and X2 (v0.3.5) deliberately left
+`tools/translator/data/source_provenance/*.json` untouched to keep
+`_provenance()` byte-identical and the measurement claim stable across docs-only
+releases. That was the right call — but the policy isn't written down. Document
+when the provenance pins are allowed to roll forward (proposed: only on a
+normative grammar minor bump, never on a patch release), and add a checklist
+entry to `RELEASE_CHECKLIST.md` that calls out the decision explicitly.
+Tie: invariant 6 (measured, not asserted); release discipline.
+
+### L8. Spec-page parity audit
+
+`docs/index.html` was last synced to grammar v0.3 in v0.3.1. After the v0.3.3
+reconciliation (N3) the landing page text should be diffed against the new
+`spec.md` and updated where it has drifted. Single docs PR.
+Tie: invariant 7 (human-auditable); public-face truthfulness.
+
+### L9. Reusable skill scaffolding
+
+X1 shipped `tools/skills/compute_hashes.sh` as a one-off for the Tokenese skill
+bundle. If a second skill ever ships (e.g. a Turnfile or GuideCheck skill),
+generalize the script plus the MANIFEST schema into a reusable scaffold under
+`tools/skills/scaffold/` so future bundles inherit GuideCheck-aligned provenance
+for free.
+Tie: portfolio reuse; not urgent until a second skill is on the docket.
 
 ## How items get promoted
 
