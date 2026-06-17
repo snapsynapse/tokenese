@@ -45,7 +45,7 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 ## Exceptions to Repo Standards
 
 - `relationships.yaml` and `ontology.json` promoted to v1.0.0 on 2026-06-17 (v0.3.3); reflect grammar v0.3, the 132-test toolchain, the MCP surface, the GuideCheck trust posture, and the ROADMAP.
-- `RELEASE_CHECKLIST.md` still deferred; now applicable (repo is hosted + agent-facing as of 2026-06-16) and queued as a follow-up via security-hardening-release.
+- `RELEASE_CHECKLIST.md` shipped 2026-06-17 (v0.3.6) with security/trust-anchor/hosted-page/roadmap gates. Security-hardening-release pass completed; sweep was clean apart from two cheap fixes (`audit_anthropic.py` credential handling, `.gitignore` `*.env`), so no follow-up issues were required.
 - Hosted + agent-facing tier rows adopted 2026-06-16: `docs/index.html` canonical landing page, `favicon.svg`, `sitemap.xml`, `robots.txt` (per-bot allows), `llms.txt`, `site.webmanifest`, `404.html`, `CNAME`. Served via GitHub Pages from `main` `/docs`. `imgs/og.png` still pending (omitted; backfill via promo-orchestrator / blog-image-prompt). `llms-full.txt` omitted (llms.txt is comprehensive standalone for a single-page spec).
 - Ownership: drafted under PAICE.work PBC following the open-spec sibling pattern (graceful-boundaries, obligation-first). Admitted to `~/Git/portfolio.yaml` as an open-spec component 2026-06-16 (private repo, pre-release; hosted-tier rows still deferred until tokenese.org ships).
 

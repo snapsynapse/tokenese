@@ -12,15 +12,25 @@ import sys
 import time
 import urllib.request
 
-KEY = os.environ["ANTHROPIC_API_KEY"]
 MODEL = "claude-haiku-4-5-20251001"
 URL = "https://api.anthropic.com/v1/messages/count_tokens"
 
-def count(text):
+
+def _require_key():
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        sys.stderr.write(
+            "ANTHROPIC_API_KEY is not set. Export it before running:\n"
+            "    ANTHROPIC_API_KEY=... python audit_anthropic.py\n"
+        )
+        raise SystemExit(2)
+    return key
+
+def count(text, key):
     body = json.dumps({"model": MODEL,
                        "messages": [{"role": "user", "content": text}]}).encode()
     req = urllib.request.Request(URL, data=body, headers={
-        "x-api-key": KEY, "anthropic-version": "2023-06-01",
+        "x-api-key": key, "anthropic-version": "2023-06-01",
         "content-type": "application/json"})
     for attempt in range(4):
         try:
@@ -32,13 +42,14 @@ def count(text):
             time.sleep(2 * (attempt + 1))
 
 def main():
+    key = _require_key()
     syms = json.load(open("/tmp/tokenese_syms.json"))
-    base = count("a")
+    base = count("a", key)
     print(f"calibration count('a') = {base}", file=sys.stderr)
     results = {}
     for i, s in enumerate(syms):
-        bare = count(s) - base + 1
-        spaced = count("a " + s) - base  # "a " ~ base tokens, remainder = s
+        bare = count(s, key) - base + 1
+        spaced = count("a " + s, key) - base  # "a " ~ base tokens, remainder = s
         worst = max(bare, spaced)
         results[s] = worst
         if (i + 1) % 20 == 0:

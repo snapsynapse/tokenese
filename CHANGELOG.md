@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-06-17
+
+### Added — Release hygiene (ROADMAP L6)
+
+- `RELEASE_CHECKLIST.md` at repo root: bounded, repeatable procedure for patch / minor / major releases, plus security / trust-anchor / hosted-page / roadmap gates.
+
+### Changed — Security hardening pass
+
+- `audit_anthropic.py`: API key is now read inside `main()` (via `_require_key()`) instead of at module import time. The script exits with code 2 and a helpful message when `ANTHROPIC_API_KEY` is unset, and the key is threaded as a parameter rather than a module global — the key never appears in stdout, stderr, or the output JSON.
+- `.gitignore`: added `*.env` so environment files like `prod.env` are ignored (previously only `.env` and `.env.*` were covered).
+- Added root-level `test_audit_anthropic.py` (3 tests) verifying the credential-handling contract with a mocked API — kept outside the `tools/translator/` suite, which stays at 132 passing.
+
+Security sweep results: secrets sweep (history + tree) clean; `mcp_server.py` reviewed (no path-traversal / shell / arbitrary-code surface); dependencies reviewed (all pinned `>=`, standard sources); no GitHub Actions workflows present; trust anchors byte-identical with sha256 matching the manifest. No follow-up issues required.
+
+### Note
+
+Patch release: hygiene only. No grammar / spec / parser changes in `tools/translator/` (only the `__version__` / `pyproject.toml` version stamps were bumped per the release ritual). No follow-up issues were required (sweep clean apart from the two fixes above). INTENT.md §Exceptions row for `RELEASE_CHECKLIST.md` is now closed.
+
 ## [0.3.5] - 2026-06-17
 
 ### Added — Lexicon audit expansion (ROADMAP X2)
