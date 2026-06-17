@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-17 (post N3/X1/X2/L6 batch; +N4/X5/X6/X7/L7/L8/L9 added).
+Status: living document. Last updated 2026-06-17 (N1 + N4 shipped; X5/X6/X7 + L7/L8/L9 carried).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -38,24 +38,14 @@ So the roadmap stays honest about what already exists:
 - `RELEASE_CHECKLIST.md` shipped with security-hardening-release pass
   (`audit_anthropic.py` credential handling, `.gitignore` `*.env`). 3 new
   security tests at repo root. **(L6 shipped v0.3.6)**
+- GuideCheck Level 4 operational: DNS TXT record at
+  `_assistant-guide.tokenese.org` advertises the live guide sha256 (cross-channel
+  control plane independent of the hosted file). **(N1 shipped v0.3.7)**
+- DNS-anchor drift guard (`check_dns_anchor.py` + `.github/workflows/dns_anchor.yml`):
+  4-resolver TXT vs file-hash check on push to `main`, PR, and daily 12:17 UTC.
+  Catches drift between the guide and the DNS anchor automatically. **(N4 shipped v0.3.7)**
 
 ## Now (credibility-defining)
-
-### N1. Complete GuideCheck Level 4
-
-Publish the guide `sha256` on one independent control plane: a DNS TXT record at
-`_assistant-guide.tokenese.org`. This is the only gap between the current Level 3
-posture and full Level 4. Small, finishes the conformance story.
-Tie: adoptability (verifiable provenance for any assistant that fetches the guide).
-
-### N4. DNS-anchor drift guard (CI)
-
-A CI check that resolves `_assistant-guide.tokenese.org` (TXT) and asserts the
-advertised `sha256` equals the live hash of `docs/.well-known/assistant-guide.txt`.
-Runs on push to `main` and on a daily schedule. Fails loudly if the two diverge
-— e.g. when the guide is edited but the DNS record is not, or vice versa.
-Tie: invariant 7 (human-auditable). Keeps GuideCheck Level 4 honest after every
-guide edit without depending on someone remembering to update the registrar.
 
 ### N2. The validating A/B experiment (the kill-criterion)
 
