@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-17.
+Status: living document. Last updated 2026-06-17 (post N3/X1/X2/L6 batch).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -19,15 +19,25 @@ So the roadmap stays honest about what already exists:
 
 - Grammar v0.3 with parser, renderer, and a centralized handle lexer; deterministic
   per-pair conformance checker; CLI (`tokenese-check`); MCP server (parse, validate,
-  to-english, check-pair, score-pair); TKAB scoring harness. 132/132 tests.
+  to-english, check-pair, score-pair); TKAB scoring harness. 144/144 tests.
 - Initial report-only frameset registry (`framesets.json`) for common ops and
   canonical slot-order telemetry. This is an X3 partial, not a normative grammar
   gate: old artifacts still parse and score unchanged.
-- Dual-tokenizer lexicon audit (OpenAI `o200k_base` + Anthropic count-tokens),
-  reproducible via `audit_symbols.py` / `audit_anthropic.py`.
+- Seven-column tokenizer-audited lexicon (OpenAI `o200k_base` + Anthropic
+  count-tokens + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 2 proxy),
+  reproducible via `audit_*.py` + `audit_check_intersection.py`; CI-gated on regression.
+  77 of 81 v0.2 admissible elements survive the expansion. **(X2 shipped v0.3.5)**
 - Canonical landing page at https://tokenese.org/ (GitHub Pages, WCAG 2.1 AA).
 - GuideCheck `assistant-guide.txt` at Level 3 live, Level 4 manifest in place
   (cross-channel DNS anchor pending, see N1).
+- `spec.md` reconciled with v0.3 grammar; `relationships.yaml` and `ontology.json`
+  promoted to v1.0.0 with v0.3 definitions. **(N3 shipped v0.3.3)**
+- Portable Tokenese skill bundle at `/skills/tokenese/` (SKILL.md, MANIFEST.yaml
+  with hashed provenance, audit_card, install_guide, 5 examples, references for
+  sigil key + outcomes + decision order). 12 example-validation tests. **(X1 shipped v0.3.4)**
+- `RELEASE_CHECKLIST.md` shipped with security-hardening-release pass
+  (`audit_anthropic.py` credential handling, `.gitignore` `*.env`). 3 new
+  security tests at repo root. **(L6 shipped v0.3.6)**
 
 ## Now (credibility-defining)
 
@@ -50,39 +60,7 @@ Tie: invariant 6. This converts "a designed language" into "a measured language,
 which is the single biggest credibility and adoption lever. If retries eat the
 savings, the spec says the design has failed; this is the experiment that says so.
 
-### N3. Reconcile spec.md with the v0.3 grammar
-
-`spec.md` still reads Version 0.1.0 while `GRAMMAR-v0.3.md` is current, and the two
-have drifted. Fold the v0.2/v0.3 normative grammar into a single layered spec (or a
-clear spec + delta structure) so an adopter reads one authoritative source.
-Tie: invariant 7 (human-auditable) and reduced adopter confusion.
-
 ## Next (adoptability and utility)
-
-### X1. Tokenese skill bundle
-
-A portable Agent Skill that teaches any assistant to actually speak Tokenese:
-run the capability handshake, encode and decode via the reference translator,
-validate a transcript with the deterministic checker, use the repair protocol,
-and consume the `assistant-guide.txt` before acting. Ship the one-page human audit
-card (sigil key, anchor scales, allusion ledger) as part of the bundle.
-
-- Cross-surface by design (Claude, ChatGPT, Gemini, Qwen), per the portfolio
-  intent that skills work everywhere and the token-space-only invariant that makes
-  Tokenese vendor-neutral.
-- Skill Provenance tracked (`MANIFEST.yaml` + hashed `SKILL.md` + `CHANGELOG.md`),
-  GuideCheck-aligned for its own install guide.
-
-Tie: this is the highest-leverage "agents actually use it" item. The spec, page,
-and guide make Tokenese legible; the skill makes it operable.
-
-### X2. Additional tokenizer columns
-
-Add audit columns for Gemini, Qwen, DeepSeek, and Llama tokenizers, with CI that
-fails on regressions. New columns are additive: they may shrink the admissible
-alphabet, never silently expand it.
-Tie: invariant 5. Required before claiming cross-vendor generality beyond the
-current OpenAI + Anthropic pair.
 
 ### X3. Vocabulary and frameset registry
 
@@ -138,12 +116,6 @@ Generate the `og.png` social card (currently omitted) and run the promo flow
 (dev.to, blog, LinkedIn) once N2 has a result worth announcing. Announce on
 evidence, not intent.
 Tie: adoption; deliberately sequenced after N2 so the pitch is measured.
-
-### L6. Repo-standards follow-ups
-
-Add `RELEASE_CHECKLIST.md` and run security-hardening-release (the repo is hosted
-and agent-facing; this row is now applicable per INTENT exceptions).
-Tie: repo standards.
 
 ## How items get promoted
 
