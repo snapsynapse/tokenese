@@ -1,11 +1,19 @@
 """Tokenese -> English translator (deterministic, no LLMs).
 
-Targets spec v0.2 per DESIGN.md; spec.md v0.1 is the frozen baseline.
+Targets grammar v0.3 (GRAMMAR-v0.3.md governs). v0.2 (DESIGN.md §7) remains
+fully backward compatible; spec.md v0.1 is the frozen baseline.
 """
 
+from .handles import Handle, consume_handle
 from .lexer import lex
 from .misparse import classify_transcript
-from .parser import parse_line, parse_transcript
+from .parser import (
+    detect_grammar,
+    parse_causal,
+    parse_line,
+    parse_operand,
+    parse_transcript,
+)
 from .readback import diff_readback
 from .renderer import render_line, render_transcript
 from .score import score_pair, score_pair_json
@@ -17,6 +25,11 @@ __all__ = [
     "lex",
     "parse_line",
     "parse_transcript",
+    "parse_operand",
+    "parse_causal",
+    "detect_grammar",
+    "consume_handle",
+    "Handle",
     "render_line",
     "render_transcript",
     "Session",
@@ -32,4 +45,6 @@ __all__ = [
     "score_pair_json",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.3.0"
+grammar_version = "v0.3"
+GRAMMAR_VERSION_SUPPORTED = "v0.3"
