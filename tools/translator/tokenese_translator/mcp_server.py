@@ -1,12 +1,14 @@
 """MCP service wrapper.
 
-Exposes six tools over stdio:
+Exposes tools over stdio, including:
   - open_session() -> session_id
   - close_session(session_id)
   - to_english(session_id, text) -> {english, session, diagnostics}
   - parse(text) -> AST as JSON
   - validate(text) -> conformance report
   - audit_lexicon() -> C1 report
+  - check_pair(...) -> deterministic TKAB pair result (tkab-check-1.1)
+  - grammar_info() -> supported grammar/schema versions
 
 The MCP Python SDK is an optional dependency. Install with:
     pip install tokenese-translator[mcp]
@@ -29,6 +31,8 @@ from .score import score_pair as _score_pair
 from .token_count import count_dual as _count_dual
 from .misparse import classify_transcript as _classify_transcript
 from .readback import diff_readback as _diff_readback
+
+from tkab.checker import check_pair as _check_pair, OUTPUT_SCHEMA_VERSION
 
 
 # In-memory session store; cleared when the process exits.
@@ -110,6 +114,43 @@ def tool_diff_readback(original: str, readback: str) -> Dict[str, Any]:
     return _diff_readback(original, readback).to_dict()
 
 
+def tool_check_pair(
+    source_id: str,
+    clone_id: str,
+    arm: str,
+    direction: str,
+    author: str,
+    artifact_type: str,
+    predicted_outcome: str,
+    source_text: str,
+    clone_text: str,
+) -> Dict[str, Any]:
+    """Run the deterministic TKAB pair checker. Returns the tkab-check-1.1 result."""
+    pair = {
+        "source_id": source_id,
+        "clone_id": clone_id,
+        "arm": arm,
+        "direction": direction,
+        "author": author,
+        "artifact_type": artifact_type,
+        "predicted_outcome": predicted_outcome,
+        "source_text": source_text,
+        "clone_text": clone_text,
+    }
+    result = _check_pair(pair)
+    return _serialize(result)
+
+
+def tool_grammar_info() -> Dict[str, Any]:
+    """Return the grammar/schema versions this server supports."""
+    from tokenese_translator import __version__, grammar_version
+    return {
+        "package_version": __version__,
+        "grammar_version_supported": grammar_version,
+        "tkab_schema_version": OUTPUT_SCHEMA_VERSION,
+    }
+
+
 # ----- MCP wiring -----
 
 def main() -> int:
@@ -184,6 +225,36 @@ def main() -> int:
     def diff_readback(original: str, readback: str) -> dict:
         """Score a K4 paraphrase readback (transformed vs verbatim)."""
         return tool_diff_readback(original, readback)
+
+    @mcp.tool()
+    def check_pair(
+        source_id: str,
+        clone_id: str,
+        arm: str,
+        direction: str,
+        author: str,
+        artifact_type: str,
+        predicted_outcome: str,
+        source_text: str,
+        clone_text: str,
+    ) -> dict:
+        """Run the deterministic TKAB pair checker. Returns the tkab-check-1.1 result."""
+        return tool_check_pair(
+            source_id=source_id,
+            clone_id=clone_id,
+            arm=arm,
+            direction=direction,
+            author=author,
+            artifact_type=artifact_type,
+            predicted_outcome=predicted_outcome,
+            source_text=source_text,
+            clone_text=clone_text,
+        )
+
+    @mcp.tool()
+    def grammar_info() -> dict:
+        """Return the grammar/schema versions this server supports."""
+        return tool_grammar_info()
 
     mcp.run()
     return 0
