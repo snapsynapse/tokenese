@@ -51,6 +51,15 @@ def test_w1_fixture_wins():
     assert _check_fixture("TKAB-W1.pair.json")["outcome"] == "win-conformant"
 
 
+# 2a
+def test_w1_fixture_reports_required_o200k_counts():
+    result = _check_fixture("TKAB-W1.pair.json")
+    assert result["token_counts"]["source"]["o200k_method"] == "tiktoken"
+    assert isinstance(result["token_counts"]["source"]["o200k"], int)
+    assert result["token_counts"]["clone"]["o200k_method"] == "tiktoken"
+    assert isinstance(result["token_counts"]["clone"]["o200k"], int)
+
+
 # 3
 def test_l1_fixture_plain_success():
     assert _check_fixture("TKAB-L1.pair.json")["outcome"] == "l1-plain-success"

@@ -1,14 +1,16 @@
 """Dual-tokenizer token counter.
 
 Returns token counts for a piece of text under:
-  - o200k_base (OpenAI/GPT-4o/o-series/Codex era) via tiktoken, if installed.
+  - o200k_base (OpenAI/GPT-4o/o-series/Codex era) via tiktoken and the
+    bundled verified BPE table.
   - Anthropic (claude-haiku-4-5 was the audited tokenizer per spec.md v0.1)
     via either (a) the cached per-symbol costs in data/anthropic_costs.json,
     summed conservatively, or (b) live API if --live-anthropic AND
     ANTHROPIC_API_KEY is set.
 
 Determinism:
-  - tiktoken path is local, deterministic.
+  - tiktoken path is local, deterministic, and does not fetch tokenizer data
+    at runtime when the bundled BPE table is present.
   - cached Anthropic path is local, deterministic. It sums symbol costs
     over a whitespace tokenization, with any unknown atom priced as
     len(atom)//3 + 1 (a documented worst-case heuristic; flagged in the
@@ -34,6 +36,23 @@ from .lexicon import COSTS
 # ---- o200k (OpenAI) via tiktoken ----
 
 _O200K = None
+_O200K_BPE_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data",
+    "o200k_base.tiktoken",
+)
+_O200K_BPE_SHA256 = "446a9538cb6c348e3516120d7c08b09f57c36495e2acfffe59a5bf8b0cfb1a2d"
+_O200K_PAT_STR = "|".join(
+    [
+        r"""[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]*[\p{Ll}\p{Lm}\p{Lo}\p{M}]+(?i:'s|'t|'re|'ve|'m|'ll|'d)?""",
+        r"""[^\r\n\p{L}\p{N}]?[\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}]+[\p{Ll}\p{Lm}\p{Lo}\p{M}]*(?i:'s|'t|'re|'ve|'m|'ll|'d)?""",
+        r"""\p{N}{1,3}""",
+        r""" ?[^\s\p{L}\p{N}]+[\r\n/]*""",
+        r"""\s*[\r\n]+""",
+        r"""\s+(?!\S)""",
+        r"""\s+""",
+    ]
+)
 
 def _o200k():
     global _O200K
@@ -41,7 +60,20 @@ def _o200k():
         return _O200K
     try:
         import tiktoken  # type: ignore
-        _O200K = tiktoken.get_encoding("o200k_base")
+        if os.path.exists(_O200K_BPE_PATH):
+            from tiktoken.load import load_tiktoken_bpe  # type: ignore
+            mergeable_ranks = load_tiktoken_bpe(
+                _O200K_BPE_PATH,
+                expected_hash=_O200K_BPE_SHA256,
+            )
+            _O200K = tiktoken.Encoding(
+                name="o200k_base",
+                pat_str=_O200K_PAT_STR,
+                mergeable_ranks=mergeable_ranks,
+                special_tokens={"<|endoftext|>": 199999, "<|endofprompt|>": 200018},
+            )
+        else:
+            _O200K = tiktoken.get_encoding("o200k_base")
         return _O200K
     except Exception:
         return None

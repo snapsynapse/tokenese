@@ -31,7 +31,7 @@ Every `score_pair` output emits these SHAs in its `provenance` block so each row
 |---|---|---|---|
 | (a) | Conformance checker L1/L2/L3 | **Present** | `tokenese_translator/validator.py`; tools `validate`, `score_pair.conformance` |
 | (b) | Lexicon audit vs `anthropic_costs.json` | **Present** | `audit_lexicon()` re-derives C1 from bundled costs |
-| (c) | Token counter, both tokenizers (o200k + Anthropic) | **Present** | `token_count.py`. o200k via `tiktoken` (local). Anthropic via cached `anthropic_costs.json` by default; live API opt-in |
+| (c) | Token counter, both tokenizers (o200k + Anthropic) | **Present** | `token_count.py`. `tiktoken>=0.7` is a runtime dependency; the verified `o200k_base.tiktoken` table is bundled for local deterministic o200k counts. Anthropic uses cached `anthropic_costs.json` by default; live API opt-in |
 | (d) | Tokenese → English decoder | **Present** | `renderer.py`; tool `to_english`. Preserves epistemic channels rather than smoothing them away |
 | (e) | Readback differ (K4 transformed vs verbatim) | **Present** | `readback.py`; verdict ∈ `{verbatim, near_verbatim, transformed, unrelated}` from LCS + token-set Jaccard + Levenshtein. Thresholds exposed as module constants for the harness to override |
 | (f) | Misparse-family classifier (binding/scope/sense/triangulation) | **Present** | `misparse.py`; deterministic rules over the AST + session state |
@@ -64,8 +64,8 @@ Every `score_pair` output emits these SHAs in its `provenance` block so each row
     "text": "<verbatim>",
     "tokens": {
       "chars": int,
-      "o200k": int | null,         // null if tiktoken not installed
-      "o200k_method": "tiktoken" | "unavailable",
+      "o200k": int,
+      "o200k_method": "tiktoken",
       "anthropic": int,
       "anthropic_method": "cached_costs+heuristic" | "live_api",
       "anthropic_unknown_atoms": [...]   // empty in pure-vocabulary text

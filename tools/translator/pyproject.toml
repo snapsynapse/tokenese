@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "See repository LICENSE / LICENSE-SPEC" }
 authors = [{ name = "Tokenese contributors" }]
-dependencies = []
+dependencies = ["tiktoken>=0.7"]
 
 [project.optional-dependencies]
 mcp = ["mcp>=1.0.0"]
@@ -26,5 +26,9 @@ where = ["."]
 include = ["tokenese_translator*", "tkab*"]
 
 [tool.setuptools.package-data]
-tokenese_translator = ["../data/*.json"]
+tokenese_translator = [
+  "../data/*.json",
+  "../data/*.tiktoken",
+  "../data/source_provenance/*",
+]
 tkab = ["fixtures/*.pair.json", "AUDIT_CARD.md"]
