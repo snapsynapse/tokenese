@@ -1,15 +1,25 @@
 {
-  "version": "0.1.0",
-  "last_updated": "2026-06-12",
+  "version": "1.0.0",
+  "last_updated": "2026-06-17",
   "url": "https://tokenese.org/ontology.json",
   "mission": "Bring color to machine-to-machine communication: denser and more precise than any human language, in plain auditable text.",
   "definitions": {
-    "tokenese": "A token-native interlingua for LLM-to-LLM communication whose lexicon is admitted by empirical tokenizer audit.",
-    "token_space": "The constraint that all exchange crosses the wire as plain text each party tokenizes independently; no embeddings, KV-cache, or latent channels.",
     "admissible_symbol": "A symbol or word costing exactly 1 token, worst case (bare and space-prefixed), in every certified tokenizer.",
-    "symbol_table": "In-band session bindings (@N=referent) that compress repeated referents to single-token references.",
-    "misparse_retry_rate": "The fraction of dense statements requiring a ?? repair; the metric that validates or kills the design.",
+    "assistant_guide": "A trust-anchored, byte-identical bounded-task instruction file (`assistant-guide.txt`) that any assistant can fetch and verify against a published sha256 before acting. Implements the GuideCheck human-verifiable-assistant-guide profile.",
+    "causal_sigil": "A v0.3 infix operator between handles or expressions encoding temporal sequence (>>>), stipulated causation requiring source corroboration (*>>), or hypothesized causation (?>>). Distinct from the v0.2 flow operator >>.",
+    "checker": "The deterministic per-pair scorer (`tkab.checker.check_pair`) that classifies a Tokenese-clone-of-source pair against the v0.3 admissibility rules and emits a tkab-check-1.1 result. Reports mismatches; never repairs.",
+    "conformance_level": "An artifact's grammar conformance band — L0 (free text), L1 (lexicon-only), L2 (lexicon + grammar), L3 (lexicon + grammar + addressable repair). The clone may declare its target level (`^declare:level=L<n>`), which the checker verifies.",
     "dense_mode": "The state after a successful handshake in which parties exchange Tokenese rather than natural language.",
-    "repair_protocol": "The mandatory ?? signal and plain-English escape hatch that make dense mode safe."
+    "frameset": "A registered op signature (one entry per op as `op :: positional1 positional2 slot:type ... -> return-type`) used for structural-drift telemetry. Initially report-only (`tokenese-framesets-0.1`); promotion to a conformance gate is gated by ROADMAP N2 measurements.",
+    "grammar_version": "An artifact-level declaration (`^grammar:vX.Y`) selecting the parser dispatch. Absence means v0.2; presence enables v0.3 features. Unsupported declared versions are refused with a single Unparseable.",
+    "handle": "A bound referent (`@name`, kebab- or snake-case) introduced by `:=` or `=` and reused thereafter. Optionally negated as `!@name` or hedged as `@name?` (v0.3).",
+    "misparse_retry_rate": "The fraction of dense statements requiring a ?? repair; the metric that validates or kills the design.",
+    "plain_block": "A v0.3 explicitly delimited natural-English region (`^plain<<<` ... `>>>^plain`), never graded for Tokenese conformance and never scanned for misparse hits.",
+    "repair_kind": "One of four v0.3 repair sub-categories: repair-statement (bare ??), repair-handle (??@h), repair-token (?? <token>), repair-explained (??: <reason>). All four count together against the three-strike fail threshold.",
+    "repair_protocol": "The mandatory ?? signal and plain-English escape hatch that make dense mode safe.",
+    "source_authority": "The PRD-027 R1.3/R1.5 invariant that the source-side communication of a pair is authoritative and preserved verbatim by the checker; clone bindings are never decoded as ground truth. Conflict between source claims and clone bindings is reported, never repaired.",
+    "symbol_table": "In-band session bindings (@N=referent) that compress repeated referents to single-token references.",
+    "token_space": "The constraint that all exchange crosses the wire as plain text each party tokenizes independently; no embeddings, KV-cache, or latent channels.",
+    "tokenese": "A token-native interlingua for LLM-to-LLM communication whose lexicon is admitted by empirical tokenizer audit."
   }
 }
