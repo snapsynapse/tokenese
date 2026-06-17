@@ -1,0 +1,1012 @@
+{
+  "arrow-math": {
+    "¬": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "±": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "×": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "÷": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "Δ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "←": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "↑": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "→": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "↓": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "↔": {
+      "bare": 2,
+      "spaced": 1,
+      "worst": 2
+    },
+    "⇐": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "⇒": {
+      "bare": 2,
+      "spaced": 1,
+      "worst": 2
+    },
+    "∀": {
+      "bare": 2,
+      "spaced": 1,
+      "worst": 2
+    },
+    "∃": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∇": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∈": {
+      "bare": 2,
+      "spaced": 1,
+      "worst": 2
+    },
+    "∉": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∏": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∑": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "√": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "∞": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∧": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "∨": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "∴": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "∵": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "≈": {
+      "bare": 2,
+      "spaced": 1,
+      "worst": 2
+    },
+    "≠": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "≤": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "≥": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "⊂": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "⊃": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    }
+  },
+  "ascii-digraph": {
+    "!=": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "&&": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "++": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "--": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "->": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "..": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "//": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "::": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "<<": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "<=": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "==": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "=>": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ">=": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ">>": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "||": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "ascii-sigil": {
+    "!": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "#": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "$": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "%": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "&": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "*": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "+": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ",": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "-": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ".": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "/": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ":": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ";": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "<": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "=": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ">": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "?": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "@": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "^": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "_": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "|": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "~": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "bracket": {
+    "(": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ")": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "[": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "[[": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "]": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "]]": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "{": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "{{": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "}": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "}}": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "cjk-sample": {
+    "上": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "下": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "不": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "中": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "事": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "人": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "假": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "入": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "出": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "前": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "可": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "同": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "后": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "因": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "地": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "外": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "大": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "始": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "小": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "异": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "必": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "新": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "无": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "旧": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "时": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "有": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "果": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "物": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "真": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "答": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "终": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "问": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    }
+  },
+  "emoji-sample": {
+    "⚠": {
+      "bare": 3,
+      "spaced": 3,
+      "worst": 3
+    },
+    "✅": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "❌": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "️": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "📌": {
+      "bare": 3,
+      "spaced": 3,
+      "worst": 3
+    },
+    "🔒": {
+      "bare": 3,
+      "spaced": 2,
+      "worst": 3
+    },
+    "🔓": {
+      "bare": 3,
+      "spaced": 2,
+      "worst": 3
+    },
+    "🔴": {
+      "bare": 3,
+      "spaced": 2,
+      "worst": 3
+    },
+    "🔵": {
+      "bare": 3,
+      "spaced": 2,
+      "worst": 3
+    },
+    "🟢": {
+      "bare": 3,
+      "spaced": 3,
+      "worst": 3
+    }
+  },
+  "geometric-misc": {
+    "§": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "¶": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "†": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "‡": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "•": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "■": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "□": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "▶": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "▸": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "▹": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "►": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "◆": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "◇": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "○": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "●": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "◦": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    "★": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "☆": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "greek": {
+    "α": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "β": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "γ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "δ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ε": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ζ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "η": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "θ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ι": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "κ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "λ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "μ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ν": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ξ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ο": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "π": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ρ": {
+      "bare": 1,
+      "spaced": 2,
+      "worst": 2
+    },
+    "σ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "τ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "υ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "φ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "χ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ψ": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ω": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "short-words": {
+    "all": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "and": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ask": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "big": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "can": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "do": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "done": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "fail": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "false": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "fix": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "get": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "go": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "if": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "may": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "must": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "need": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "new": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "no": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "none": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "not": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "ok": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "old": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "or": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "put": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "run": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "say": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "true": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "want": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "will": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "yes": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    }
+  },
+  "v03-sigil": {
+    "\"\"\"": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "*>>": {
+      "bare": 2,
+      "spaced": 2,
+      "worst": 2
+    },
+    ">>>": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    ">>>^plain": {
+      "bare": 3,
+      "spaced": 3,
+      "worst": 3
+    },
+    "?>>": {
+      "bare": 1,
+      "spaced": 1,
+      "worst": 1
+    },
+    "^plain<<<": {
+      "bare": 3,
+      "spaced": 3,
+      "worst": 3
+    }
+  }
+}
