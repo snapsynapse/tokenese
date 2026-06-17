@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-06-17
+
 ### Added
 
 - `ROADMAP.md`: living roadmap grounded in INTENT/DESIGN. Highest-priority items: complete GuideCheck Level 4 (DNS anchor), the validating A/B experiment (the kill-criterion), and spec/grammar reconciliation. Next: a portable Tokenese skill bundle, more tokenizer columns, a vocabulary/frameset registry, a hosted conformance checker.
+- Initial report-only frameset registry (`framesets.json`) with typed slot signatures for common ops (`deploy`, `get`, `run`, `set`, `fix`), plus `tokenese_translator.framesets.validate_framesets(...)`, MCP `validate_framesets`, and TKAB `frameset_validation` telemetry. This is an X3 partial: structural drift is reported but does not affect parser acceptance, conformance level, or checker outcome.
+
+### Changed
+
+- Package version bumped to `0.3.2`; public web, agent-facing, and repository docs now report the 132-test toolchain and the report-only frameset registry. Patch release; no normative grammar change.
 
 ## [0.3.1] - 2026-06-17
 

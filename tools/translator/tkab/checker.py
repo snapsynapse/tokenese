@@ -45,6 +45,7 @@ from tokenese_translator.parser import (
     parse_transcript,
 )
 from tokenese_translator.score import score_pair
+from tokenese_translator.framesets import validate_framesets
 
 OUTPUT_SCHEMA_VERSION = "tkab-check-1.1"
 
@@ -558,6 +559,7 @@ def check_pair(pair: Dict[str, Any], *, live_anthropic: bool = False) -> Dict[st
     declared_level = _declared_level(nodes)
     plain_blocks = _plain_blocks(nodes)
     comment_lines = _comment_lines(nodes)
+    frameset_validation = validate_framesets(clone_text)
 
     # Misparse families are only scored on dense (non-plain) lines. Prose
     # after a `plain` switch is legitimate natural English, so hits there are
@@ -640,6 +642,7 @@ def check_pair(pair: Dict[str, Any], *, live_anthropic: bool = False) -> Dict[st
         "causal_events": causal_events,
         "unsupported_causation": unsupported_causation,
         "comment_lines": comment_lines,
+        "frameset_validation": frameset_validation,
         "outcome": outcome,
         "notes": notes,
         "decoded_clone_english": inner["tokenese"]["decoded_english"],

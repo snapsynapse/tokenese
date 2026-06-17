@@ -11,12 +11,13 @@ Tokenese is an open specification, not a product. It defines a wire grammar, a c
 - Token-space only: plain text on the wire, each party tokenizes independently. No embeddings, KV-cache sharing, or latent channels (security and cross-vendor portability require this).
 - Tokenizer-audited lexicon: function-vocabulary symbols cost 1 token worst case (bare and space-prefixed) in every certified tokenizer; content words admitted on tokens-per-meaning advantage. Current audit: OpenAI o200k_base + Anthropic count-tokens.
 - Compression from structure, not glyphs: savings come from eliminating function-word syntax, anaphora, and repeated referents.
+- Report-only framesets: typed slot signatures for common ops are available as structural telemetry; they do not change parser acceptance or checker outcomes.
 - Self-repairing: the `??` misparse signal and a plain-English escape hatch are mandatory. Misparse-retry rate is the metric that validates or kills the design.
 - Human-auditable: a competent human with the one-page audit card can follow any conforming transcript.
 
 ## Status
 
-Grammar v0.3 current (additive over v0.2; spec.md holds the foundational wire grammar). Dual-tokenizer audit complete; reference translator, deterministic checker, CLI, and MCP server ship in the repo (121/121 tests pass). The validating live A/B experiment (tokens, task success, misparse-retry rate across model families) has not run yet.
+Grammar v0.3 current (additive over v0.2; spec.md holds the foundational wire grammar). Release v0.3.2 is a patch tooling release: dual-tokenizer audit complete; reference translator, deterministic checker, CLI, MCP server, and report-only frameset validator ship in the repo (132/132 tests pass). The validating live A/B experiment (tokens, task success, misparse-retry rate across model families) has not run yet.
 
 ## Key files
 
@@ -25,6 +26,7 @@ Grammar v0.3 current (additive over v0.2; spec.md holds the foundational wire gr
 - Design invariants and intent: https://github.com/snapsynapse/tokenese/blob/main/INTENT.md
 - Conformance claim classes: https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md
 - Reference toolchain (translator, checker, CLI, MCP server): https://github.com/snapsynapse/tokenese/tree/main/tools/translator
+- Frameset registry: https://github.com/snapsynapse/tokenese/blob/main/framesets.json
 - Changelog: https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md
 
 ## Assistant guide

@@ -19,7 +19,10 @@ So the roadmap stays honest about what already exists:
 
 - Grammar v0.3 with parser, renderer, and a centralized handle lexer; deterministic
   per-pair conformance checker; CLI (`tokenese-check`); MCP server (parse, validate,
-  to-english, check-pair, score-pair); TKAB scoring harness. 121/121 tests.
+  to-english, check-pair, score-pair); TKAB scoring harness. 132/132 tests.
+- Initial report-only frameset registry (`framesets.json`) for common ops and
+  canonical slot-order telemetry. This is an X3 partial, not a normative grammar
+  gate: old artifacts still parse and score unchanged.
 - Dual-tokenizer lexicon audit (OpenAI `o200k_base` + Anthropic count-tokens),
   reproducible via `audit_symbols.py` / `audit_anthropic.py`.
 - Canonical landing page at https://tokenese.org/ (GitHub Pages, WCAG 2.1 AA).
@@ -88,6 +91,10 @@ A shared controlled-vocabulary file: one entry per op as a typed slot signature
 surface (DESIGN K5; spec open question 2). Increases parse determinism and makes
 malformed statements structurally detectable before semantic misparse.
 Tie: invariant 4, utility.
+
+Status: partially landed as report-only telemetry. Promotion to a conformance
+gate is deferred until N2 measures whether the diagnostics predict real
+misparse/retry reductions.
 
 ### X4. Hosted conformance checker
 

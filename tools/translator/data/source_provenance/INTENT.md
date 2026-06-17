@@ -45,11 +45,15 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 ## Exceptions to Repo Standards
 
 - `relationships.yaml` and `ontology.json` are minimal v0 stubs pending first public release.
-- `RELEASE_CHECKLIST.md` deferred until the repo gains a hosted or agent-facing surface (tokenese.org landing page not yet built).
-- Hosted-tier rows (imgs/og.png, robots.txt, llms.txt, sitemap, CNAME) not yet applicable; apply via canonical-spec-page when tokenese.org goes live.
-- Ownership: drafted under PAICE.work PBC following the open-spec sibling pattern (graceful-boundaries, obligation-first). Admission to `~/Git/portfolio.yaml` is pending Sam's decision and is not implied by this file.
+- `RELEASE_CHECKLIST.md` still deferred; now applicable (repo is hosted + agent-facing as of 2026-06-16) and queued as a follow-up via security-hardening-release.
+- Hosted + agent-facing tier rows adopted 2026-06-16: `docs/index.html` canonical landing page, `favicon.svg`, `sitemap.xml`, `robots.txt` (per-bot allows), `llms.txt`, `site.webmanifest`, `404.html`, `CNAME`. Served via GitHub Pages from `main` `/docs`. `imgs/og.png` still pending (omitted; backfill via promo-orchestrator / blog-image-prompt). `llms-full.txt` omitted (llms.txt is comprehensive standalone for a single-page spec).
+- Ownership: drafted under PAICE.work PBC following the open-spec sibling pattern (graceful-boundaries, obligation-first). Admitted to `~/Git/portfolio.yaml` as an open-spec component 2026-06-16 (private repo, pre-release; hosted-tier rows still deferred until tokenese.org ships).
 
 ## Changelog
 
+- 2026-06-17 (release v0.3.2): X3 partial, report-only frameset registry. Added typed slot signatures for common ops (`deploy`, `get`, `run`, `set`, `fix`), packaged `validate_framesets`, MCP surface, and TKAB `frameset_validation` telemetry. Patch release; no normative grammar change and no checker outcome changes.
+- 2026-06-17 (release v0.3.1): GuideCheck adoption. Added `assistant-guide.txt` (bounded "install Tokenese and reproduce the lexicon audit" task) as a trust-anchored byte-identical pair (repo root + `docs/.well-known/`) with a Level 4 sidecar manifest. Synced the landing page and `llms.txt` to grammar v0.3. Patch release; no normative grammar change. Level 4 cross-channel hash anchor (DNS TXT at `_assistant-guide.tokenese.org`) pending one registrar record; Level 3 structure complete until it propagates.
+- 2026-06-16 (later): canonical-spec-page. Built tokenese.org landing page (`docs/`), repo flipped to public so spec/GitHub links resolve, GitHub Pages enabled from `main` `/docs`. WCAG 2.1 AA clean (0 axe violations). DNS at registrar still pending. Hosted + agent-facing tier rows adopted.
+- 2026-06-16: Repo-standards walk + repo-polish. Private GitHub repo created and pushed, v0.1.0 tagged + released, `.github/` templates + GH metadata added, admitted to `portfolio.yaml` as an open-spec component. HANDOFF docs moved to gitignored `working/`.
 - 2026-06-12 (later): Invariant 2 amended per Sam: 1-token rule narrowed to the closed function vocabulary; content vocabulary admitted on tokens-per-semantic-unit advantage, reopening CJK and other multi-token UTF-8 candidates. Invariant 7 (human-auditability, hard) added per Sam. Evidential surfaces audited and selected: ev:obs / ev:heard / ev:mem / ev:guess, default = inferred.
 - 2026-06-12: INTENT.md created at repo provisioning. Spec v0.1.0 draft, dual-tokenizer audit complete (o200k_base + Anthropic count-tokens), tokenese.org registered as canonical home.

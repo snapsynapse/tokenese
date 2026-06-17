@@ -9,6 +9,7 @@ Exposes tools over stdio, including:
   - audit_lexicon() -> C1 report
   - check_pair(...) -> deterministic TKAB pair result (tkab-check-1.1)
   - grammar_info() -> supported grammar/schema versions
+  - validate_framesets(text) -> report-only frameset/canonical-form telemetry
 
 The MCP Python SDK is an optional dependency. Install with:
     pip install tokenese-translator[mcp]
@@ -26,6 +27,7 @@ from typing import Any, Dict
 from .renderer import render_transcript
 from .session import Session
 from .validator import audit_lexicon, validate_transcript
+from .framesets import load_frameset_registry, validate_framesets as _validate_framesets
 from .parser import parse_transcript
 from .score import score_pair as _score_pair
 from .token_count import count_dual as _count_dual
@@ -97,6 +99,10 @@ def tool_audit_lexicon() -> Dict[str, Any]:
     return audit_lexicon()
 
 
+def tool_validate_framesets(text: str) -> Dict[str, Any]:
+    return _validate_framesets(text)
+
+
 def tool_score_pair(english: str, tokenese: str, readback: Any = None,
                     live_anthropic: bool = False) -> Dict[str, Any]:
     return _score_pair(english, tokenese, readback=readback, live_anthropic=live_anthropic)
@@ -148,6 +154,7 @@ def tool_grammar_info() -> Dict[str, Any]:
         "package_version": __version__,
         "grammar_version_supported": grammar_version,
         "tkab_schema_version": OUTPUT_SCHEMA_VERSION,
+        "frameset_registry": load_frameset_registry().get("schema_version"),
     }
 
 
@@ -198,6 +205,11 @@ def main() -> int:
     def audit_lexicon_tool() -> dict:
         """Re-derive C1 lexicon admissibility from the bundled audit data."""
         return tool_audit_lexicon()
+
+    @mcp.tool()
+    def validate_framesets(text: str) -> dict:
+        """Report registered-op frameset and canonical-form diagnostics."""
+        return tool_validate_framesets(text)
 
     @mcp.tool()
     def score_pair(english: str, tokenese: str, readback: str = "",

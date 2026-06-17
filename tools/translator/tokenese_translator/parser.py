@@ -717,7 +717,9 @@ def parse_transcript(text: str) -> List[Node]:
         else:
             seen_non_comment = True
 
-        # Stamp 1-based line numbers on nodes that carry them.
+        # Stamp 1-based line numbers. Dataclass fields that expose line_no keep
+        # their public field; every node also gets _line_no for telemetry.
+        setattr(node, "_line_no", i + 1)
         if isinstance(node, (Repair, Comment, SourceQuote)):
             node.line_no = i + 1
         nodes.append(node)

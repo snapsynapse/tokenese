@@ -5,6 +5,7 @@ fully backward compatible; spec.md v0.1 is the frozen baseline.
 """
 
 from .handles import Handle, consume_handle
+from .framesets import load_frameset_registry, registered_ops, validate_framesets
 from .lexer import lex
 from .misparse import classify_transcript
 from .parser import (
@@ -30,6 +31,9 @@ __all__ = [
     "detect_grammar",
     "consume_handle",
     "Handle",
+    "load_frameset_registry",
+    "registered_ops",
+    "validate_framesets",
     "render_line",
     "render_transcript",
     "Session",
@@ -45,6 +49,6 @@ __all__ = [
     "score_pair_json",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.3.2"
 grammar_version = "v0.3"
 GRAMMAR_VERSION_SUPPORTED = "v0.3"

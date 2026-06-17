@@ -10,7 +10,11 @@ import json
 from pathlib import Path
 
 from tokenese_translator import __version__, grammar_version
-from tokenese_translator.mcp_server import tool_check_pair, tool_grammar_info
+from tokenese_translator.mcp_server import (
+    tool_check_pair,
+    tool_grammar_info,
+    tool_validate_framesets,
+)
 from tkab.checker import OUTPUT_SCHEMA_VERSION
 
 _FIXTURES = Path(__file__).resolve().parent.parent / "tkab" / "fixtures"
@@ -42,3 +46,10 @@ def test_tool_grammar_info():
     assert info["package_version"] == __version__
     assert info["grammar_version_supported"] == grammar_version
     assert info["tkab_schema_version"] == OUTPUT_SCHEMA_VERSION
+    assert info["frameset_registry"] == "tokenese-framesets-0.1"
+
+
+def test_tool_validate_framesets():
+    result = tool_validate_framesets("get @billing-api status ^3")
+    assert result["schema_version"] == "tokenese-framesets-0.1"
+    assert result["issues"] == []

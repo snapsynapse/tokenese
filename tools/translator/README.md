@@ -59,6 +59,7 @@ Tools exposed:
 | `to_english(session_id, text)` | translate; updates session bindings, handshake, repair history |
 | `parse(text)` | stateless parse to AST (JSON) |
 | `validate(text)` | stateless conformance check; returns L1/L2/L3 pass/fail + diagnostics |
+| `validate_framesets(text)` | report-only typed frameset/canonical slot-order diagnostics |
 | `audit_lexicon()` | re-run C1 against the bundled audit data; returns pass/fail per element |
 
 ## tokenese-check (TKAB scorer)
@@ -91,6 +92,20 @@ negation (`!@h`) and hedge (`@h?`) operators, causal sigils (`>>>` sequence,
 comments (`#`). The checker schema bumps to `tkab-check-1.1` and gains two
 outcomes (`fail-unsupported-causation`, `fail-declared-level-mismatch`). See
 [`GRAMMAR-v0.3.md`](../../GRAMMAR-v0.3.md) for the full delta.
+
+## Frameset registry
+
+`framesets.json` is an experimental, report-only controlled-vocabulary registry
+for common op shapes. Each registered op carries a typed slot signature such as
+`deploy :: who what to:env when:date -> status`, plus machine-readable
+positional and slot metadata. The validator reports missing required slots,
+extra positional args, noncanonical registered-slot order, and unregistered
+slots for registered ops.
+
+This is deliberately not a grammar gate in v0.3.x. Unknown content ops remain
+legal, and frameset diagnostics do not change parser acceptance, conformance
+level, or TKAB outcome. They are telemetry for the A/B harness and a staging
+point for the roadmap X3 registry work.
 
 ## Architecture
 

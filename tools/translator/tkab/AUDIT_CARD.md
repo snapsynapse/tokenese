@@ -52,6 +52,7 @@ the new always-present fields differ.
 | `causal_events` | list | `{kind, left, right, line_no, supported_by_source}` (v0.3) |
 | `unsupported_causation` | list | uncorroborated `*>>` events ⇒ `fail-unsupported-causation` (v0.3) |
 | `comment_lines` | list[int] | `#` comment line numbers, telemetry only (v0.3) |
+| `frameset_validation` | dict | report-only registry/canonical-form diagnostics; does not affect outcome |
 | `outcome` | str | one of the closed enumeration below |
 | `notes` | list[str] | human-readable rationale for the outcome |
 | `decoded_clone_english` | list[str] | best-effort English rendering of the clone |
@@ -137,6 +138,10 @@ schema string (`1.1`) and the new always-present fields (`repair_kinds`,
 `plain_blocks`, `declared_level=null`, `grammar_version="v0.2"`,
 `causal_events=[]`, `unsupported_causation=[]`, `comment_lines=[]`) differ. The
 two new outcomes can only fire on v0.3 artifacts.
+
+Frameset validation is also backward compatible: it is report-only telemetry.
+Diagnostics may appear for registered ops in v0.2 or v0.3 artifacts, but they
+do not participate in the decision order and never change `outcome`.
 
 ## Scope locks honored
 

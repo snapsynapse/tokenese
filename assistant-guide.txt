@@ -4,7 +4,7 @@ Assistant Guide: install Tokenese and reproduce the lexicon audit
 identifier: assistant-guide
 profile: human-verifiable-assistant-guide
 profile-version: 0.6.0
-guide-version: 0.3.1
+guide-version: 0.3.2
 applies-to: tokenese 0.3.x
 canonical-url: https://tokenese.org/.well-known/assistant-guide.txt
 repository-url: https://github.com/snapsynapse/tokenese

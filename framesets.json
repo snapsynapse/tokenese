@@ -1,0 +1,58 @@
+{
+  "schema_version": "tokenese-framesets-0.1",
+  "status": "experimental-report-only",
+  "grammar_compatibility": "v0.2+",
+  "description": "Controlled op framesets for structural telemetry. These entries do not change parser acceptance or checker outcomes.",
+  "ops": {
+    "deploy": {
+      "signature": "deploy :: who what to:env when:date -> status",
+      "positional": [
+        {"name": "who", "required": false},
+        {"name": "what", "required": true}
+      ],
+      "slots": [
+        {"key": "to", "type": "env", "required": true},
+        {"key": "when", "type": "date", "required": false}
+      ],
+      "returns": "status"
+    },
+    "get": {
+      "signature": "get :: what field -> value",
+      "positional": [
+        {"name": "what", "required": true},
+        {"name": "field", "required": true}
+      ],
+      "slots": [],
+      "returns": "value"
+    },
+    "run": {
+      "signature": "run :: what arg -> status",
+      "positional": [
+        {"name": "what", "required": true},
+        {"name": "arg", "required": false}
+      ],
+      "slots": [],
+      "returns": "status"
+    },
+    "set": {
+      "signature": "set :: what when:date owner:any -> status",
+      "positional": [
+        {"name": "what", "required": false}
+      ],
+      "slots": [
+        {"key": "when", "type": "date", "required": false},
+        {"key": "owner", "type": "any", "required": false}
+      ],
+      "returns": "status"
+    },
+    "fix": {
+      "signature": "fix :: what change -> status",
+      "positional": [
+        {"name": "what", "required": true},
+        {"name": "change", "required": false}
+      ],
+      "slots": [],
+      "returns": "status"
+    }
+  }
+}

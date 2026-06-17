@@ -38,9 +38,10 @@ Hand-authored to v0.3 grammar; verified by the deterministic checker at tools/tr
 
 ## Tools
 
-- **Translator + scorer:** [tools/translator/](tools/translator/) — base Tokenese→English translator (originally built for Turnfile) plus the deterministic TKAB per-pair scorer for the W1+L1 mini-pilot.
+- **Translator + scorer:** [tools/translator/](tools/translator/) - base Tokenese->English translator (originally built for Turnfile) plus the deterministic TKAB per-pair scorer for the W1+L1 mini-pilot.
 - **CLI:** `tokenese-check --pair fixture.json --pretty` after `pip install -e tools/translator`.
-- **MCP server:** `python -m tokenese_translator.mcp_server` exposes parse / validate / to-english / check-pair / score-pair tools.
+- **MCP server:** `python -m tokenese_translator.mcp_server` exposes parse / validate / validate_framesets / to-english / check-pair / score-pair tools.
+- **Frameset registry:** [framesets.json](framesets.json) - report-only typed slot signatures for common ops. The registry feeds structural telemetry without changing parser acceptance or checker outcomes.
 - **Conformance:** the checker reports mismatches (R5.3); it never generates or repairs. See [CONFORMANCE.md](CONFORMANCE.md).
 
 ## Reproduce the audit
@@ -53,7 +54,7 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py
 
 ## Status
 
-Grammar v0.3 current. The base translator passes 59 tests; the TKAB deterministic scorer for the W1+L1 mini-pilot passes 12 outcome tests; grammar-v0.3 features pass 50 additional tests. 121/121 total. The validating A/B experiment between Claude and Codex remains the open downstream measurement — see [tools/translator/tkab/AUDIT_CARD.md](tools/translator/tkab/AUDIT_CARD.md).
+Grammar v0.3 current. Release v0.3.2 is a patch tooling release: the base translator, golden fixtures, TKAB deterministic scorer, grammar-v0.3 features, MCP smoke tests, and report-only frameset registry pass 132/132 tests. The validating A/B experiment between Claude and Codex remains the open downstream measurement; see [tools/translator/tkab/AUDIT_CARD.md](tools/translator/tkab/AUDIT_CARD.md).
 
 ## Contributing
 

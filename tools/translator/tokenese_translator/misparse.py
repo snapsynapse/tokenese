@@ -40,6 +40,7 @@ from .parser import (
     Binding, Handshake, ModeSwitch, Node, Repair, Slot, Statement,
     parse_transcript,
 )
+from .framesets import registered_ops
 from .handles import consume_handle
 from .lexicon import ALL_OPS, EVIDENTIALS, CLOSED_VOCAB
 
@@ -98,6 +99,7 @@ def _count_open_holes(s: Statement) -> int:
 
 def classify_transcript(text: str) -> MisparseReport:
     rpt = MisparseReport()
+    registered = set(registered_ops())
     bound: dict[str, str] = {}
     binding_order: list[str] = []
     repair_counts: dict[str, int] = {}
@@ -178,7 +180,7 @@ def classify_transcript(text: str) -> MisparseReport:
                     ))
 
             # ---- sense family ----
-            if node.op not in ALL_OPS and node.op not in CLOSED_VOCAB:
+            if node.op not in ALL_OPS and node.op not in CLOSED_VOCAB and node.op not in registered:
                 rpt.hits.append(MisparseHit(
                     "sense", "unknown_op",
                     f"op '{node.op}' is not in the audited closed vocab and not registered",

@@ -446,7 +446,7 @@
       <span class="sep" aria-hidden="true">&middot;</span>
       Updated <time datetime="2026-06-17">June 17, 2026</time>
       <span class="sep" aria-hidden="true">&middot;</span>
-      <span class="version">grammar v0.3</span>
+      <span class="version">grammar v0.3 / tools v0.3.2</span>
       <span class="sep" aria-hidden="true">&middot;</span>
       <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC&nbsp;BY&nbsp;4.0</a>
     </p>
@@ -560,6 +560,9 @@ fix @spec add:handshake
         <p class="annotation">Three misparses on one topic and both parties stay in plain English. The failure is logged as lexicon-design feedback.</p>
       </div>
     </div>
+
+    <h3 style="margin-top: 2rem;">Report-only framesets</h3>
+    <p>The v0.3.2 toolchain adds an experimental controlled-vocabulary registry at <a href="https://github.com/snapsynapse/tokenese/blob/main/framesets.json" target="_blank" rel="noopener">framesets.json</a>. Registered ops carry typed slot signatures such as <code>deploy :: who what to:env when:date -&gt; status</code>. The validator reports missing required slots, extra positional args, noncanonical slot order, and unregistered slots, but this is telemetry only: it does not change parser acceptance, conformance level, or checker outcome.</p>
   </div>
 </section>
 
@@ -567,7 +570,7 @@ fix @spec add:handshake
   <div class="container">
     <div class="demo-block">
       <h2>Status</h2>
-      <p>Grammar v0.3 current; dual-tokenizer audit complete. A reference toolchain ships in the repo: a Tokenese-to-English translator, a deterministic per-pair conformance checker with a CLI, and an MCP server (parse, validate, to-english, check-pair, score-pair). 121 of 121 tests pass. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, remains the open downstream measurement. If retries eat the savings, the spec says the design has failed.</p>
+      <p>Grammar v0.3 current; dual-tokenizer audit complete. Release v0.3.2 is a patch tooling release. A reference toolchain ships in the repo: a Tokenese-to-English translator, a deterministic per-pair conformance checker with a CLI, an MCP server (parse, validate, validate_framesets, to-english, check-pair, score-pair), and a report-only frameset registry for common op signatures. 132 of 132 tests pass. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, remains the open downstream measurement. If retries eat the savings, the spec says the design has failed.</p>
       <div class="cta-row" style="margin-top: 1.5rem;">
         <a href="https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md" class="btn btn-primary" target="_blank" rel="noopener">Read the v0.3 grammar</a>
         <a href="https://github.com/snapsynapse/tokenese/tree/main/tools/translator" class="btn btn-secondary" target="_blank" rel="noopener">Tools and checker</a>
@@ -578,7 +581,7 @@ fix @spec add:handshake
       <strong>Canonical reference.</strong> This page is the authoritative home of the
       Tokenese specification. Cross-posts on other platforms are derived from this source
       and should cite <a href="https://tokenese.org/">tokenese.org</a> as canonical.
-      Last substantive revision: <time datetime="2026-06-17">2026-06-17</time> (grammar v0.3).
+      Last substantive revision: <time datetime="2026-06-17">2026-06-17</time> (grammar v0.3, tools v0.3.2).
       <a href="https://github.com/snapsynapse/tokenese/commits/main" target="_blank" rel="noopener">Revision history &rarr;</a>
     </aside>
   </div>
@@ -589,7 +592,7 @@ fix @spec add:handshake
   <div class="container">
     <div class="footer-grid">
       <div class="footer-meta">
-        <p>Tokenese grammar v0.3 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
+        <p>Tokenese grammar v0.3 / tools v0.3.2 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
         <p>A <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a> open spec by <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>.</p>
         <p style="margin-top: 0.5rem;">See also: <a href="https://turnfile.work/" target="_blank" rel="noopener">Turnfile</a> &middot; <a href="https://gracefulboundaries.dev/" target="_blank" rel="noopener">Graceful Boundaries</a> &middot; <a href="https://hardguard25.com/" target="_blank" rel="noopener">HardGuard25</a></p>
       </div>
