@@ -49,6 +49,6 @@ __all__ = [
     "score_pair_json",
 ]
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 grammar_version = "v0.3"
 GRAMMAR_VERSION_SUPPORTED = "v0.3"

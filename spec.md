@@ -1,12 +1,14 @@
 # Tokenese Specification
-Version: 0.1.0
-Date: 2026-06-12
-Status: draft
+Version: 0.3
+Date: 2026-06-17
+Status: current
 Canonical: https://tokenese.org/
+Grammar delta: GRAMMAR-v0.3.md
+Design rationale: DESIGN.md
+Conformance: CONFORMANCE.md
+Reference toolchain: tools/translator/ (132 tests passing)
 
-A token-based interlingua for LLM-to-LLM communication. Goal: exchanges that are both more compressed and more accurate than any natural language, measured in actual tokenizer tokens, not characters.
-
-Authored 2026-06-12 in session with Sam Rogers. Not yet tested against a second model family.
+A token-native interlingua for LLM-to-LLM communication: exchanges that are both more compressed and more accurate than any natural language, measured in actual tokenizer tokens, not characters. Compression comes from structure, not glyphs; accuracy comes from a fixed field grammar, a one-sense-per-word vocabulary, and typed literals. The whole scheme is measured, not asserted: the kill-criterion A/B (misparse-retry rate, dense vs prose) has been built but is not yet run — see ROADMAP N2.
 
 ## Design principles
 
@@ -15,8 +17,9 @@ Authored 2026-06-12 in session with Sam Rogers. Not yet tested against a second 
 3. Compression from structure, not glyphs. Empirical finding: common English words cost the same as exotic Unicode or less. Savings come from eliminating function-word syntax, anaphora, and repeated referents, not from substituting symbols for words.
 4. Accuracy is a feature, not a casualty. Fixed field grammar, controlled vocabulary (one sense per word), and typed literals remove the ambiguity natural language carries. Tokenese should misparse less than English, not more.
 5. Self-repairing. A dedicated misparse signal forces fallback to natural language for the failed span only. Misparse-retry rate is the metric that validates the whole scheme: if retries eat the savings, the design has failed.
+6. The v0.3 invariants. INTENT.md §"Design invariants" is the normative list; in one line each: token-space only; audited lexicon (closed function vocabulary 1 token worst case, content admitted on tokens-per-semantic-unit advantage); not a pidgin (acquisition cost traded for precision); accuracy is a feature; self-repairing (`??` and the plain escape are mandatory); measured, not asserted (the A/B kill-criterion); human-auditable (the one-page audit card must let a competent human follow any conforming transcript). See INTENT.md §Design invariants for the normative list (this section is a teaching summary).
 
-## Admissible alphabet (audited 2026-06-12)
+## Admissible alphabet (audited 2026-06-12; columns: OpenAI o200k_base + Anthropic count-tokens claude-haiku-4-5; further tokenizer columns tracked in ROADMAP X2)
 
 Single-token in both o200k_base and Anthropic (claude-haiku-4-5) tokenizers, worst case:
 
@@ -43,7 +46,9 @@ One statement per line. Line = newline-terminated. No prose between statements i
 - Values: bare literals. ISO dates (`2026-06-12`), bare ints/floats, `y`/`n`, paths, URLs, or `@refs`.
 - No articles, no copulas, no hedges, no pleasantries. Modality expressed only via `must may can` and confidence slot.
 
-### Reserved sigils
+The above is the v0.2 wire grammar. Grammar v0.3 is additive and activated by the artifact opening with `^grammar:v0.3`; the canonical delta lives in GRAMMAR-v0.3.md. The complete sigil namespace (v0.2 + v0.3 rows) is DESIGN.md §7.
+
+### Reserved sigils (v0.2 baseline; v0.3 additions in GRAMMAR-v0.3.md and the complete table in DESIGN.md §7)
 
 | Sigil | Meaning |
 |---|---|
@@ -89,9 +94,9 @@ If B replies anything else, A continues in natural language. Either party may ex
 
 ### Repair
 
-- `??` alone — last line misparsed, resend in plain English.
-- `?? @N` / `?? <quoted fragment>` — that referent misparsed.
-- Three `??` on the same content → stay in plain English for that topic. Log the failure; it is lexicon-design feedback.
+v0.2 baseline: `??` alone means the last line misparsed, `?? @N` / `?? <quoted fragment>` means a specific referent misparsed, and three `??` on the same content keeps the topic in plain English (lexicon-design feedback).
+
+v0.3 subdivides this into four addressable kinds (`repair-statement`, `repair-handle`, `repair-token`, `repair-explained`) — see GRAMMAR-v0.3.md §3. The three-strike fail threshold is unchanged.
 
 ## Example exchange
 
@@ -99,24 +104,40 @@ Plain English (≈55 tokens):
 
 > Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?
 
-Tokenese (≈20 tokens):
+Tokenese v0.3 (≈22 tokens):
 
 ```
-@1=supabase edge fn deploy
-get? @1 status
-if fail -> get logs first-error +time
+^grammar:v0.3
+^declare:level=L2
+@svc := supabase/edge-fn
+@svc.deploy >>> @svc.status
+!@svc.ok? *>> get @svc.logs.first-error +ts
 ```
 
-Target compression: 2.5-4x on operational exchanges, with lower ambiguity than the English original (which model? which project? "first error" by what ordering? — slots force these to be bound or explicitly defaulted).
+Verified by `tokenese-check`. Target compression: 2.5-4x on operational exchanges; A/B measurement of misparse-retry rate is the kill-criterion (see ROADMAP N2).
 
-## Open questions (v0.2 agenda)
+## Conformance
 
-1. Codex 5.5 live A/B: same task suite in English vs Tokenese; measure tokens, task success, misparse-retry rate. This validates or kills the design.
-2. Vocabulary registry: shared file (this repo) listing registered ops and slot keys, so both parties train against the same controlled vocabulary. Format: one line per entry, `word :: sense`.
-3. Whether instruction-following degrades when prompts are dense (known risk: models reason worse over compressed context — needs measurement, not assumption).
-4. Multi-statement transactions and quoting (how to embed code blocks and verbatim strings without tokenizer surprises): proposal — fenced blocks pass through untouched, Tokenese applies only outside fences.
-5. Anthropic-side audit of `✅` and broader frequent-word sweep (top 2000 English words, both tokenizers) to enlarge the certified-1-token vocabulary.
-6. Third tokenizer column (Gemini, Qwen) before claiming cross-vendor generality.
+Reference checker. The deterministic per-pair scorer lives at `tools/translator/tkab/` and emits `tkab-check-1.1` results. Stable outcome enum, decision order documented in `tools/translator/tkab/AUDIT_CARD.md`.
+
+MCP surface. `tokenese_translator.mcp_server` exposes parse / validate / to_english / check_pair / score_pair / classify_misparse / validate_framesets / grammar_info. Verifier-anywhere posture per the conformance philosophy in INTENT.md.
+
+GuideCheck. Trust-anchored `assistant-guide.txt` (Level 3 live; Level 4 DNS anchor pending — ROADMAP N1).
+
+## Open questions (current)
+
+The current open work is tracked in ROADMAP.md; the items still open are:
+
+- **N1.** Complete GuideCheck Level 4 (DNS TXT anchor at `_assistant-guide.tokenese.org`).
+- **N2.** The validating A/B experiment (the kill-criterion). Misparse-retry rate, calibration of self-reported channels, and reasoning-task accuracy inside dense vs prose spans, per-construct family.
+- **X1.** Tokenese skill bundle (portable Agent Skill — cross-surface).
+- **X2.** Additional tokenizer columns (Gemini, Qwen, DeepSeek, Llama).
+- **X3.** Frameset registry promotion from report-only telemetry to a conformance gate (pending N2 measurements).
+- **X4.** Hosted conformance checker at tokenese.dev.
+
+Open questions (v0.2 agenda) — closed-status note:
+
+Closed since v0.1: items 2 (vocabulary registry — partial via `framesets.json`), 4 (multi-statement / quoting — addressed by `"""..."""` raw source quotes in v0.3), 5 (CJK content vocab — admitted by amended Invariant 2 per INTENT 2026-06-12). Open: items 1 (live A/B → ROADMAP N2), 3 (instruction-following inside dense — measured by N2), 6 (third+ tokenizer columns → ROADMAP X2).
 
 ## Naming and prior art
 

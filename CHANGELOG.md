@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-06-17
+
+### Changed
+
+- **spec.md reconciled with v0.3 grammar.** Version stamp updated 0.1.0 → 0.3. Spec now points authoritatively at GRAMMAR-v0.3.md for the v0.3 delta and DESIGN.md §7 for the complete sigil namespace, eliminating the v0.1↔v0.3 drift that landed on the public spec page. Added a Conformance section listing the checker / MCP surface / GuideCheck posture. Open-questions list replaced with the current ROADMAP cross-reference; the v0.2 open-questions list is annotated for closed vs open items. Hero example updated to use `^grammar:v0.3`.
+- **`relationships.yaml` v1.** Bumped 0.1.0 → 1.0.0. Added grammar, reference_implementation, trust_anchors, roadmap top-level keys describing v0.3 grammar, the 132-test toolchain, the MCP server, the GuideCheck posture, and the ROADMAP. All existing relationships and prior-art entries preserved verbatim.
+- **`ontology.json` v1.** Bumped 0.1.0 → 1.0.0. Added 10 v0.3 definitions (assistant_guide, causal_sigil, checker, conformance_level, frameset, grammar_version, handle, plain_block, repair_kind, source_authority). All 7 v0.1 definitions preserved verbatim; alphabetized.
+
+### Note
+
+Patch release: documentation and metadata only. No normative grammar change; no checker outcome changes; no code touched. 132/132 tests still passing. Resolves ROADMAP N3 (spec/grammar reconciliation) and closes the long-standing INTENT.md exception that called out `relationships.yaml` and `ontology.json` as v0 stubs.
+
 ## [0.3.2] - 2026-06-17
 
 ### Added
