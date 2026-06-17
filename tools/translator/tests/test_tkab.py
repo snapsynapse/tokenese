@@ -43,7 +43,7 @@ def _synthetic(arm: str, clone_text: str, *, source_text: str = "x deploy status
 # 1
 def test_schema_version_stable():
     result = _check_fixture("TKAB-W1.pair.json")
-    assert result["schema_version"] == "tkab-check-1.0"
+    assert result["schema_version"] == "tkab-check-1.1"
 
 
 # 2
@@ -121,4 +121,4 @@ def test_cli_pair_roundtrip(tmp_path):
     assert rc == 0
     result = json.loads(out_path.read_text(encoding="utf-8"))
     assert result["outcome"] == "win-conformant"
-    assert result["schema_version"] == "tkab-check-1.0"
+    assert result["schema_version"] == "tkab-check-1.1"
