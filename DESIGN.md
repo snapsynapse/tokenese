@@ -100,6 +100,10 @@ Where the mysticism boundary runs: softmax, superposition, hyperplane, and coord
 
 ## 7. Sigil namespace (collision resolution)
 
+Grammar version stamp: **v0.3** (additive over v0.2; see GRAMMAR-v0.3.md). Rows
+tagged `(v0.3)` are new and only active when the artifact opens with
+`^grammar:v0.3`; everything else is the frozen v0.2 allocation.
+
 The five lenses, designed in isolation, claimed several sigils multiple ways. Binding allocation, one sigil one meaning:
 
 | Sigil | Meaning (only meaning) |
@@ -115,7 +119,7 @@ The five lenses, designed in isolation, claimed several sigils multiple ways. Bi
 | `->` | sequence/yield |
 | `=>` | implication |
 | `because` | causal attribution (word form; `<-` failed Anthropic audit and is a mirror-confusable of `->`) |
-| `!` | imperative + readback trigger |
+| `!` | imperative + readback trigger; **prefix `!@h` = negation (v0.3)** |
 | `~` | approximate |
 | `//` | human-facing comment |
 | `§` | spec rule reference |
@@ -123,8 +127,20 @@ The five lenses, designed in isolation, claimed several sigils multiple ways. Bi
 | `not( )` | negation scope, depth cap 2, bind-don't-nest |
 | `dense` / `plain` | mode words |
 | `ev:` | evidential slot |
+| `^grammar:vX.Y` | artifact grammar-version declaration, first non-comment line (v0.3) |
+| `^declare:level=L` | declared conformance level `L0\|L1\|L2\|L3`, first non-comment line (v0.3) |
+| `^plain<<<` … `>>>^plain` | closed plain region; verbatim, not graded (v0.3) |
+| `"""` … `"""` | raw source quote, verbatim, triple-quote delimited (v0.3) |
+| `@h?` | hedge suffix — "possibly h" (v0.3) |
+| `>>>` | temporal sequence "left then right"; always admissible (v0.3) |
+| `*>>` | stipulated causation "left causes right"; requires source corroboration (v0.3) |
+| `?>>` | hypothesized causation "left may cause right"; always admissible (v0.3) |
+| `#` (line start) | line comment to EOL; inline `#` is unchanged tag content (v0.3) |
 
-The v0.1 uses of `=` (binding) and `#` (tag) stand. `>>` and `<<` are unallocated in v0.2 (were triple-claimed; reclaim later if needed).
+The v0.1 uses of `=` (binding) and `#` (inline tag) stand. The bare flow
+operator `>>` is still unallocated and unchanged; the v0.3 causal sigils
+`>>>`/`*>>`/`?>>` are distinct three-character tokens and do not collide with
+it. `<<` remains unallocated except as the `^plain<<<` opener fragment.
 
 ## 8. Audit deltas this round (merged into anthropic_costs.json)
 

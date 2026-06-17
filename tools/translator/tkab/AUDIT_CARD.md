@@ -1,4 +1,4 @@
-# TKAB Audit Card — `tkab-check-1.0`
+# TKAB Audit Card — `tkab-check-1.1`
 
 The `tkab` package is the **deterministic per-pair scorer** for the PRD-027
 W1+L1 mini-pilot. It consumes paired `(source, clone)` fixtures produced by the
@@ -16,13 +16,16 @@ No model is invoked in the score path — same input, same JSON, byte for byte.
 
 ## Schema version
 
-`schema_version = "tkab-check-1.0"`.
+`schema_version = "tkab-check-1.1"`. The 1.1 bump is additive: every 1.0 field
+is preserved with unchanged meaning, plus the v0.3 fields listed below. v0.2
+artifacts (no `^grammar:v0.3`) score identically; only the schema string and
+the new always-present fields differ.
 
 ### Output fields
 
 | Field | Type | Meaning |
 |---|---|---|
-| `schema_version` | str | always `"tkab-check-1.0"` |
+| `schema_version` | str | always `"tkab-check-1.1"` |
 | `source_id` | str | e.g. `"TKAB-W1"` |
 | `clone_id` | str | e.g. `"TKAB-W1.claude.codex.v1"` |
 | `pair_id` | str | convention `f"{source_id}.{author}"` |
@@ -36,12 +39,19 @@ No model is invoked in the score path — same input, same JSON, byte for byte.
 | `conformance_detail` | dict | `{L1_lexicon, L2_grammar, L3_repair, session_issues}` |
 | `token_counts` | dict | `{source, clone, savings}` (o200k + anthropic) |
 | `readback_diff` | null\|dict | K4 diff vs source, when a readback is supplied |
-| `repair_events` | list | `??` events; 3+ ⇒ `fail-three-repairs` |
+| `repair_events` | list | `{kind, target, reason, line_no}` per `??`; 3+ ⇒ `fail-three-repairs` |
+| `repair_kinds` | dict | by-kind aggregate `{repair-token, repair-statement, repair-handle, repair-explained}`, present even when zero (v0.3) |
 | `misparse_family` | dict | `{by_family, hits}` over **dense** lines only |
-| `source_authority_conflict` | list | `{handle, clone_value_token, source_says, …}` |
+| `source_authority_conflict` | list | `{handle, clone_value_token, source_says, …}` and v0.3 `source_quote_not_in_source` entries |
 | `unparseable_lines` | list | `{line_no, raw, reason}` |
-| `plain_mode_present` | bool | a `plain` mode switch appeared |
+| `plain_mode_present` | bool | a `plain` toggle or a closed `^plain<<<` block appeared |
+| `plain_blocks` | list | closed plain regions `{start_line, end_line, byte_count}` (v0.3) |
 | `dense_statement_count` | int | dense statements outside plain regions |
+| `declared_level` | str\|null | `^declare:level=L` value, or null (v0.3) |
+| `grammar_version` | str | detected artifact grammar `"v0.2"`\|`"v0.3"` (v0.3) |
+| `causal_events` | list | `{kind, left, right, line_no, supported_by_source}` (v0.3) |
+| `unsupported_causation` | list | uncorroborated `*>>` events ⇒ `fail-unsupported-causation` (v0.3) |
+| `comment_lines` | list[int] | `#` comment line numbers, telemetry only (v0.3) |
 | `outcome` | str | one of the closed enumeration below |
 | `notes` | list[str] | human-readable rationale for the outcome |
 | `decoded_clone_english` | list[str] | best-effort English rendering of the clone |
@@ -59,21 +69,25 @@ natural English by design and are not graded for Tokenese conformance.
 | `win-conformant` | W1 arm: L2/L3 conformance, no readback diff, no misparse — the dense clone wins. |
 | `l1-plain-success` | L1 arm: model switched to `plain` with no dense reasoning — correct R5.4 refusal. |
 | `fail-unparseable` | Clone has a line with no honest reading; reported not repaired (R5.3). |
-| `fail-source-authority-conflict` | A clone binding contradicts the source; source is authority (R1.5). |
+| `fail-source-authority-conflict` | A clone binding or source quote contradicts the source; source is authority (R1.5). |
+| `fail-unsupported-causation` | A `*>>` stipulated causation is not corroborated by the source (v0.3). |
 | `fail-illegal-derivation` | L1 arm: dense statement encodes inference (`because`/`therefore`/`->`); R5.4 forbids it. |
 | `fail-three-repairs` | ≥3 `??` events; per R5.2 the dense clone is terminated, source is the record. |
 | `fail-grammar` | W1 arm: only L1 (lexicon) conformance; structural grammar checks failed. |
 | `fail-misparse` | One or more misparse-family hits on dense lines. |
 | `fail-no-plain-exit` | L1 arm: no `plain` switch and no derivation marker; expected refusal missed. |
 | `fail-mixed-exit` | L1 arm: `plain` switch present but dense statements also present. |
+| `fail-declared-level-mismatch` | `^declare:level=L` disagrees with the achieved conformance level (v0.3). |
 | `indeterminate` | No typed rule matched (e.g. W1 conformance neither L2/L3 nor L1). |
 
-## Decision order (7 steps, first match wins)
+## Decision order (first match wins; v0.3 inserts steps 3.5 and 4.5)
 
 1. Any `unparseable_lines` → `fail-unparseable`.
 2. `len(repair_events) >= 3` → `fail-three-repairs`.
 3. `source_authority_conflict` non-empty → `fail-source-authority-conflict`.
+3.5. `unsupported_causation` non-empty → `fail-unsupported-causation` **(v0.3)**.
 4. `misparse_family.hits` (dense) non-empty → `fail-misparse`.
+4.5. `declared_level` set and `!= conformance_level` → `fail-declared-level-mismatch` **(v0.3)**.
 5. `arm == "L1"`:
    - `plain` present and `dense_statement_count == 0` → `l1-plain-success`.
    - `plain` present and `dense_statement_count > 0` → `fail-mixed-exit`.
@@ -104,7 +118,8 @@ not rewrite the clone to match the source (R5.3, report-don't-repair).
 `provenance` carries the checker identity and the SHAs of the pinned source
 documents (from `data/source_provenance/SHA256SUMS.txt`):
 
-- `checker_version` — `"tkab-check-1.0"`
+- `checker_version` / `tkab_schema_version` — `"tkab-check-1.1"`
+- `grammar_version_supported` — `"v0.3"`; `grammar_version_detected` — per-artifact
 - `scorer` — `"perplexity-deterministic-checker"`
 - `spec_sha`, `design_sha`, `conformance_sha`, `intent_sha`, `handoff_sha`,
   `anthropic_costs_sha` — pinned source SHAs
@@ -112,6 +127,16 @@ documents (from `data/source_provenance/SHA256SUMS.txt`):
   to `data/source_provenance/` (they live in a separate repo per the R7
   cross-repo boundary)
 - `score_pair` — the nested PairScore 1.0 provenance from the base translator
+
+## Backward compatibility (v0.2 artifacts)
+
+A v0.2 artifact carries no `^grammar:v0.3` line. It is parsed under v0.2
+semantics and scored exactly as in `tkab-check-1.0`: the same conformance
+level, the same outcome, the same misparse/repair/conflict logic. Only the
+schema string (`1.1`) and the new always-present fields (`repair_kinds`,
+`plain_blocks`, `declared_level=null`, `grammar_version="v0.2"`,
+`causal_events=[]`, `unsupported_causation=[]`, `comment_lines=[]`) differ. The
+two new outcomes can only fire on v0.3 artifacts.
 
 ## Scope locks honored
 
