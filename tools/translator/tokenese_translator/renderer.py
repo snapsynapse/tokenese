@@ -20,17 +20,23 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from .handles import consume_handle
 from .lexicon import EVIDENTIALS, EVIDENTIAL_DEFAULT_ENGLISH, english_for_word
 from .parser import (
     Binding,
+    Comment,
     CommentOnly,
     Empty,
+    GrammarVersion,
     Handshake,
+    LevelDeclaration,
     ModeSwitch,
     Node,
+    PlainBlock,
     PlainPassthrough,
     Repair,
     Slot,
+    SourceQuote,
     Statement,
     Unparseable,
     parse_line,
@@ -89,6 +95,16 @@ def _render_slot(slot: Slot, session: Optional[Session]) -> str:
         return "[repair: resend in plain English]"
     if k == "§":
         return f"[spec rule §{slot.value}]"
+    if k in (">>>", "*>>", "?>>"):
+        # v0.3 causal/sequence sigils; value is (left, right).
+        left, right = slot.value if isinstance(slot.value, tuple) else ("", "")
+        lr = _resolve_ref(left, session)
+        rr = _resolve_ref(right, session)
+        if k == ">>>":
+            return f"{lr} then {rr}"
+        if k == "*>>":
+            return f"{lr} causes {rr}"
+        return f"{lr} may cause {rr}"
     if k == "":
         # bare value (additional positional argument)
         return _resolve_ref(slot.value, session)
@@ -105,28 +121,46 @@ def _render_slot(slot: Slot, session: Optional[Session]) -> str:
 
 
 def _resolve_ref(text: str, session: Optional[Session]) -> str:
-    """Expand @handle references inline when the session knows them."""
+    """Expand @handle references inline when the session knows them.
+
+    Handle scanning is delegated to the centralized lexer (``consume_handle``),
+    so kebab/snake names and the v0.3 negation/hedge decorations are handled in
+    one place. ``!@h`` renders as "not <h>" and ``@h?`` as "<h> (possibly)".
+    """
     if not isinstance(text, str) or "@" not in text:
         return str(text)
-    if session is None:
-        return text
     out_parts: list[str] = []
     i = 0
-    while i < len(text):
-        if text[i] == "@":
-            j = i + 1
-            while j < len(text) and (text[j].isalnum() or text[j] in ("_", "-")):
-                j += 1
-            handle = text[i + 1 : j]
-            resolved = session.resolve(handle) if handle else None
-            if resolved is not None:
-                out_parts.append(f'"{resolved}" (@{handle})')
-            else:
-                out_parts.append(f"@{handle} (unbound)")
-            i = j
-        else:
-            out_parts.append(text[i])
+    n = len(text)
+    while i < n:
+        ch = text[i]
+        probe = i
+        # consume_handle accepts a leading '!'; start the probe there so the
+        # negation prefix is captured with the handle.
+        if ch == "!" and i + 1 < n and text[i + 1] == "@":
+            probe = i
+        elif ch != "@":
+            out_parts.append(ch)
             i += 1
+            continue
+        parsed = consume_handle(text, probe)
+        if parsed is None:
+            out_parts.append(ch)
+            i += 1
+            continue
+        handle, end = parsed
+        resolved = session.resolve(handle.name) if session else None
+        if resolved is not None:
+            core = f'"{resolved}" (@{handle.name})'
+        else:
+            core = f"@{handle.name}" + (" (unbound)" if session else "")
+        # Compose so ``!@x?`` reads "possibly not x" (negation inside hedge).
+        if handle.negated:
+            core = f"not {core}"
+        if handle.hedged:
+            core = f"possibly {core}"
+        out_parts.append(core)
+        i = end
     return "".join(out_parts)
 
 
@@ -139,7 +173,16 @@ def _render_statement(node: Statement, session: Optional[Session]) -> str:
     if node.op_imperative:
         op_text = f"{op_text} (imperative; receiver should reply √ with paraphrased restatement)"
     parts: list[str] = [op_text]
-    if node.target is not None:
+    # A v0.3 causal slot captures the statement target as its `left` operand
+    # (``say @a >>> @b`` parses target=@a, slot left=@a). Render the target
+    # only when no causal slot already consumes it, so it is not duplicated.
+    target_consumed_by_causal = any(
+        s.key in (">>>", "*>>", "?>>")
+        and isinstance(s.value, tuple)
+        and s.value[0] == node.target
+        for s in node.slots
+    )
+    if node.target is not None and not target_consumed_by_causal:
         parts.append(_resolve_ref(node.target, session))
     # Group slots so that '->' / '=>' (sequence/implication) emit cleanly,
     # absorbing any trailing bare-value slots as the consequent payload.
@@ -211,6 +254,26 @@ def _render_plain(node: PlainPassthrough) -> str:
     return node.text
 
 
+def _render_plain_block(node: PlainBlock) -> str:
+    return node.text
+
+
+def _render_comment_node(node: Comment) -> str:
+    return f"(comment) {node.text}"
+
+
+def _render_grammar_version(node: GrammarVersion) -> str:
+    return f"[grammar version: {node.version}]"
+
+
+def _render_level_declaration(node: LevelDeclaration) -> str:
+    return f"[declared conformance level: {node.level}]"
+
+
+def _render_source_quote(node: SourceQuote) -> str:
+    return f'[source quote: "{node.text}"]'
+
+
 # ----- public API -----
 
 def render_node(node: Node, session: Optional[Session] = None) -> str:
@@ -226,8 +289,18 @@ def render_node(node: Node, session: Optional[Session] = None) -> str:
         return _render_mode(node)
     if isinstance(node, CommentOnly):
         return _render_comment(node)
+    if isinstance(node, Comment):
+        return _render_comment_node(node)
     if isinstance(node, PlainPassthrough):
         return _render_plain(node)
+    if isinstance(node, PlainBlock):
+        return _render_plain_block(node)
+    if isinstance(node, GrammarVersion):
+        return _render_grammar_version(node)
+    if isinstance(node, LevelDeclaration):
+        return _render_level_declaration(node)
+    if isinstance(node, SourceQuote):
+        return _render_source_quote(node)
     if isinstance(node, Empty):
         return ""
     if isinstance(node, Unparseable):
@@ -255,10 +328,29 @@ def render_line(line: str, session: Optional[Session] = None) -> str:
 
 
 def render_transcript(text: str, session: Optional[Session] = None) -> List[str]:
-    """Render an entire transcript. Returns one English string per input line."""
-    out: list[str] = []
-    for raw_line in text.splitlines():
-        out.append(render_line(raw_line, session))
+    """Render an entire transcript. Returns one English string per AST node.
+
+    For v0.2 artifacts this is one English string per input line (unchanged).
+    For v0.3 artifacts the transcript is parsed as a whole so multi-line
+    constructs (closed plain regions, triple-quoted source quotes) render as a
+    single node; the returned list therefore has one entry per node, which may
+    be fewer than the line count when such constructs are present.
+    """
+    from .parser import detect_grammar
+
+    if detect_grammar(text) != "v0.3":
+        out: list[str] = []
+        for raw_line in text.splitlines():
+            out.append(render_line(raw_line, session))
+        return out
+
+    # v0.3: parse the full transcript (resolves multi-line constructs) and
+    # render node by node, threading session state for handle resolution.
+    out = []
+    for node in parse_transcript(text):
+        if session is not None:
+            _apply_to_session(node, session)
+        out.append(render_node(node, session))
     return out
 
 
