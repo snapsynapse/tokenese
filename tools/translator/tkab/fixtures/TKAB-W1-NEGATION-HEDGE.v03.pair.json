@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-W1-NEGATION-HEDGE-v03",
+  "clone_id": "TKAB-W1-NEGATION-HEDGE-v03.claude.codex.v1",
+  "arm": "W1",
+  "direction": "claude->codex",
+  "author": "claude-sonnet-4.5",
+  "artifact_type": "deploy-status",
+  "predicted_outcome": "win",
+  "source_text": "billing-api deployed to staging at version 1.7.2. No rollback was triggered. A canary check is still pending and may or may not pass.",
+  "clone_text": "^grammar:v0.3\n# negation + hedge operators in dense form\n@billing-api := svc:billing-api/staging\n@rollback := action:rollback\n@canary := check:canary\nget @billing-api status ^3\nsay !@rollback ^3\nsay @canary? ^3"
+}

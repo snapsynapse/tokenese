@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-W1-FAIL-unsupported-causation-v03",
+  "clone_id": "TKAB-W1-FAIL-unsupported-causation-v03.claude.codex.v1",
+  "arm": "W1",
+  "direction": "claude->codex",
+  "author": "claude-sonnet-4.5",
+  "artifact_type": "deploy-status",
+  "predicted_outcome": "win",
+  "source_text": "billing-api deployed to staging at version 1.7.2. Three pods are healthy and latency p95 is 240ms. The cache warmer also started. No rollback was triggered.",
+  "clone_text": "^grammar:v0.3\n@billing-api := svc:billing-api/staging\n@cache := step:cache-warmer\nget @billing-api status ^3\nsay pods healthy ^3\nsay @billing-api *>> @cache ^3"
+}
