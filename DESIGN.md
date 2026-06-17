@@ -142,6 +142,17 @@ operator `>>` is still unallocated and unchanged; the v0.3 causal sigils
 `>>>`/`*>>`/`?>>` are distinct three-character tokens and do not collide with
 it. `<<` remains unallocated except as the `^plain<<<` opener fragment.
 
+> **Tokenizer-cost footnote (7-column audit, 2026-06-17).** Of the v0.3 sigils,
+> only `>>>` and `"""` are single-token worst-case across all seven tokenizer
+> columns (o200k + Anthropic + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 2).
+> `?>>` ("always admissible") is single-token on o200k/Qwen/Llama but splits to
+> 2 tokens on DeepSeek and Gemma; `*>>` is already 2 tokens on o200k and
+> requires source corroboration anyway; the closed-plain delimiters
+> `^plain<<<` and `>>>^plain` are inherently multi-token (3-4) on every column.
+> None of these are lexicon glyphs — they are grammar constructs whose cost is
+> amortized over the span they delimit — so their multi-token cost is expected
+> and does not affect the admissible alphabet. Re-measure with `audit_*.py`.
+
 ## 8. Audit deltas this round (merged into anthropic_costs.json)
 
 Dual-pass additions: `because like cf val zone but same other before after most except guess drop fill sum head tail dense plain sync hold set when who what why how where more less very kind part still ev src obs ..` and (evidential round) `said quote cite heard report claim via per relay mem prior stored train weights seen wit`.

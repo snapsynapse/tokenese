@@ -1,0 +1,37 @@
+name: Lexicon audit
+
+on:
+  pull_request:
+    paths:
+      - 'audit_*.py'
+      - 'audit_candidates.py'
+      - 'audit_common.py'
+      - 'data/source_provenance/*_costs.json'
+      - 'requirements.txt'
+      - 'spec.md'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Run offline audits
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python audit_symbols.py
+          python audit_qwen.py
+          python audit_deepseek.py
+          python audit_llama.py
+          python audit_gemma.py
+      - name: Run Gemini audit (if API key available)
+        if: env.GEMINI_API_KEY != ''
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python audit_gemini.py
+      - name: Verify admissible alphabet has not silently expanded
+        run: python audit_check_intersection.py

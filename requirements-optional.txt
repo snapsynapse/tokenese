@@ -1,0 +1,5 @@
+# Optional dependency for audit_gemini.py.
+# Requires a GEMINI_API_KEY in the environment; audit_gemini.py skips cleanly
+# (exit 0, warning text) if the key is unset. Not needed for the offline
+# Hugging Face / tiktoken audits.
+google-genai>=0.3.0
