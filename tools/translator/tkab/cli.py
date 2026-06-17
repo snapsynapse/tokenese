@@ -73,7 +73,7 @@ def _run_batch(directory: str, out_dir: str | None, pretty: bool) -> List[Dict[s
 def main(argv: List[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="tokenese-check",
-        description="Deterministic per-pair TKAB scorer (schema tkab-check-1.0).",
+        description="Deterministic per-pair TKAB scorer (schema tkab-check-1.1).",
     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--pair", metavar="PAIR_JSON", help="score one *.pair.json file")
