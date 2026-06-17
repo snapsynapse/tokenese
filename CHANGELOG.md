@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-06-17
+
+### Added — Tokenese Skill Bundle (ROADMAP X1)
+
+- New cross-surface portable skill at `skills/tokenese/` (v1.0.0). `SKILL.md` is the loadable instructions; `MANIFEST.yaml` provides provenance + hashes; `audit_card.md` is the one-page human reference; `install_guide.md` is the GuideCheck-aligned bounded-task guide; `examples/` covers handshake / encode-decode / validation / repair / assistant-guide consumption; `references/` mirrors the v0.3 sigil key, the 13 outcomes, and the checker decision order.
+- New test `tests/test_skill_examples.py` parses every Tokenese block in `skills/tokenese/examples/*.md` and asserts validity; outcome-annotated examples are also checker-verified.
+
+### Note
+
+Patch release: docs/skill bundle only. No normative grammar change; no checker behavior changes. The skill ships no generator (encoding remains hand-authored or delegated to the reference translator), honoring the scoring-only scope lock.
+
 ## [0.3.3] - 2026-06-17
 
 ### Changed
