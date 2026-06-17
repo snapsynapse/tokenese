@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-06-17
+
+### Added
+
+- GuideCheck `assistant-guide.txt` (human-verifiable-assistant-guide profile 0.6.0) for the bounded "install Tokenese and reproduce the lexicon audit" task: trust-anchored byte-identical pair (repo root + `docs/.well-known/`) plus a Level 4 sidecar manifest (`assistant-guide-manifest.txt`) with `guide-sha256`, `guide-bytes`, and immutable release URL. Discovery via `llms.txt`, `<link rel="assistant-guide">`, and a landing-page footer link.
+
+### Changed
+
+- Landing page (`docs/index.html`) synced to grammar v0.3: hero example uses the checker-verified v0.3 exchange, sigil table reflects the v0.3 operators (causal `>>> *>> ?>>`, negation `!@h`, hedge `@h?`, `^declare:level`, closed plain regions, repair sub-taxonomy, line comments), Tools/checker surfaced, version labels and dates refreshed.
+- `llms.txt` updated for grammar v0.3 and the reference toolchain; added the assistant-guide reference.
+
+### Note
+
+- Patch release: agent-facing and web surfaces only, no normative grammar change. `spec.md` holds the foundational wire grammar; `GRAMMAR-v0.3.md` is the current grammar.
+
 ## [0.3.0] - 2026-06-16
 
 ### Added — Grammar v0.3.0 (backward-compatible minor)

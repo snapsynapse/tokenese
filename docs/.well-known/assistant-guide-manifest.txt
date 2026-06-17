@@ -1,0 +1,11 @@
+guide-path: /.well-known/assistant-guide.txt
+guide-version: 0.3.1
+guide-sha256: e1e4d7e941d4e81e531e18b98b08b26952d0ea63a742b5b72143cd036c4554f2
+guide-bytes: 6373
+immutable-release-url: https://github.com/snapsynapse/tokenese/releases/tag/v0.3.1
+profile: human-verifiable-assistant-guide
+profile-version: 0.6.0
+canonical-url: https://tokenese.org/.well-known/assistant-guide.txt
+repository-url: https://github.com/snapsynapse/tokenese
+released-at: 2026-06-17T00:00:00Z
+changelog-url: https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md

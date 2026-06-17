@@ -51,6 +51,7 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 
 ## Changelog
 
+- 2026-06-17 (release v0.3.1): GuideCheck adoption. Added `assistant-guide.txt` (bounded "install Tokenese and reproduce the lexicon audit" task) as a trust-anchored byte-identical pair (repo root + `docs/.well-known/`) with a Level 4 sidecar manifest. Synced the landing page and `llms.txt` to grammar v0.3. Patch release; no normative grammar change. Level 4 cross-channel hash anchor (DNS TXT at `_assistant-guide.tokenese.org`) pending one registrar record; Level 3 structure complete until it propagates.
 - 2026-06-16 (later): canonical-spec-page. Built tokenese.org landing page (`docs/`), repo flipped to public so spec/GitHub links resolve, GitHub Pages enabled from `main` `/docs`. WCAG 2.1 AA clean (0 axe violations). DNS at registrar still pending. Hosted + agent-facing tier rows adopted.
 - 2026-06-16: Repo-standards walk + repo-polish. Private GitHub repo created and pushed, v0.1.0 tagged + released, `.github/` templates + GH metadata added, admitted to `portfolio.yaml` as an open-spec component. HANDOFF docs moved to gitignored `working/`.
 - 2026-06-12 (later): Invariant 2 amended per Sam: 1-token rule narrowed to the closed function vocabulary; content vocabulary admitted on tokens-per-semantic-unit advantage, reopening CJK and other multi-token UTF-8 candidates. Invariant 7 (human-auditability, hard) added per Sam. Evidential surfaces audited and selected: ev:obs / ev:heard / ev:mem / ev:guess, default = inferred.

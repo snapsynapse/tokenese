@@ -18,6 +18,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <link rel="alternate" type="text/plain" href="https://tokenese.org/llms.txt" title="LLM-readable summary">
+  <link rel="assistant-guide" href="https://tokenese.org/.well-known/assistant-guide.txt">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Tokenese">
@@ -26,7 +27,7 @@
   <meta property="og:url" content="https://tokenese.org/">
   <meta property="og:locale" content="en_US">
   <meta property="article:published_time" content="2026-06-12T00:00:00Z">
-  <meta property="article:modified_time" content="2026-06-12T00:00:00Z">
+  <meta property="article:modified_time" content="2026-06-17T00:00:00Z">
   <meta property="article:author" content="Sam Rogers">
   <meta property="article:publisher" content="https://paice.work/">
   <meta property="article:section" content="Open Specs">
@@ -56,7 +57,7 @@
     "url": "https://tokenese.org/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://tokenese.org/" },
     "datePublished": "2026-06-12",
-    "dateModified": "2026-06-12",
+    "dateModified": "2026-06-17",
     "author": {
       "@type": "Person",
       "name": "Sam Rogers",
@@ -135,6 +136,10 @@
 
     a { color: var(--accent); text-decoration: none; }
     a:hover { color: var(--accent-hover); text-decoration: underline; }
+    /* Inline links inside body paragraphs must carry a non-color affordance
+       (WCAG link-in-text-block). Buttons and nav links are excluded. */
+    section p a:not(.btn) { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border); }
+    section p a:not(.btn):hover { text-decoration-color: var(--accent-hover); }
 
     .skip-link {
       position: absolute;
@@ -439,9 +444,9 @@
       <span class="sep" aria-hidden="true">&middot;</span>
       Published <time datetime="2026-06-12">June 12, 2026</time>
       <span class="sep" aria-hidden="true">&middot;</span>
-      Updated <time datetime="2026-06-12">June 12, 2026</time>
+      Updated <time datetime="2026-06-17">June 17, 2026</time>
       <span class="sep" aria-hidden="true">&middot;</span>
-      <span class="version">v0.1.0 draft</span>
+      <span class="version">grammar v0.3</span>
       <span class="sep" aria-hidden="true">&middot;</span>
       <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC&nbsp;BY&nbsp;4.0</a>
     </p>
@@ -458,11 +463,13 @@ logs and tell me the first error with a
 timestamp?</pre>
       </div>
       <div class="code-block">
-        <h3>Tokenese, about 20 tokens</h3>
-<pre>@1=supabase edge fn deploy
-get? @1 status
-if fail -> get logs first-error +time</pre>
-        <p class="annotation">Same request. Lower ambiguity: slots force which project, which ordering, to be bound or explicitly defaulted.</p>
+        <h3>Tokenese v0.3, about 22 tokens</h3>
+<pre>^grammar:v0.3
+^declare:level=L2
+@svc := supabase/edge-fn
+@svc.deploy &gt;&gt;&gt; @svc.status
+!@svc.ok? *&gt;&gt; get @svc.logs.first-error +ts</pre>
+        <p class="annotation">Same request, hand-authored to v0.3 grammar and verified by the deterministic checker. Lower ambiguity: handles and typed slots force which service and which ordering.</p>
       </div>
     </div>
 
@@ -516,37 +523,40 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py</pre>
 <section class="alt" id="grammar">
   <div class="container">
     <h2>The grammar in one screen</h2>
-    <p>One statement per line, verb first, keyed slots. No articles, no copulas, no hedges. Modality is expressed only through <code>must may can</code> and an explicit confidence slot. A first use binds a referent to the symbol table; every later use references it.</p>
+    <p>One statement per line, op first, keyed slots. No articles, no copulas, no hedges except the explicit operator below. A handle binds a referent once with <code>:=</code>; every later use references it. Grammar v0.3 is additive over v0.2 and activates when an artifact opens with <code>^grammar:v0.3</code>. The complete grammar lives in <a href="https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md" target="_blank" rel="noopener">GRAMMAR-v0.3.md</a>; the foundational wire grammar is in <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" target="_blank" rel="noopener">spec.md</a>.</p>
 
     <table>
       <thead>
-        <tr><th>Sigil</th><th>Meaning</th></tr>
+        <tr><th>Sigil</th><th>Meaning (v0.3)</th></tr>
       </thead>
       <tbody>
-        <tr><td class="sig">@N</td><td>symbol-table reference (N = integer)</td></tr>
-        <tr><td class="sig">=</td><td>binding (definition)</td></tr>
-        <tr><td class="sig">-&gt;</td><td>causes / yields / then</td></tr>
-        <tr><td class="sig">=&gt;</td><td>implies / therefore</td></tr>
-        <tr><td class="sig">::</td><td>type or scope qualifier</td></tr>
-        <tr><td class="sig">?</td><td>query marker (op suffix: <code>get?</code>)</td></tr>
-        <tr><td class="sig">^N</td><td>confidence slot, 0-9 scale (<code>^7</code> = 0.7)</td></tr>
-        <tr><td class="sig">//</td><td>comment to humans, ignored by protocol</td></tr>
-        <tr><td class="sig">??</td><td>misparse: resend the referenced line in plain English</td></tr>
+        <tr><td class="sig">@h := x</td><td>bind handle <code>@h</code> to referent <code>x</code>; later uses reference it</td></tr>
+        <tr><td class="sig">&gt;&gt;&gt;</td><td>temporal sequence (then)</td></tr>
+        <tr><td class="sig">*&gt;&gt;</td><td>stipulated causation; admissible only with source corroboration</td></tr>
+        <tr><td class="sig">?&gt;&gt;</td><td>hypothesized causation</td></tr>
+        <tr><td class="sig">!@h</td><td>negation prefix (not h)</td></tr>
+        <tr><td class="sig">@h?</td><td>hedge suffix (possibly h)</td></tr>
+        <tr><td class="sig">^declare:level=L<em>n</em></td><td>declared conformance level (L0-L3), first statement only</td></tr>
+        <tr><td class="sig">^plain&lt;&lt;&lt;</td><td>open a closed plain region, closed by <code>&gt;&gt;&gt;^plain</code></td></tr>
+        <tr><td class="sig">"""..."""</td><td>raw source quote, passed through verbatim</td></tr>
+        <tr><td class="sig">??</td><td>repair: <code>??</code> statement, <code>??@h</code> handle, <code>??: reason</code></td></tr>
+        <tr><td class="sig"># ...</td><td>line comment (leading <code>#</code> only); ignored by the protocol</td></tr>
       </tbody>
     </table>
 
     <div class="code-grid">
       <div class="code-block">
         <h3>Handshake</h3>
-<pre>A: tokenese? v:0.1
-B: tokenese ok v:0.1</pre>
+<pre>A: tokenese? v:0.3
+B: tokenese ok v:0.3</pre>
         <p class="annotation">Confirm capability before dropping natural language. Exit any time with <code>plain</code>, re-enter with <code>dense</code>.</p>
       </div>
       <div class="code-block">
-        <h3>Symbol table and repair</h3>
-<pre>@1=~/Git/tokenese/spec.md
-fix @1 add:handshake  // 3 tokens for 9
-?? @1                 // that referent misparsed</pre>
+        <h3>Binding and repair</h3>
+<pre>^grammar:v0.3
+@spec := tokenese/spec.md
+fix @spec add:handshake
+??@spec   # that handle misparsed, resend in English</pre>
         <p class="annotation">Three misparses on one topic and both parties stay in plain English. The failure is logged as lexicon-design feedback.</p>
       </div>
     </div>
@@ -557,10 +567,10 @@ fix @1 add:handshake  // 3 tokens for 9
   <div class="container">
     <div class="demo-block">
       <h2>Status</h2>
-      <p>v0.1.0 draft. The dual-tokenizer audit is complete. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, has not run yet. If retries eat the savings, the spec says the design has failed. Read the open questions in the spec.</p>
+      <p>Grammar v0.3 current; dual-tokenizer audit complete. A reference toolchain ships in the repo: a Tokenese-to-English translator, a deterministic per-pair conformance checker with a CLI, and an MCP server (parse, validate, to-english, check-pair, score-pair). 121 of 121 tests pass. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, remains the open downstream measurement. If retries eat the savings, the spec says the design has failed.</p>
       <div class="cta-row" style="margin-top: 1.5rem;">
-        <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" class="btn btn-primary" target="_blank" rel="noopener">Read the spec</a>
-        <a href="https://github.com/snapsynapse/tokenese/blob/main/INTENT.md" class="btn btn-secondary" target="_blank" rel="noopener">Design invariants</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md" class="btn btn-primary" target="_blank" rel="noopener">Read the v0.3 grammar</a>
+        <a href="https://github.com/snapsynapse/tokenese/tree/main/tools/translator" class="btn btn-secondary" target="_blank" rel="noopener">Tools and checker</a>
       </div>
     </div>
 
@@ -568,8 +578,8 @@ fix @1 add:handshake  // 3 tokens for 9
       <strong>Canonical reference.</strong> This page is the authoritative home of the
       Tokenese specification. Cross-posts on other platforms are derived from this source
       and should cite <a href="https://tokenese.org/">tokenese.org</a> as canonical.
-      Last substantive revision: <time datetime="2026-06-12">2026-06-12</time>.
-      <a href="https://github.com/snapsynapse/tokenese/commits/main/spec.md" target="_blank" rel="noopener">Revision history &rarr;</a>
+      Last substantive revision: <time datetime="2026-06-17">2026-06-17</time> (grammar v0.3).
+      <a href="https://github.com/snapsynapse/tokenese/commits/main" target="_blank" rel="noopener">Revision history &rarr;</a>
     </aside>
   </div>
 </section>
@@ -579,16 +589,18 @@ fix @1 add:handshake  // 3 tokens for 9
   <div class="container">
     <div class="footer-grid">
       <div class="footer-meta">
-        <p>Tokenese v0.1.0 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
+        <p>Tokenese grammar v0.3 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
         <p>A <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a> open spec by <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>.</p>
         <p style="margin-top: 0.5rem;">See also: <a href="https://turnfile.work/" target="_blank" rel="noopener">Turnfile</a> &middot; <a href="https://gracefulboundaries.dev/" target="_blank" rel="noopener">Graceful Boundaries</a> &middot; <a href="https://hardguard25.com/" target="_blank" rel="noopener">HardGuard25</a></p>
       </div>
       <div class="footer-links">
         <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub</a>
         <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" target="_blank" rel="noopener">Specification</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md" target="_blank" rel="noopener">Grammar v0.3</a>
+        <a href="https://github.com/snapsynapse/tokenese/tree/main/tools/translator" target="_blank" rel="noopener">Tools</a>
         <a href="https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md" target="_blank" rel="noopener">Conformance</a>
         <a href="https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
-        <a href="https://github.com/snapsynapse/tokenese/commits/main/spec.md" target="_blank" rel="noopener">Revisions</a>
+        <a href="/.well-known/assistant-guide.txt">Assistant guide</a>
         <a href="/llms.txt">llms.txt</a>
       </div>
     </div>

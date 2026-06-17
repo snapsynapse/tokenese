@@ -16,14 +16,20 @@ Tokenese is an open specification, not a product. It defines a wire grammar, a c
 
 ## Status
 
-v0.1.0 draft. Dual-tokenizer audit complete. The validating live A/B experiment (tokens, task success, misparse-retry rate across model families) has not run yet.
+Grammar v0.3 current (additive over v0.2; spec.md holds the foundational wire grammar). Dual-tokenizer audit complete; reference translator, deterministic checker, CLI, and MCP server ship in the repo (121/121 tests pass). The validating live A/B experiment (tokens, task success, misparse-retry rate across model families) has not run yet.
 
 ## Key files
 
-- Specification: https://github.com/snapsynapse/tokenese/blob/main/spec.md
+- Specification (foundational wire grammar): https://github.com/snapsynapse/tokenese/blob/main/spec.md
+- Grammar v0.3 (current, additive over v0.2): https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md
 - Design invariants and intent: https://github.com/snapsynapse/tokenese/blob/main/INTENT.md
 - Conformance claim classes: https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md
+- Reference toolchain (translator, checker, CLI, MCP server): https://github.com/snapsynapse/tokenese/tree/main/tools/translator
 - Changelog: https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md
+
+## Assistant guide
+
+- [Assistant Guide](https://tokenese.org/.well-known/assistant-guide.txt): bounded, approval-gated guide for an assistant to install Tokenese and reproduce the lexicon audit. GuideCheck human-verifiable-assistant-guide profile 0.6.0, Level 4 (sidecar manifest at https://tokenese.org/.well-known/assistant-guide-manifest.txt). Verify before acting: https://guidecheck.org/verify
 
 ## Links
 

@@ -5,6 +5,7 @@ A token-native interlingua for LLM-to-LLM communication. More compressed AND mor
 Canonical home: https://tokenese.org/
 Spec: [spec.md](spec.md) v0.3 (current). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3.md).
 Vision: [INTENT.md](INTENT.md)
+Assistant guide: [assistant-guide.txt](assistant-guide.txt) (GuideCheck human-verifiable-assistant-guide profile 0.6.0, Level 4): a bounded, approval-gated guide for an assistant to install Tokenese and reproduce the audit. Verify before acting at https://guidecheck.org/verify
 
 ## Why
 
@@ -66,4 +67,4 @@ Code: MIT. Specification text: CC BY 4.0. See [LICENSE](LICENSE) and [LICENSE-SP
 
 Coding agents should read [AGENTS.md](AGENTS.md) first.
 
-Last updated: 2026-06-16
+Last updated: 2026-06-17
