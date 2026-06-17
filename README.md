@@ -43,6 +43,10 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py
 
 v0.1.0 draft. The validating experiment (live A/B between Claude and Codex measuring tokens, task success, and misparse-retry rate) has not run yet. See spec.md open questions.
 
+## Contributing
+
+Contributions welcome; every change passes the admission criteria in [INTENT.md](INTENT.md). See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: claims must be measured, not asserted.
+
 ## License
 
 Code: MIT. Specification text: CC BY 4.0. See [LICENSE](LICENSE) and [LICENSE-SPEC](LICENSE-SPEC).
