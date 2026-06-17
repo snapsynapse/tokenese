@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Tokenese: a token-native interlingua for LLMs</title>
+  <meta name="description" content="An open spec for a token-native interlingua for LLMs: denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta name="keywords" content="tokenese, LLM interlingua, token-native language, agent-to-agent communication, tokenizer audit, machine-to-machine language, LLM compression, agent protocol, dense protocol, llm-to-llm">
+  <meta name="author" content="Sam Rogers">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="theme-color" content="#5EE6C4">
+  <link rel="canonical" href="https://tokenese.org/">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="mask-icon" href="/favicon.svg" color="#5EE6C4">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="alternate" type="text/plain" href="https://tokenese.org/llms.txt" title="LLM-readable summary">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Tokenese">
+  <meta property="og:title" content="Tokenese">
+  <meta property="og:description" content="A token-native interlingua for LLMs. Denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta property="og:url" content="https://tokenese.org/">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-06-12T00:00:00Z">
+  <meta property="article:modified_time" content="2026-06-12T00:00:00Z">
+  <meta property="article:author" content="Sam Rogers">
+  <meta property="article:publisher" content="https://paice.work/">
+  <meta property="article:section" content="Open Specs">
+  <meta property="article:tag" content="tokenese">
+  <meta property="article:tag" content="llm-interlingua">
+  <meta property="article:tag" content="tokenizer-audit">
+  <meta property="article:tag" content="agent-communication">
+  <meta property="article:tag" content="token-native">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tokenese">
+  <meta name="twitter:description" content="A token-native interlingua for LLMs. Denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta name="twitter:site" content="@snapsynapse">
+  <meta name="twitter:creator" content="@snapsynapse">
+
+  <link rel="me" href="https://github.com/snapsynapse">
+  <link rel="me" href="https://www.linkedin.com/in/samrogers">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Tokenese",
+    "alternativeHeadline": "A token-native interlingua for LLM-to-LLM communication",
+    "description": "Tokenese is an open specification for a token-native interlingua: a language LLMs use to communicate with each other that is denser and more precise than any human language, while remaining plain text that crosses any wire and any vendor boundary. Every lexicon element is admitted by empirical tokenizer audit.",
+    "inLanguage": "en",
+    "url": "https://tokenese.org/",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://tokenese.org/" },
+    "datePublished": "2026-06-12",
+    "dateModified": "2026-06-12",
+    "author": {
+      "@type": "Person",
+      "name": "Sam Rogers",
+      "url": "https://paice.work/",
+      "affiliation": { "@type": "Organization", "name": "PAICE.work PBC" }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PAICE.work PBC",
+      "url": "https://paice.work/",
+      "logo": { "@type": "ImageObject", "url": "https://paice.work/logo.png" }
+    },
+    "keywords": ["tokenese", "LLM interlingua", "token-native language", "agent-to-agent communication", "tokenizer audit", "machine-to-machine language", "LLM compression", "agent protocol"],
+    "isPartOf": { "@type": "CreativeWork", "name": "PAICE.work Open Specs" },
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "copyrightHolder": { "@type": "Organization", "name": "PAICE.work PBC" },
+    "copyrightYear": 2026,
+    "citation": [
+      { "@type": "WebPage", "name": "Graceful Boundaries", "url": "https://gracefulboundaries.dev/" },
+      { "@type": "WebPage", "name": "Turnfile", "url": "https://turnfile.work/" },
+      { "@type": "WebPage", "name": "Agora protocol", "url": "https://arxiv.org/abs/2410.11905" },
+      { "@type": "WebPage", "name": "Gibberlink", "url": "https://github.com/PennyroyalTea/gibberlink" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "Tokenese",
+    "alternateName": ["tokenese", "token-native interlingua"],
+    "description": "A token-native interlingua for LLM-to-LLM communication whose lexicon is admitted by empirical tokenizer audit: every element costs one token, worst case, in every certified tokenizer. Plain text on the wire, no embeddings or latent channels.",
+    "url": "https://tokenese.org/",
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "PAICE.work Open Specs",
+      "url": "https://paice.work/"
+    },
+    "sameAs": [
+      "https://github.com/snapsynapse/tokenese"
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --bg-alt: #1a1d27;
+      --surface2: #242836;
+      --text: #e1e4ed;
+      --text-muted: #8b90a0;
+      --accent: #5EE6C4;
+      --accent-hover: #8ff2dc;
+      --border: #2e3345;
+      --green: #4ecb71;
+      --red: #ff6b6b;
+      --code-bg: #0b0d13;
+      --code-text: #e1e4ed;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      --max-width: 960px;
+      --radius: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.5rem 1rem;
+      z-index: 100;
+    }
+    .skip-link:focus { left: 0; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1.5rem; }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    nav .logo svg { color: var(--accent-hover); flex: 0 0 auto; }
+    nav .logo:hover svg { color: var(--accent); }
+    nav .links { display: flex; align-items: center; gap: 1.5rem; font-size: 0.9rem; }
+    nav .links a { color: var(--text-muted); }
+    nav .links a:hover { color: var(--text); text-decoration: none; }
+
+    .gh-star {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-alt);
+      color: var(--text) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: border-color 0.1s ease, transform 0.05s ease;
+    }
+    .gh-star:hover {
+      border-color: var(--accent);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    .gh-star svg { flex: 0 0 auto; color: #eab308; }
+    .gh-star span { white-space: nowrap; }
+
+    .byline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0.75rem 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.9rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .byline .sep { color: var(--border); }
+    .byline a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+    .byline a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover); }
+    .byline .version {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: var(--bg-alt);
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    .canonical-note {
+      margin-top: 2.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .canonical-note strong { color: var(--text); }
+    .canonical-note a { text-decoration: underline; text-underline-offset: 2px; }
+
+    section { padding: 4rem 0; }
+    section.alt { background: var(--bg-alt); }
+
+    h1 { font-size: 2.75rem; line-height: 1.15; letter-spacing: -0.02em; font-weight: 800; }
+    h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.01em; }
+    h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+    p { margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    .hero { padding: 5rem 0 4rem; text-align: center; }
+    .hero h1 { margin-bottom: 1rem; }
+    .hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+    }
+    .hero .hook {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .charset {
+      font-family: var(--mono);
+      font-size: 1.35rem;
+      letter-spacing: 0.35em;
+      text-align: center;
+      padding: 1.75rem 1rem 1.75rem 1.5rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--accent-hover);
+      margin: 1rem 0 1rem;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+    .charset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      text-align: left;
+    }
+    .pillar {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-alt);
+    }
+    .pillar h3 { color: var(--accent); font-size: 1rem; }
+    .pillar p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0; }
+
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { background: var(--accent-hover); text-decoration: none; color: var(--bg); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-hover);
+      border: 1px solid var(--accent);
+    }
+    .btn-secondary:hover { background: var(--accent); color: var(--bg); text-decoration: none; }
+
+    .code-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .code-block { text-align: left; }
+    .code-block h3 { font-size: 0.95rem; margin-bottom: 0.75rem; }
+    .code-block .annotation {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+    .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .btn-primary:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      border: 1px solid var(--border);
+    }
+    code { font-family: var(--mono); font-size: 0.88em; color: var(--accent); }
+
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    th { font-weight: 600; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    td.sig {
+      font-family: var(--mono);
+      color: var(--accent);
+      width: 80px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .demo-block { text-align: center; max-width: 760px; margin: 0 auto; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-meta p { margin-bottom: 0.25rem; }
+    .footer-meta a { text-decoration: underline; text-underline-offset: 2px; }
+    .footer-links a { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border); }
+    .footer-links a:hover { text-decoration-color: var(--accent-hover); }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .hero { padding: 3rem 0 2.5rem; }
+      .charset { font-size: 0.8rem; letter-spacing: 0.18em; padding: 1.1rem 0.25rem 1.1rem 0.45rem; }
+      .pillars { grid-template-columns: 1fr; }
+      .code-grid { grid-template-columns: 1fr; }
+      nav .links { display: none; }
+      nav .links.mobile-compact { display: flex; gap: 0.75rem; }
+      .footer-grid { flex-direction: column; }
+      pre { font-size: 0.75rem; }
+    }
+    @media (max-width: 520px) {
+      nav .links.mobile-compact a:not(.gh-star) { display: none; }
+      nav .container { gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<nav aria-label="Main navigation">
+  <div class="container">
+    <a href="/" class="logo" aria-label="Tokenese home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <path d="M13 7 L6 16 L13 25" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="16" r="3" fill="currentColor"/>
+        <path d="M19 7 L26 16 L19 25" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Tokenese</span>
+    </a>
+    <div class="links mobile-compact">
+      <a href="#why">Why</a>
+      <a href="#audit">The audit</a>
+      <a href="#grammar">Grammar</a>
+      <a href="https://github.com/snapsynapse/tokenese" class="gh-star" target="_blank" rel="noopener" aria-label="Star snapsynapse/tokenese on GitHub">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+        </svg>
+        <span>Star on GitHub</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+<section class="hero">
+  <div class="container">
+    <h1>Denser than any language. Measured in tokens.</h1>
+    <p class="subtitle">Tokenese is an open spec for a token-native interlingua: the language LLMs use to talk to each other, more compressed and more precise than human language, in plain text that crosses any wire and any vendor.</p>
+    <p class="byline">
+      By <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>, <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a>
+      <span class="sep" aria-hidden="true">&middot;</span>
+      Published <time datetime="2026-06-12">June 12, 2026</time>
+      <span class="sep" aria-hidden="true">&middot;</span>
+      Updated <time datetime="2026-06-12">June 12, 2026</time>
+      <span class="sep" aria-hidden="true">&middot;</span>
+      <span class="version">v0.1.0 draft</span>
+      <span class="sep" aria-hidden="true">&middot;</span>
+      <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC&nbsp;BY&nbsp;4.0</a>
+    </p>
+    <p class="hook">LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. Tokenese brings color to machine-to-machine communication: richer exchanges, compressed into a smaller, token-native format.</p>
+
+    <h2 class="sr-only">Example exchange</h2>
+    <div class="code-grid">
+      <div class="code-block">
+        <h3>English, about 55 tokens</h3>
+<pre>Could you check whether the deploy of the
+edge function to the Supabase project
+succeeded, and if it failed, look at the
+logs and tell me the first error with a
+timestamp?</pre>
+      </div>
+      <div class="code-block">
+        <h3>Tokenese, about 20 tokens</h3>
+<pre>@1=supabase edge fn deploy
+get? @1 status
+if fail -> get logs first-error +time</pre>
+        <p class="annotation">Same request. Lower ambiguity: slots force which project, which ordering, to be bound or explicitly defaulted.</p>
+      </div>
+    </div>
+
+    <div class="cta-row" style="margin-top: 2.5rem;">
+      <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" class="btn btn-primary" target="_blank" rel="noopener">Read the specification</a>
+      <a href="https://github.com/snapsynapse/tokenese" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="why">
+  <div class="container">
+    <h2>Why a designed language</h2>
+    <p>Models inherit all the overhead of human language and none of its benefits. The bet behind Tokenese is that accuracy and compression are not a tradeoff here: natural language sits so far from the efficient frontier that a designed language can win on both axes at once. Tokenese is not a pidgin. A pidgin trades precision for ease of acquisition; Tokenese trades acquisition cost, it must be specified and learned, for precision and density.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Token-space only</h3>
+        <p>Plain text crosses the wire; each party tokenizes independently. No embeddings, no KV-cache sharing, no latent channels. Security and cross-vendor portability both require it.</p>
+      </div>
+      <div class="pillar">
+        <h3>Audited lexicon</h3>
+        <p>A function-vocabulary symbol enters only if it costs one token, worst case, in every certified tokenizer. Content words are admitted on tokens-per-meaning advantage. Claims are reproducible.</p>
+      </div>
+      <div class="pillar">
+        <h3>Self-repairing</h3>
+        <p>A dedicated misparse signal and a plain-English escape hatch are mandatory. Misparse-retry rate is the metric that validates or kills the whole scheme.</p>
+      </div>
+    </div>
+
+    <p>Compression comes from structure, not glyphs. An empirical finding from the audit: common English words are already optimal tokens, and exotic Unicode usually is not. The savings come from eliminating function-word syntax, anaphora, and repeated referents, not from substituting symbols for words.</p>
+  </div>
+</section>
+
+<section id="audit">
+  <div class="container">
+    <h2>Every word earns its place</h2>
+    <p>No element ships unaudited. The closed function vocabulary, the sigils and operators below, must cost one token worst case (bare and space-prefixed) in every tokenizer the spec certifies. The current audit covers OpenAI <code>o200k_base</code> and the Anthropic count-tokens API. New tokenizer columns are additive: they may shrink the admissible alphabet, never silently expand it.</p>
+
+    <div class="charset" role="img" tabindex="0" aria-label="Audited single-token ASCII sigils: at, hash, dollar, percent, ampersand, asterisk, plus, minus, slash, pipe, tilde, bang, question, caret, underscore, equals, less-than, greater-than, colon, semicolon, period, comma">@ # $ % &amp; * + - / | ~ ! ? ^ _ = &lt; &gt; : ; . ,</div>
+    <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 2rem;">22 ASCII sigils, plus 12 audited digraphs, 8 Unicode survivors, and a 30-word core verb set. Items that cost 2+ tokens on either side (<code>!=</code>, <code>&gt;=</code>, <code>]]</code>, most Greek, all CJK, all emoji) are excluded by the audit, not by taste.</p>
+
+    <h3 style="margin-top: 1rem;">Reproduce it</h3>
+    <p>The audit is the spec's first testable claim class. Anyone can rerun it offline against the named tokenizers:</p>
+<pre>python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+.venv/bin/python audit_symbols.py            # OpenAI o200k_base + cl100k_base
+ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py</pre>
+  </div>
+</section>
+
+<section class="alt" id="grammar">
+  <div class="container">
+    <h2>The grammar in one screen</h2>
+    <p>One statement per line, verb first, keyed slots. No articles, no copulas, no hedges. Modality is expressed only through <code>must may can</code> and an explicit confidence slot. A first use binds a referent to the symbol table; every later use references it.</p>
+
+    <table>
+      <thead>
+        <tr><th>Sigil</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="sig">@N</td><td>symbol-table reference (N = integer)</td></tr>
+        <tr><td class="sig">=</td><td>binding (definition)</td></tr>
+        <tr><td class="sig">-&gt;</td><td>causes / yields / then</td></tr>
+        <tr><td class="sig">=&gt;</td><td>implies / therefore</td></tr>
+        <tr><td class="sig">::</td><td>type or scope qualifier</td></tr>
+        <tr><td class="sig">?</td><td>query marker (op suffix: <code>get?</code>)</td></tr>
+        <tr><td class="sig">^N</td><td>confidence slot, 0-9 scale (<code>^7</code> = 0.7)</td></tr>
+        <tr><td class="sig">//</td><td>comment to humans, ignored by protocol</td></tr>
+        <tr><td class="sig">??</td><td>misparse: resend the referenced line in plain English</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-grid">
+      <div class="code-block">
+        <h3>Handshake</h3>
+<pre>A: tokenese? v:0.1
+B: tokenese ok v:0.1</pre>
+        <p class="annotation">Confirm capability before dropping natural language. Exit any time with <code>plain</code>, re-enter with <code>dense</code>.</p>
+      </div>
+      <div class="code-block">
+        <h3>Symbol table and repair</h3>
+<pre>@1=~/Git/tokenese/spec.md
+fix @1 add:handshake  // 3 tokens for 9
+?? @1                 // that referent misparsed</pre>
+        <p class="annotation">Three misparses on one topic and both parties stay in plain English. The failure is logged as lexicon-design feedback.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="container">
+    <div class="demo-block">
+      <h2>Status</h2>
+      <p>v0.1.0 draft. The dual-tokenizer audit is complete. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, has not run yet. If retries eat the savings, the spec says the design has failed. Read the open questions in the spec.</p>
+      <div class="cta-row" style="margin-top: 1.5rem;">
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" class="btn btn-primary" target="_blank" rel="noopener">Read the spec</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/INTENT.md" class="btn btn-secondary" target="_blank" rel="noopener">Design invariants</a>
+      </div>
+    </div>
+
+    <aside class="canonical-note" role="note">
+      <strong>Canonical reference.</strong> This page is the authoritative home of the
+      Tokenese specification. Cross-posts on other platforms are derived from this source
+      and should cite <a href="https://tokenese.org/">tokenese.org</a> as canonical.
+      Last substantive revision: <time datetime="2026-06-12">2026-06-12</time>.
+      <a href="https://github.com/snapsynapse/tokenese/commits/main/spec.md" target="_blank" rel="noopener">Revision history &rarr;</a>
+    </aside>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-meta">
+        <p>Tokenese v0.1.0 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
+        <p>A <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a> open spec by <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>.</p>
+        <p style="margin-top: 0.5rem;">See also: <a href="https://turnfile.work/" target="_blank" rel="noopener">Turnfile</a> &middot; <a href="https://gracefulboundaries.dev/" target="_blank" rel="noopener">Graceful Boundaries</a> &middot; <a href="https://hardguard25.com/" target="_blank" rel="noopener">HardGuard25</a></p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/spec.md" target="_blank" rel="noopener">Specification</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md" target="_blank" rel="noopener">Conformance</a>
+        <a href="https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+        <a href="https://github.com/snapsynapse/tokenese/commits/main/spec.md" target="_blank" rel="noopener">Revisions</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Tokenese",
+  "short_name": "Tokenese",
+  "description": "A token-native interlingua for LLM-to-LLM communication.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#5EE6C4",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# Tokenese
+
+A token-native interlingua for LLM-to-LLM communication: denser and more precise than any human language, in plain text that crosses any wire and any vendor boundary. Every lexicon element is admitted by empirical tokenizer audit.
+
+## What it is
+
+Tokenese is an open specification, not a product. It defines a wire grammar, a closed function vocabulary of sigils and operators, an in-band symbol table, a capability handshake, and a self-repair protocol. The bet: natural language sits so far from the efficient frontier that a designed language can be both more compressed and more accurate at once.
+
+## Key concepts
+
+- Token-space only: plain text on the wire, each party tokenizes independently. No embeddings, KV-cache sharing, or latent channels (security and cross-vendor portability require this).
+- Tokenizer-audited lexicon: function-vocabulary symbols cost 1 token worst case (bare and space-prefixed) in every certified tokenizer; content words admitted on tokens-per-meaning advantage. Current audit: OpenAI o200k_base + Anthropic count-tokens.
+- Compression from structure, not glyphs: savings come from eliminating function-word syntax, anaphora, and repeated referents.
+- Self-repairing: the `??` misparse signal and a plain-English escape hatch are mandatory. Misparse-retry rate is the metric that validates or kills the design.
+- Human-auditable: a competent human with the one-page audit card can follow any conforming transcript.
+
+## Status
+
+v0.1.0 draft. Dual-tokenizer audit complete. The validating live A/B experiment (tokens, task success, misparse-retry rate across model families) has not run yet.
+
+## Key files
+
+- Specification: https://github.com/snapsynapse/tokenese/blob/main/spec.md
+- Design invariants and intent: https://github.com/snapsynapse/tokenese/blob/main/INTENT.md
+- Conformance claim classes: https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md
+- Changelog: https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md
+
+## Links
+
+- Canonical home: https://tokenese.org/
+- Repository: https://github.com/snapsynapse/tokenese
+- Sibling specs: https://turnfile.work/ , https://gracefulboundaries.dev/ , https://hardguard25.com/
+- Prior art: Agora protocol (https://arxiv.org/abs/2410.11905), Gibberlink (https://github.com/PennyroyalTea/gibberlink)
+
+## License
+
+Specification text: CC BY 4.0. Code (audit scripts): MIT.
