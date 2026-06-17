@@ -66,7 +66,7 @@ Tools exposed:
 `tokenese-check` is the deterministic per-pair scorer for the TKAB
 mini-pilot (PRD-027 §W1+L1). It consumes JSON pair files produced by the
 A/B harness and emits per-pair JSON results conformant to schema
-`tkab-check-1.0`.
+`tkab-check-1.1`.
 
     tokenese-check --pair tkab/fixtures/TKAB-W1.pair.json --pretty
     tokenese-check --batch tkab/fixtures/ --out results/
@@ -75,6 +75,22 @@ The checker does not generate or repair Tokenese. It reports
 misparses, repair events, source-authority conflicts, and outcome
 according to PRD-027 R5.3/R5.4 and R6.3. Outcomes are a closed
 enumeration documented in `tkab/AUDIT_CARD.md`.
+
+## Grammar v0.3
+
+The translator and checker support grammar **v0.3** — an additive, fully
+backward-compatible bump over v0.2. An artifact opts in with a `^grammar:v0.3`
+header on its first non-comment line; without it the artifact is parsed and
+scored exactly as v0.2 (the 71 v0.2 tests pass unchanged).
+
+v0.3 adds: closed plain regions (`^plain<<<` … `>>>^plain`), a declared
+conformance level (`^declare:level=L2`), a four-way repair sub-taxonomy,
+negation (`!@h`) and hedge (`@h?`) operators, causal sigils (`>>>` sequence,
+`*>>` stipulated causation, `?>>` hypothesized causation), raw source quotes
+(`"""…"""`), a centralized handle lexer, grammar-version dispatch, and line
+comments (`#`). The checker schema bumps to `tkab-check-1.1` and gains two
+outcomes (`fail-unsupported-causation`, `fail-declared-level-mismatch`). See
+[`GRAMMAR-v0.3.md`](../../GRAMMAR-v0.3.md) for the full delta.
 
 ## Architecture
 

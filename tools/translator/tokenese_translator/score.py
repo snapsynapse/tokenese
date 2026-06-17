@@ -56,7 +56,7 @@ import os
 from typing import Any, Dict, List, Optional
 
 from .misparse import classify_transcript
-from .parser import Unparseable, parse_transcript
+from .parser import Unparseable, detect_grammar, parse_transcript
 from .readback import diff_readback
 from .renderer import render_transcript
 from .session import Session
@@ -90,7 +90,7 @@ def _sha_from_sums(src: str, filename: str) -> Optional[str]:
     return None
 
 
-def _provenance() -> Dict[str, Any]:
+def _provenance(grammar_detected: str = "v0.2") -> Dict[str, Any]:
     base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
     src = os.path.join(base, "source_provenance")
     # PRD-027 and the ab-suite spec are not bundled in this repo. If a future
@@ -114,7 +114,9 @@ def _provenance() -> Dict[str, Any]:
         "intent_sha256": _sha256_file(os.path.join(src, "INTENT.md")),
         "conformance_sha256": _sha256_file(os.path.join(src, "CONFORMANCE.md")),
         "lexicon_sha256": _sha256_file(os.path.join(base, "anthropic_costs.json")),
-        "grammar_target": "v0.2 (DESIGN.md \u00a77) over v0.1 (spec.md)",
+        "grammar_target": "v0.3 (GRAMMAR-v0.3.md) over v0.2 (DESIGN.md \u00a77) over v0.1 (spec.md)",
+        "grammar_version_supported": "v0.3",
+        "grammar_version_detected": grammar_detected,
         "prd_027_sha": prd_027_sha,
         "ab_suite_sha": ab_suite_sha,
     }
@@ -167,9 +169,10 @@ def score_pair(
         "o200k_ratio": _safe_ratio(tk_tok["o200k"], en_tok["o200k"]),
     }
 
+    grammar_detected = detect_grammar(tokenese)
     payload: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
-        "provenance": _provenance(),
+        "provenance": _provenance(grammar_detected),
         "english": {"text": english, "tokens": en_tok},
         "tokenese": {
             "text": tokenese,

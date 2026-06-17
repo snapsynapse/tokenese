@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tokenese-translator"
-version = "0.1.0"
-description = "Deterministic Tokenese -> English translator with MCP service. Targets spec v0.2 (DESIGN.md governs)."
+version = "0.3.0"
+description = "Deterministic Tokenese -> English translator with MCP service. Targets grammar v0.3 (GRAMMAR-v0.3.md governs; v0.2 backward-compatible)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "See repository LICENSE / LICENSE-SPEC" }

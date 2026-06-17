@@ -3,7 +3,7 @@
 A token-native interlingua for LLM-to-LLM communication. More compressed AND more precise than any human language, measured in real tokenizer tokens, not characters.
 
 Canonical home: https://tokenese.org/
-Spec: [spec.md](spec.md) v0.1.0 (draft)
+Spec: [spec.md](spec.md) v0.3 (current). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3.md).
 Vision: [INTENT.md](INTENT.md)
 
 ## Why
@@ -23,13 +23,24 @@ English (~55 tokens):
 
 > Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?
 
-Tokenese (~20 tokens):
+Tokenese v0.3 (~22 tokens):
 
 ```
-@1=supabase edge fn deploy
-get? @1 status
-if fail -> get logs first-error +time
+^grammar:v0.3
+^declare:level=L2
+@svc := supabase/edge-fn
+@svc.deploy >>> @svc.status
+!@svc.ok? *>> get @svc.logs.first-error +ts
 ```
+
+Hand-authored to v0.3 grammar; verified by the deterministic checker at tools/translator/tkab/.
+
+## Tools
+
+- **Translator + scorer:** [tools/translator/](tools/translator/) — base Tokenese→English translator (originally built for Turnfile) plus the deterministic TKAB per-pair scorer for the W1+L1 mini-pilot.
+- **CLI:** `tokenese-check --pair fixture.json --pretty` after `pip install -e tools/translator`.
+- **MCP server:** `python -m tokenese_translator.mcp_server` exposes parse / validate / to-english / check-pair / score-pair tools.
+- **Conformance:** the checker reports mismatches (R5.3); it never generates or repairs. See [CONFORMANCE.md](CONFORMANCE.md).
 
 ## Reproduce the audit
 
@@ -41,7 +52,7 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py
 
 ## Status
 
-v0.1.0 draft. The validating experiment (live A/B between Claude and Codex measuring tokens, task success, and misparse-retry rate) has not run yet. See spec.md open questions.
+Grammar v0.3 current. The base translator passes 59 tests; the TKAB deterministic scorer for the W1+L1 mini-pilot passes 12 outcome tests; grammar-v0.3 features pass 50 additional tests. 121/121 total. The validating A/B experiment between Claude and Codex remains the open downstream measurement — see [tools/translator/tkab/AUDIT_CARD.md](tools/translator/tkab/AUDIT_CARD.md).
 
 ## Contributing
 
@@ -51,4 +62,8 @@ Contributions welcome; every change passes the admission criteria in [INTENT.md]
 
 Code: MIT. Specification text: CC BY 4.0. See [LICENSE](LICENSE) and [LICENSE-SPEC](LICENSE-SPEC).
 
-Last updated: 2026-06-12
+## For agents
+
+Coding agents should read [AGENTS.md](AGENTS.md) first.
+
+Last updated: 2026-06-16

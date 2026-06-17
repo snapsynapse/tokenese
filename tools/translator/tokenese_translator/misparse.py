@@ -40,6 +40,7 @@ from .parser import (
     Binding, Handshake, ModeSwitch, Node, Repair, Slot, Statement,
     parse_transcript,
 )
+from .handles import consume_handle
 from .lexicon import ALL_OPS, EVIDENTIALS, CLOSED_VOCAB
 
 
@@ -236,24 +237,40 @@ def classify_transcript(text: str) -> MisparseReport:
 
 
 def _collect_at_refs(s: Statement) -> List[str]:
+    """Collect canonical handle names referenced anywhere in a statement.
+
+    Uses the centralized handle lexer (``consume_handle``) so the charset and
+    the v0.3 negation/hedge sigils are recognized in exactly one place. The
+    leading ``!`` / trailing ``?`` decorations do not change the canonical
+    name, so ``!@x?`` resolves to the same ``x`` as a bare ``@x``.
+    """
     refs: List[str] = []
+
     def harvest(val):
-        if isinstance(val, str):
-            j = 0
-            while j < len(val):
-                if val[j] == "@" and j + 1 < len(val) and (val[j + 1].isalnum() or val[j + 1] == "_"):
-                    k = j + 1
-                    while k < len(val) and (val[k].isalnum() or val[k] in ("_", "-")):
-                        k += 1
-                    refs.append(val[j + 1 : k])
-                    j = k
-                else:
-                    j += 1
+        if not isinstance(val, str):
+            return
+        j = 0
+        while j < len(val):
+            # consume_handle accepts an optional leading '!'; probe at '@' and
+            # also one position back so '!@h' is recognized from the '@'.
+            if val[j] == "@":
+                probe = j - 1 if (j > 0 and val[j - 1] == "!") else j
+                parsed = consume_handle(val, probe)
+                if parsed is not None:
+                    handle, end = parsed
+                    refs.append(handle.name)
+                    j = end
+                    continue
+            j += 1
+
     if s.target:
         harvest(s.target)
     for slot in s.slots:
         if isinstance(slot.value, str):
             harvest(slot.value)
+        elif isinstance(slot.value, tuple):
+            for v in slot.value:
+                harvest(v)
         elif isinstance(slot.value, list):
             for v in slot.value:
                 if isinstance(v, tuple) and v:

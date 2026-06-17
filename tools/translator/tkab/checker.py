@@ -32,15 +32,28 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from tokenese_translator.parser import (
     Binding,
+    Comment,
+    GrammarVersion,
+    LevelDeclaration,
     ModeSwitch,
+    PlainBlock,
     Repair,
+    SourceQuote,
     Statement,
     Unparseable,
+    detect_grammar,
     parse_transcript,
 )
 from tokenese_translator.score import score_pair
 
-OUTPUT_SCHEMA_VERSION = "tkab-check-1.0"
+OUTPUT_SCHEMA_VERSION = "tkab-check-1.1"
+
+# Causal-claim cue words for the `*>>` source-corroboration heuristic.
+_CAUSAL_CUES = re.compile(
+    r"(because|causes|caused\s+by|due\s+to|leads?\s+to|results?\s+in|->)",
+    re.IGNORECASE,
+)
+_CORROBORATION_WINDOW = 80  # chars between the two labels and a cue word
 
 # Lexical markers that indicate inference/derivation in dense form. Their
 # presence in a non-plain clone for an expected-to-LOSE case means the model
@@ -68,10 +81,23 @@ def _nodes(tokenese: str):
 
 
 def _has_plain_mode(nodes) -> bool:
-    return any(isinstance(n, ModeSwitch) and n.mode == "plain" for n in nodes)
+    """True when the clone enters plain English in any v0.3 or legacy form.
+
+    v0.3 closed plain regions (``PlainBlock``) and the legacy one-way
+    ``^mode:plain`` / ``plain`` toggle both count (brief Tier 1 #1)."""
+    return any(
+        isinstance(n, PlainBlock)
+        or (isinstance(n, ModeSwitch) and n.mode == "plain")
+        for n in nodes
+    )
 
 
 def _dense_statements(nodes) -> List[Statement]:
+    """Statements outside any plain span (legacy toggle or closed block).
+
+    ``PlainBlock`` content is captured raw and never produces statements, so
+    it is excluded automatically; the legacy ``plain`` toggle is still honored
+    for backward compatibility."""
     in_plain = False
     out: List[Statement] = []
     for n in nodes:
@@ -86,11 +112,13 @@ def _dense_statements(nodes) -> List[Statement]:
 
 
 def _plain_line_numbers(nodes) -> set:
-    """1-based line numbers that fall inside a ``plain`` mode region.
+    """1-based line numbers inside a legacy ``plain`` mode region.
 
     Lines after a ``plain`` switch are natural English by design and are not
     scored for Tokenese conformance: misparse hits there are noise, not signal
-    (the L1-arm refusal path depends on this — see PRD-027 R5.4)."""
+    (the L1-arm refusal path depends on this — see PRD-027 R5.4). v0.3 closed
+    plain regions never reach the misparse classifier (their content is a
+    single ``PlainBlock`` node), so they need no line bookkeeping here."""
     in_plain = False
     out: set = set()
     for i, n in enumerate(nodes, start=1):
@@ -100,6 +128,92 @@ def _plain_line_numbers(nodes) -> set:
         if in_plain:
             out.add(i)
     return out
+
+
+def _plain_blocks(nodes) -> List[Dict[str, Any]]:
+    """Telemetry for v0.3 closed plain regions."""
+    out: List[Dict[str, Any]] = []
+    for n in nodes:
+        if isinstance(n, PlainBlock):
+            out.append(
+                {
+                    "start_line": n.start_line,
+                    "end_line": n.end_line,
+                    "byte_count": len(n.text.encode("utf-8")),
+                }
+            )
+    return out
+
+
+def _comment_lines(nodes) -> List[int]:
+    return [n.line_no for n in nodes if isinstance(n, Comment)]
+
+
+def _declared_level(nodes) -> Optional[str]:
+    for n in nodes:
+        if isinstance(n, LevelDeclaration):
+            return n.level
+    return None
+
+
+def _english_label(handle: str) -> str:
+    """Best-effort English label for a handle name (for source matching).
+
+    Handles are typically kebab/snake identifiers (``billing-api``); the
+    source prose uses the same words with separators normalized to spaces.
+    """
+    return re.sub(r"[-_]+", " ", handle.lstrip("@")).strip().lower()
+
+
+def _causal_events(nodes, source_text: str) -> List[Dict[str, Any]]:
+    """Extract v0.3 causal/sequence events and mark source corroboration.
+
+    ``>>>`` (sequence) and ``?>>`` (hypothesized) are always admissible.
+    ``*>>`` (stipulated) requires the source to corroborate the claim: both
+    operands' English labels must appear within ``_CORROBORATION_WINDOW``
+    characters of a causal cue word."""
+    src_lower = source_text.lower()
+    events: List[Dict[str, Any]] = []
+    for i, n in enumerate(nodes, start=1):
+        if not isinstance(n, Statement):
+            continue
+        for slot in n.slots:
+            if slot.key not in (">>>", "*>>", "?>>"):
+                continue
+            left, right = slot.value if isinstance(slot.value, tuple) else ("", "")
+            kind = {
+                ">>>": "sequence",
+                "*>>": "stipulated_causation",
+                "?>>": "hypothesized_causation",
+            }[slot.key]
+            supported = True
+            if slot.key == "*>>":
+                supported = _source_corroborates(src_lower, left, right)
+            events.append(
+                {
+                    "kind": kind,
+                    "left": left,
+                    "right": right,
+                    "line_no": getattr(n, "_line_no", i),
+                    "supported_by_source": supported,
+                }
+            )
+    return events
+
+
+def _source_corroborates(src_lower: str, left: str, right: str) -> bool:
+    """Heuristic per brief Tier 2 #5: both labels near a causal cue word."""
+    ll = _english_label(left)
+    rl = _english_label(right)
+    if not ll or not rl:
+        return False
+    for m in _CAUSAL_CUES.finditer(src_lower):
+        lo = max(0, m.start() - _CORROBORATION_WINDOW)
+        hi = min(len(src_lower), m.end() + _CORROBORATION_WINDOW)
+        window = src_lower[lo:hi]
+        if ll in window and rl in window:
+            return True
+    return False
 
 
 def _looks_like_derivation(stmt: Statement) -> bool:
@@ -127,18 +241,59 @@ def _looks_like_derivation(stmt: Statement) -> bool:
 
 
 def _repair_events(nodes) -> List[Dict[str, Any]]:
+    """Repair events in the v0.3 schema shape: ``{kind, target, reason, line_no}``.
+
+    The four-way taxonomy (``repair-token``/``repair-statement``/
+    ``repair-handle``/``repair-explained``) is carried on the ``Repair`` node.
+    The ``fail-three-repairs`` rule counts all kinds together, unchanged."""
     events: List[Dict[str, Any]] = []
     for i, n in enumerate(nodes, start=1):
         if isinstance(n, Repair):
             events.append(
                 {
-                    "line_no": i,
-                    "referent": n.referent,
-                    "raw": n.raw,
-                    "comment": n.comment,
+                    "kind": getattr(n, "repair_kind", "repair-statement"),
+                    "target": n.target if n.target is not None else n.referent,
+                    "reason": n.reason,
+                    "line_no": n.line_no or i,
                 }
             )
     return events
+
+
+def _repair_kinds(repair_events: List[Dict[str, Any]]) -> Dict[str, int]:
+    """By-kind aggregate, present even when zero (brief Tier 1 #3)."""
+    counts = {
+        "repair-token": 0,
+        "repair-statement": 0,
+        "repair-handle": 0,
+        "repair-explained": 0,
+    }
+    for ev in repair_events:
+        counts[ev["kind"]] = counts.get(ev["kind"], 0) + 1
+    return counts
+
+
+def _source_quote_conflicts(source_text: str, nodes) -> List[Dict[str, Any]]:
+    """A clone ``SourceQuote`` whose text is absent from the source is a
+    verbatim source-authority conflict (brief Tier 2 #6, case-insensitive
+    substring)."""
+    conflicts: List[Dict[str, Any]] = []
+    src_lower = source_text.lower()
+    for n in nodes:
+        if not isinstance(n, SourceQuote):
+            continue
+        quote = n.text.strip()
+        if quote and quote.lower() not in src_lower:
+            conflicts.append(
+                {
+                    "type": "source_quote_not_in_source",
+                    "clone_quote": quote,
+                    "rule": "PRD-027 R1.5",
+                    "resolution": "source wins; logged as A/B data",
+                    "raw_quote": n.raw,
+                }
+            )
+    return conflicts
 
 
 def _unparseable_lines(nodes) -> List[Dict[str, Any]]:
@@ -214,10 +369,13 @@ def _classify_outcome(
     repair_events: List[Dict[str, Any]],
     source_conflicts: List[Dict[str, Any]],
     readback_diff: Any,
+    unsupported_causation: List[Dict[str, Any]],
+    declared_level: Optional[str],
 ) -> Tuple[str, List[str]]:
     """Return (outcome, notes). Outcomes are stable strings the harness can
-    aggregate on. Decision order follows the PRD-027 W1+L1 ladder (7 steps,
-    first match wins). `arm` is the ab-suite arm label ("W1" | "L1")."""
+    aggregate on. Decision order follows the PRD-027 W1+L1 ladder with the two
+    v0.3 insertions (steps 3.5 and 4.5), first match wins. `arm` is the
+    ab-suite arm label ("W1" | "L1")."""
     notes: List[str] = []
     arm = pair.get("arm", "")
 
@@ -243,12 +401,27 @@ def _classify_outcome(
         )
         return "fail-source-authority-conflict", notes
 
+    # 3.5 (v0.3). Stipulated causation `*>>` without source corroboration.
+    if unsupported_causation:
+        notes.append(
+            f"{len(unsupported_causation)} stipulated `*>>` causation(s) lack source "
+            "corroboration; source is authority (R1.5)."
+        )
+        return "fail-unsupported-causation", notes
+
     # 4. Misparse family hit.
     if misparse_total > 0:
         notes.append(
             f"{misparse_total} misparse hit(s) across families; see misparse_family detail."
         )
         return "fail-misparse", notes
+
+    # 4.5 (v0.3). Declared conformance level must match the achieved level.
+    if declared_level is not None and declared_level != conformance_level:
+        notes.append(
+            f"declared level {declared_level} != achieved level {conformance_level}."
+        )
+        return "fail-declared-level-mismatch", notes
 
     # 5. L1 arm: expected-to-LOSE. Plain exit is the correct outcome (R5.4).
     if arm == "L1":
@@ -302,7 +475,7 @@ def _sha256sums() -> Dict[str, str]:
     return out
 
 
-def checker_provenance() -> Dict[str, Any]:
+def checker_provenance(grammar_detected: str = "v0.2") -> Dict[str, Any]:
     """Provenance for the TKAB checker itself.
 
     Source-document SHAs come from the bundled SHA256SUMS.txt. PRD-027 and the
@@ -316,6 +489,9 @@ def checker_provenance() -> Dict[str, Any]:
 
     return {
         "checker_version": OUTPUT_SCHEMA_VERSION,
+        "tkab_schema_version": OUTPUT_SCHEMA_VERSION,
+        "grammar_version_supported": "v0.3",
+        "grammar_version_detected": grammar_detected,
         "scorer": "perplexity-deterministic-checker",
         "spec_sha": pinned("spec.md"),
         "design_sha": pinned("DESIGN.md"),
@@ -357,16 +533,36 @@ def check_pair(pair: Dict[str, Any], *, live_anthropic: bool = False) -> Dict[st
 
     inner = score_pair(source_text, clone_text, readback=readback, live_anthropic=live_anthropic)
     nodes = _nodes(clone_text)
+    grammar_detected = detect_grammar(clone_text)
 
     plain_mode = _has_plain_mode(nodes)
     dense_stmts = _dense_statements(nodes)
     unparseable = _unparseable_lines(nodes)
     repair_events = _repair_events(nodes)
+    repair_kinds = _repair_kinds(repair_events)
+
+    # Source-authority conflicts come from two heuristics: binding-value
+    # contradictions (v0.2) and verbatim source-quote mismatches (v0.3).
     source_conflicts = _source_authority_conflicts(source_text, nodes)
+    source_conflicts += _source_quote_conflicts(source_text, nodes)
+
+    # v0.3 causal/sequence events; `*>>` requires source corroboration.
+    # Unsupported `*>>` is a distinct outcome (step 3.5), so it is kept OUT of
+    # the source-authority conflict list (step 3) and classified on its own.
+    causal_events = _causal_events(nodes, source_text)
+    unsupported_causation = [
+        e for e in causal_events
+        if e["kind"] == "stipulated_causation" and not e["supported_by_source"]
+    ]
+
+    declared_level = _declared_level(nodes)
+    plain_blocks = _plain_blocks(nodes)
+    comment_lines = _comment_lines(nodes)
 
     # Misparse families are only scored on dense (non-plain) lines. Prose
     # after a `plain` switch is legitimate natural English, so hits there are
-    # dropped before classification (keeps the L1 refusal path honest).
+    # dropped before classification (keeps the L1 refusal path honest). v0.3
+    # closed plain regions never reach the classifier (single PlainBlock node).
     plain_lines = _plain_line_numbers(nodes)
     dense_hits = [h for h in inner["misparse"]["hits"] if h["line_no"] not in plain_lines]
     misparse_by_family: Dict[str, int] = {"binding": 0, "scope": 0, "sense": 0, "triangulation": 0}
@@ -387,6 +583,8 @@ def check_pair(pair: Dict[str, Any], *, live_anthropic: bool = False) -> Dict[st
         repair_events,
         source_conflicts,
         readback_diff,
+        unsupported_causation,
+        declared_level,
     )
 
     en_tok = inner["english"]["tokens"]
@@ -430,15 +628,22 @@ def check_pair(pair: Dict[str, Any], *, live_anthropic: bool = False) -> Dict[st
         "token_counts": token_counts,
         "readback_diff": readback_diff,
         "repair_events": repair_events,
+        "repair_kinds": repair_kinds,
         "misparse_family": misparse_family,
         "source_authority_conflict": source_conflicts,
         "unparseable_lines": unparseable,
         "plain_mode_present": plain_mode,
+        "plain_blocks": plain_blocks,
         "dense_statement_count": len(dense_stmts),
+        "declared_level": declared_level,
+        "grammar_version": grammar_detected,
+        "causal_events": causal_events,
+        "unsupported_causation": unsupported_causation,
+        "comment_lines": comment_lines,
         "outcome": outcome,
         "notes": notes,
         "decoded_clone_english": inner["tokenese"]["decoded_english"],
-        "provenance": {**checker_provenance(), "score_pair": inner["provenance"]},
+        "provenance": {**checker_provenance(grammar_detected), "score_pair": inner["provenance"]},
         "source_text": source_text,
         "clone_text": clone_text,
     }

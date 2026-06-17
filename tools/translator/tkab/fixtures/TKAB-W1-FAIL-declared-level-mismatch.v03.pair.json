@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-W1-FAIL-declared-level-mismatch-v03",
+  "clone_id": "TKAB-W1-FAIL-declared-level-mismatch-v03.claude.codex.v1",
+  "arm": "W1",
+  "direction": "claude->codex",
+  "author": "claude-sonnet-4.5",
+  "artifact_type": "deploy-status",
+  "predicted_outcome": "win",
+  "source_text": "billing-api deployed to staging at version 1.7.2. Three pods are healthy and latency p95 is 240ms. No rollback was triggered.",
+  "clone_text": "^grammar:v0.3\n^declare:level=L1\n@billing-api := svc:billing-api/staging\n@v := 1.7.2\nget @billing-api status ^3\nrun deploy @v -> done ^3\nsay pods healthy ^3"
+}

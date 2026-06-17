@@ -186,5 +186,19 @@ The `tkab` package provides `check_pair(...)` and the `tokenese-check`
 CLI. It is the deterministic scorer for the W1+L1 mini-pilot. The
 checker enforces R1.5 source-preservation, R5.3 report-don't-repair,
 R5.4 derivation inadmissibility, R6.3 per-pair metrics, and R7
-cross-repo boundary. Output schema: `tkab-check-1.0`. Outcomes are a
+cross-repo boundary. Output schema: `tkab-check-1.1`. Outcomes are a
 closed enumeration; see `tkab/AUDIT_CARD.md`.
+
+The translator and checker support **grammar v0.3** (GRAMMAR-v0.3.md), an
+additive, fully backward-compatible bump selected per-artifact by a
+`^grammar:v0.3` header. v0.3 adds nine features: closed plain regions
+(`^plain<<<`…`>>>^plain`, never graded); a declared conformance level
+(`^declare:level=L`, verified against the achieved level); a four-way repair
+sub-taxonomy (`repair-token`/`repair-statement`/`repair-handle`/`repair-explained`);
+negation (`!@h`) and hedge (`@h?`) operators that compose freely; causal sigils
+(`>>>` sequence, `*>>` stipulated-causation requiring source corroboration,
+`?>>` hypothesized-causation); raw source quotes (`"""…"""`, matched verbatim
+against the source); a centralized handle lexer (`handles.py`); grammar-version
+dispatch (`^grammar:vX.Y`, unsupported versions refused); and line comments
+(`#` at line start). Two outcomes are added — `fail-unsupported-causation` and
+`fail-declared-level-mismatch` — and every v0.2 artifact scores identically.

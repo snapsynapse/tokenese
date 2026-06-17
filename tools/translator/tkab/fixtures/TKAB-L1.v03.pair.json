@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-L1-v03",
+  "clone_id": "TKAB-L1-v03.codex.claude.v1",
+  "arm": "L1",
+  "direction": "codex->claude",
+  "author": "codex-gpt5",
+  "artifact_type": "deadlock-debug",
+  "predicted_outcome": "lose",
+  "source_text": "Service A holds lock X then waits on Y; Service B holds Y then waits on X. The deadlock manifests after a retry-storm under load. Root-causing requires tracing both lock-acquisition orders and the retry backoff schedule.",
+  "clone_text": "^grammar:v0.3\n# expected-to-LOSE: refuse dense, exit to plain\n@svcA := service:A\n@svcB := service:B\n^plain<<<\nService A acquires lock X and then blocks waiting for lock Y.\nService B already holds Y and is waiting for X, so neither side can make progress.\nThis only surfaces under a retry storm; root-causing needs a full lock-order trace, not a compressed encoding.\n>>>^plain"
+}
