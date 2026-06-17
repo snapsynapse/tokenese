@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-W1-FAIL-malformed",
+  "clone_id": "TKAB-W1-FAIL-malformed.claude.codex.v1",
+  "arm": "W1",
+  "direction": "claude->codex",
+  "author": "claude-sonnet-4.5",
+  "artifact_type": "deploy-status",
+  "predicted_outcome": "win",
+  "source_text": "payments-api deployed to staging at version 3.1.0; all health checks green.",
+  "clone_text": ":::garble@@@^^ ??? :::\n%%% nope"
+}

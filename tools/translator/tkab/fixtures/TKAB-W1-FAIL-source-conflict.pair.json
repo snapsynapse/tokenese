@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-W1-FAIL-source-conflict",
+  "clone_id": "TKAB-W1-FAIL-source-conflict.claude.codex.v1",
+  "arm": "W1",
+  "direction": "claude->codex",
+  "author": "claude-sonnet-4.5",
+  "artifact_type": "deploy-status",
+  "predicted_outcome": "win",
+  "source_text": "orders-api was deployed to the STAGING environment at version 2.4.1. Three pods are healthy.",
+  "clone_text": "@env := /production\n@v := 2.4.1\nrun deploy @env @v ^3\nsay pods healthy ^3\ndone deploy ^3"
+}
