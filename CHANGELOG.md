@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-06-17
+
+### Added — Lexicon audit expansion (ROADMAP X2)
+
+- Five new tokenizer audit scripts at the repo root: `audit_gemini.py`, `audit_qwen.py`, `audit_deepseek.py`, `audit_llama.py`, `audit_gemma.py`. Each writes a `data/source_provenance/<name>_costs.json` artifact (plus a top-level convenience copy, mirroring `anthropic_costs.json`). A shared `audit_candidates.py` (single source of truth for the candidate set) and `audit_common.py` (driver) keep all columns measuring the identical glyphs.
+- `audit_check_intersection.py`: CI gate that fails on stale audit artifacts or silently-expanded admissible sets. Wired into `.github/workflows/audit.yml`.
+- Lexicon admissibility now claimed across **7 tokenizer columns** (OpenAI o200k_base + Anthropic count-tokens + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 2 as proxy for the unreleased Gemma 4).
+
+### Changed
+
+- `spec.md` §"Admissible alphabet" audit date bumped to 2026-06-17 and re-derived as the intersection across all 7 tokenizer columns. 4 of 8 Unicode survivors dropped: `√` `□` `†` `η` (each 2 tokens space-prefixed on Qwen; `□` also 2 tokens on Llama 3). The remaining 77 of 81 v0.2 admissible elements (all 22 ASCII sigils, 12 digraphs, 9 brackets, the 6 surviving Unicode glyphs `→ • § α β π`, and all 30 core words) survive the expansion.
+- `DESIGN.md` §7: added a 7-column tokenizer-cost footnote noting that only `>>>` and `"""` are single-token across all columns; `?>>` splits to 2 tokens on DeepSeek/Gemma. These are grammar constructs, not lexicon glyphs, so the admissible alphabet is unaffected.
+
+### Note
+
+Patch release: audit-only. No grammar change. The admissible alphabet may shrink as new columns reject candidates, never silently expand (INTENT invariant 5). Required dependency added: `tokenizers>=0.19.0` for Hugging Face tokenizer access. `audit_gemini.py` requires `GEMINI_API_KEY` to run; skipped cleanly if absent (its optional dependency lives in `requirements-optional.txt`).
+
 ## [0.3.4] - 2026-06-17
 
 ### Added — Tokenese Skill Bundle (ROADMAP X1)
