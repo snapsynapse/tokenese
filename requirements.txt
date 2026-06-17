@@ -1,1 +1,2 @@
-tiktoken>=0.13
+tiktoken>=0.13          # o200k_base / cl100k_base (audit_symbols.py)
+tokenizers>=0.19.0      # Qwen / DeepSeek / Llama 3 / Gemma (Hugging Face local tokenizers)
