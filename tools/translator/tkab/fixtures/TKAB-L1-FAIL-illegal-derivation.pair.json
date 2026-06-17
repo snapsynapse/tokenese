@@ -1,0 +1,11 @@
+{
+  "source_id": "TKAB-L1-FAIL-illegal-derivation",
+  "clone_id": "TKAB-L1-FAIL-illegal-derivation.codex.claude.v1",
+  "arm": "L1",
+  "direction": "codex->claude",
+  "author": "codex-gpt5",
+  "artifact_type": "deadlock-debug",
+  "predicted_outcome": "lose",
+  "source_text": "Service A and Service B acquire mutexes m and b in opposite orders; under load they deadlock. Diagnosis requires multi-step reasoning over the lock-acquisition orders.",
+  "clone_text": "@m := mutex:m\n@b := mutex:b\nsay because @m and @b reverse-order -> deadlock ^3\nsay therefore retry-storm amplifies @m contention ^3"
+}

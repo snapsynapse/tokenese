@@ -1,0 +1,14 @@
+tokenese? v:0.1
+tokenese ok v:0.1
+@cfg=supabase edge fn deploy
+get? @cfg status
+if fail -> get logs first-error +time
+deploy! @cfg env:prod ^7 ev:obs
+say cause:oom^6|disk^3|net^1 ev:guess
+set when:□date owner:□ // negotiation pending
+say like †two-generals not retry
+?? :first-error
+plain
+this is a free-form English clarification
+dense
+done

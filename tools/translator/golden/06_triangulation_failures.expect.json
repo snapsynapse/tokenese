@@ -1,0 +1,8 @@
+{
+  "label": "triangulation_failures",
+  "expect": {
+    "misparse.by_family.triangulation_gte": 2,
+    "misparse.codes_contain": ["like_without_not", "anchor_unconfirmed"]
+  },
+  "notes": "K7 'like X' missing 'not Y'; K8 anchor used without first-use gloss handshake."
+}

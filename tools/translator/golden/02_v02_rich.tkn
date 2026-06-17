@@ -1,0 +1,4 @@
+@cfg=server.yaml
+deploy! @cfg env:prod ^7 ev:obs
+say cause:oom^6|disk^3|net^1 ev:guess
+set when:□date owner:□ // negotiation pending

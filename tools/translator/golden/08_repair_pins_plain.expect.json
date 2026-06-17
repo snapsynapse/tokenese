@@ -1,0 +1,8 @@
+{
+  "label": "repair_pins_plain",
+  "expect": {
+    "conformance.L3_repair": true,
+    "session_pinned_plain_for": "bug"
+  },
+  "notes": "Three ?? on the same topic should pin the session to plain English for that topic per spec.md \u00a7Repair."
+}

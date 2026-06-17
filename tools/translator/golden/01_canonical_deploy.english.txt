@@ -1,0 +1,1 @@
+Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?

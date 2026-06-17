@@ -1,0 +1,3 @@
+say status:up ev:bogus
+say ready:true ^11
+flarf @cfg
