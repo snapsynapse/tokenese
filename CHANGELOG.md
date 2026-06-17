@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-06-17
+
+### Added — GuideCheck Level 4 anchor + drift guard (ROADMAP N1 + N4)
+
+- DNS TXT record at `_assistant-guide.tokenese.org` now advertises the live guide hash `sha256=151c29d182d8410681f3a40bfaa2875e8620e17e95995a27e0896f2f4d2de8dc`. With the cross-channel anchor in place, GuideCheck Level 4 is operational — a verifier can hash the fetched guide and compare against an independent control plane.
+- `check_dns_anchor.py`: dependency-light CLI that resolves the TXT record across the authoritative nameserver plus three public resolvers (Cloudflare, Google, Quad9), extracts the advertised `sha256=...`, and asserts equality with the sha256 of `docs/.well-known/assistant-guide.txt`. Strict by default; `--allow-stale-public` tolerates public-resolver lag inside the TTL window (only the authoritative answer is treated as gating in that mode).
+- `.github/workflows/dns_anchor.yml`: CI runs the check on every push to `main` that touches the guide or the check script, on every relevant PR, and on a daily 12:17 UTC schedule. Catches DNS drift even when no commits land.
+- `RELEASE_CHECKLIST.md` trust-anchor gates now reference the DNS update step and the workflow that enforces it; the version-bump section now lists `skills/tokenese/MANIFEST.yaml` alongside `pyproject.toml` and `__init__.py`.
+
+### Note
+
+Patch release: tooling and CI only. No normative grammar change; no checker behavior changes; no code touched in `tokenese_translator/`. 144/144 translator tests still pass; 3/3 root security tests still pass. Closes ROADMAP N1 (DNS TXT anchor) and ROADMAP N4 (DNS-anchor drift guard).
+
 ## [0.3.6] - 2026-06-17
 
 ### Added — Release hygiene (ROADMAP L6)

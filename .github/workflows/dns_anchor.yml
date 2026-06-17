@@ -1,0 +1,46 @@
+name: GuideCheck Level 4 anchor
+
+# N4 (ROADMAP): asserts the TXT record at `_assistant-guide.tokenese.org`
+# advertises a sha256 that matches the live `docs/.well-known/assistant-guide.txt`.
+# Catches drift when the guide is edited but the DNS record is not, or vice versa.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/.well-known/assistant-guide.txt'
+      - 'assistant-guide.txt'
+      - 'check_dns_anchor.py'
+      - '.github/workflows/dns_anchor.yml'
+  pull_request:
+    paths:
+      - 'docs/.well-known/assistant-guide.txt'
+      - 'assistant-guide.txt'
+      - 'check_dns_anchor.py'
+      - '.github/workflows/dns_anchor.yml'
+  schedule:
+    # Daily at 12:17 UTC. Catches DNS drift even when no commits land.
+    - cron: '17 12 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  dns-anchor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dig
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends dnsutils
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify guide is byte-identical (repo root vs docs/.well-known)
+        run: |
+          diff -q assistant-guide.txt docs/.well-known/assistant-guide.txt
+      - name: Verify DNS anchor matches guide hash
+        # Strict by default. Public resolvers should agree with authoritative
+        # within ~30 min (TTL 1800s). If they don't, the workflow fails and the
+        # next nightly run picks it up automatically.
+        run: python3 check_dns_anchor.py

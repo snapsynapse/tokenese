@@ -20,6 +20,7 @@ Last reviewed: 2026-06-17 (v0.3.x series).
 2. **Bump version** in:
    - `tools/translator/pyproject.toml` `[project] version`
    - `tools/translator/tokenese_translator/__init__.py` `__version__`
+   - `skills/tokenese/MANIFEST.yaml` if any of the three pinned skill files changed (recompute via `tools/skills/compute_hashes.sh`)
 3. **CHANGELOG entry** under a new `[X.Y.Z] - YYYY-MM-DD` heading. Clear `[Unreleased]`.
 4. **Tests:** `cd tools/translator && pytest -q` — must show ≥ 132 passing (current baseline; adjust upward as the suite grows).
 5. **Backward-compat sanity:** `tokenese-check --pair tools/translator/tkab/fixtures/TKAB-W1.pair.json` still outputs `outcome: win-conformant`.
