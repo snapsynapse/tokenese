@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `ROADMAP.md`: living roadmap grounded in INTENT/DESIGN. Highest-priority items: complete GuideCheck Level 4 (DNS anchor), the validating A/B experiment (the kill-criterion), and spec/grammar reconciliation. Next: a portable Tokenese skill bundle, more tokenizer columns, a vocabulary/frameset registry, a hosted conformance checker.
+
 ## [0.3.1] - 2026-06-17
 
 ### Added
