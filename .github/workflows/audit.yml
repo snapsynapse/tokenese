@@ -27,7 +27,12 @@ jobs:
           python audit_qwen.py
           python audit_deepseek.py
           python audit_llama.py
-          python audit_gemma.py
+      # gemma4 column is intentionally NOT re-run on CI: the column-of-record
+      # is mlx-community/gemma-4-e4b-it-4bit (the on-device PAICE production
+      # generator), which is only reproducible from a local MLX cache. The
+      # pinned snapshot at data/source_provenance/gemma4_costs.json is the
+      # artifact of record; audit_check_intersection.py validates it on every
+      # PR. See ROADMAP X5 + CHANGELOG 0.3.8 "Parity claim".
       - name: Run Gemini audit (if API key available)
         if: env.GEMINI_API_KEY != ''
         env:

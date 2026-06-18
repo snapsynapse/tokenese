@@ -44,6 +44,9 @@ So the roadmap stays honest about what already exists:
 - DNS-anchor drift guard (`check_dns_anchor.py` + `.github/workflows/dns_anchor.yml`):
   4-resolver TXT vs file-hash check on push to `main`, PR, and daily 12:17 UTC.
   Catches drift between the guide and the DNS anchor automatically. **(N4 shipped v0.3.7)**
+- Gemma column promoted from `unsloth/gemma-2-9b` proxy to native Gemma 4
+  (`mlx-community/gemma-4-e4b-it-4bit`, E4B on-device production runtime via
+  omlx). New `audit_gemma4.py`; `audit_gemma.py` retired. **(X5 shipped v0.3.8)**
 
 ## Now (credibility-defining)
 
@@ -79,15 +82,6 @@ A verifier-anywhere web surface at `tokenese.dev` (reserved for tooling) that
 validates a pasted or fetched transcript against the grammar and returns the
 per-pair outcome, mirroring the offline checker. Add a conformance badge.
 Tie: conformance philosophy (no central oracle, verifier-anywhere); adoptability.
-
-### X5. Promote Gemma column from proxy to native
-
-X2 (v0.3.5) shipped the Gemma column using `unsloth/gemma-2-9b` as a proxy
-because Gemma 4 was unreleased on 2026-06-17. Swap to the native Gemma 4
-tokenizer the moment it ships, re-derive the admissible alphabet, and update
-`spec.md`/`audit_gemma.py`/the provenance JSON. This is the only column in the
-7-column audit currently flagged as a proxy.
-Tie: invariant 5 (audited lexicon), closes X2's explicit caveat.
 
 ### X6. Live tokenizer CI for the gated column
 

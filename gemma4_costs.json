@@ -47,8 +47,8 @@
     },
     "↔": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "⇐": {
       "bare": 1,
@@ -62,8 +62,8 @@
     },
     "∀": {
       "bare": 1,
-      "spaced": 2,
-      "worst": 2
+      "spaced": 1,
+      "worst": 1
     },
     "∃": {
       "bare": 1,
@@ -92,8 +92,8 @@
     },
     "∑": {
       "bare": 1,
-      "spaced": 2,
-      "worst": 2
+      "spaced": 1,
+      "worst": 1
     },
     "√": {
       "bare": 1,
@@ -430,8 +430,8 @@
     },
     "假": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "入": {
       "bare": 1,
@@ -500,8 +500,8 @@
     },
     "必": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "新": {
       "bare": 1,
@@ -555,8 +555,8 @@
     },
     "问": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     }
   },
   "emoji-sample": {
@@ -577,8 +577,8 @@
     },
     "️": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "📌": {
       "bare": 1,
@@ -629,8 +629,8 @@
     },
     "‡": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "•": {
       "bare": 1,
@@ -674,8 +674,8 @@
     },
     "◇": {
       "bare": 1,
-      "spaced": 2,
-      "worst": 2
+      "spaced": 1,
+      "worst": 1
     },
     "○": {
       "bare": 1,
@@ -689,8 +689,8 @@
     },
     "◦": {
       "bare": 1,
-      "spaced": 1,
-      "worst": 1
+      "spaced": 2,
+      "worst": 2
     },
     "★": {
       "bare": 1,
@@ -1000,7 +1000,7 @@
     },
     "?>>": {
       "bare": 2,
-      "spaced": 1,
+      "spaced": 2,
       "worst": 2
     },
     "^plain<<<": {

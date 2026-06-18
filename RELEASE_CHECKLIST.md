@@ -66,6 +66,14 @@ All of "Patch" and "Minor" plus:
 - [ ] `assistant-guide.txt` and `docs/.well-known/assistant-guide.txt` are byte-identical (`diff` returns nothing).
 - [ ] `assistant-guide-manifest.txt` sha256 matches both copies of the guide.
 - [ ] If a new bounded task is added, it lives in a NEW guide file — never modify the existing one in-place (changing bytes invalidates the manifest).
+- [ ] DNS TXT record at `_assistant-guide.tokenese.org` updated to advertise the new `sha256=<hex>` (the `GuideCheck Level 4 anchor` CI job, `check_dns_anchor.py`, will fail until it is). Public resolvers can take up to TTL (current 1800s) to converge after the registrar save.
+
+## Audit-column gates (when a tokenizer column changes or a new column lands)
+
+- [ ] The audit script (`audit_<vendor>.py`) runs locally without error and writes a fresh `data/source_provenance/<vendor>_costs.json` (plus the top-level convenience copy).
+- [ ] `audit_check_intersection.py` exits 0 against the new snapshot — no admissible-alphabet symbol is silently dropped.
+- [ ] Every newly-rejected symbol is enumerated in the CHANGELOG entry with a one-line rationale (INTENT.md invariant 5, ROADMAP L7).
+- [ ] If the change is a column-of-record swap (model variant change, proxy → native, etc.), the prior column's snapshot is preserved at the previous release tag (do not delete commit history) and the swap is justified in the CHANGELOG.
 
 ## Hosted-page gates (when docs/ changes)
 
