@@ -34,14 +34,28 @@ SPEC = ROOT / "spec.md"
 # Vendor columns audited by the data artifacts. anthropic_costs.json uses a
 # flat {symbol: worst} schema; the new columns use the nested
 # {category: {symbol: {bare,spaced,worst}}} schema. Both are handled.
-KNOWN_VENDORS = ["qwen", "deepseek", "llama", "gemma", "gemini"]
+# gemma4 replaces the prior gemma (gemma-2 proxy) column as of v0.3.8 (X5).
+# Column-of-record: mlx-community/gemma-4-e4b-it-4bit (E4B, on-device prod runtime).
+KNOWN_VENDORS = ["qwen", "deepseek", "llama", "gemma4", "gemini"]
 
 
 def load_worst(path: Path) -> dict[str, int]:
-    """Return {symbol: worst_case_token_count} for either cost-json schema."""
+    """Return {symbol: worst_case_token_count} for either cost-json schema.
+
+    Raises SystemExit with a helpful message if the file is a placeholder
+    (top-level ``_placeholder`` key) rather than a real audit artifact.
+    """
     data = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(data, dict) and "_placeholder" in data:
+        raise SystemExit(
+            f"FAIL: {path} is a placeholder. Run the audit script for this "
+            "column and replace the file with the real snapshot before "
+            "running audit_check_intersection.py."
+        )
     flat: dict[str, int] = {}
     for k, v in data.items():
+        if k.startswith("_"):  # provenance envelopes, etc.
+            continue
         if isinstance(v, dict) and "worst" in v:
             flat[k] = int(v["worst"])
         elif isinstance(v, dict):

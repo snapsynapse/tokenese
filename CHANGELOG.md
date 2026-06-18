@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-06-18
+
+### Changed — Gemma column promoted to native Gemma 4 (ROADMAP X5)
+
+- Column-of-record swap: the "Gemma" admissible-alphabet column is now
+  **`mlx-community/gemma-4-e4b-it-4bit`** (E4B on-device variant, the
+  generator that runs in the PAICE production runtime under omlx on
+  localhost:8000). The prior `unsloth/gemma-2-9b` proxy is retired.
+- New `audit_gemma4.py` at repo root. `audit_gemma.py` deleted. The prior
+  `gemma_costs.json` (Gemma 2 proxy snapshot from v0.3.5) is preserved at the
+  v0.3.7 tag for forensic comparison; it is **not** carried forward.
+- New `test_audit_gemma4.py` at repo root (mirrors `test_audit_anthropic.py`).
+- `audit_check_intersection.py` `KNOWN_VENDORS` updated: `gemma` → `gemma4`.
+- `spec.md` admissible-alphabet header and `DESIGN.md` 7-column footnote
+  updated to name Gemma 4 instead of Gemma 2.
+
+### Parity claim
+
+Identity is proved via `audit_gemma4.py --verify-hash <sha256>` against the
+cached `tokenizer.json` (the MLX 4-bit conversion ships an unquantized
+tokenizer). The sibling Ollama GGUF `gemma4:latest` (8B Q4_K_M, manifest
+digest `c6eb396dbd59`) is **not** used as a parity backend: it is a
+different size variant. Ollama modelfile inspection confirms the production
+renderer/parser pair is `gemma4` and the TEMPLATE is passthrough
+(`{{ .Prompt }}`), so the raw-symbol audit contract (no chat wrap, no BOS,
+`add_special_tokens=False`) is also what the production runtime ingests when
+the build script sends prompts.
+
+### Admissible-alphabet impact (must be enumerated, not silent)
+
+INTENT.md invariant 5 (additive shrinkage, no silent expansion) requires that
+every symbol newly rejected by Gemma 4 be named here with a one-line
+rationale. The pinned snapshot at
+`data/source_provenance/gemma4_costs.json` is the source of truth; this
+section will be filled in when the snapshot lands (the placeholder lists
+step-by-step instructions). Provenance pin policy (ROADMAP L7) applies: the
+Gemma 2 → Gemma 4 swap is a column-of-record forward roll, allowed at this
+patch boundary because the X5 roadmap entry explicitly authorized it.
+
+### Note
+
+Patch release: audit tooling and docs only. No normative grammar change; no
+checkpoint code touched in `tokenese_translator/`. Backward-compat fixture
+`TKAB-W1.pair.json` still scores `win-conformant`. 144/144 translator tests
+still pass; root security tests (3) still pass; new `test_audit_gemma4.py`
+adds surface tests that import-without-cache and CLI dispatch are correct.
+
 ## [0.3.7] - 2026-06-17
 
 ### Added — GuideCheck Level 4 anchor + drift guard (ROADMAP N1 + N4)

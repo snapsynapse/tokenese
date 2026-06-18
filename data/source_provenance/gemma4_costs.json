@@ -1,0 +1,21 @@
+{
+  "_placeholder": "REPLACE THIS FILE before merging the X5 PR.",
+  "_instructions": [
+    "Run: python audit_gemma4.py",
+    "The script writes data/source_provenance/gemma4_costs.json (this file) and a top-level gemma4_costs.json copy in the same format as the other six columns.",
+    "Paste the printed _provenance envelope into the top of this file (or accept the script's overwrite, which omits provenance — then add it by hand).",
+    "Verify identity: python audit_gemma4.py --verify-hash <sha256 of cached tokenizer.json>",
+    "Commit both data/source_provenance/gemma4_costs.json and gemma4_costs.json."
+  ],
+  "_provenance": {
+    "column": "gemma4",
+    "model_id": "mlx-community/gemma-4-e4b-it-4bit",
+    "tokenizer_class": "tokenizers.Tokenizer",
+    "tokenizer_json_path": null,
+    "tokenizer_sha256": null,
+    "runtime_of_record": "omlx on localhost:8000 (production)",
+    "modelfile_passthrough_template": true,
+    "sibling_ollama_digest": "c6eb396dbd59",
+    "sibling_ollama_note": "gemma4:latest is 8B Q4_K_M; not the E4B column-of-record. Used only for parity sanity-checks, not as a substitute."
+  }
+}

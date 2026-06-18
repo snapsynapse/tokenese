@@ -144,7 +144,7 @@ it. `<<` remains unallocated except as the `^plain<<<` opener fragment.
 
 > **Tokenizer-cost footnote (7-column audit, 2026-06-17).** Of the v0.3 sigils,
 > only `>>>` and `"""` are single-token worst-case across all seven tokenizer
-> columns (o200k + Anthropic + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 2).
+> columns (o200k + Anthropic + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 4).
 > `?>>` ("always admissible") is single-token on o200k/Qwen/Llama but splits to
 > 2 tokens on DeepSeek and Gemma; `*>>` is already 2 tokens on o200k and
 > requires source corroboration anyway; the closed-plain delimiters
