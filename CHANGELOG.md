@@ -34,16 +34,59 @@ renderer/parser pair is `gemma4` and the TEMPLATE is passthrough
 `add_special_tokens=False`) is also what the production runtime ingests when
 the build script sends prompts.
 
-### Admissible-alphabet impact (must be enumerated, not silent)
+### Admissible-alphabet impact (enumerated per invariant 5)
 
-INTENT.md invariant 5 (additive shrinkage, no silent expansion) requires that
-every symbol newly rejected by Gemma 4 be named here with a one-line
-rationale. The pinned snapshot at
-`data/source_provenance/gemma4_costs.json` is the source of truth; this
-section will be filled in when the snapshot lands (the placeholder lists
-step-by-step instructions). Provenance pin policy (ROADMAP L7) applies: the
-Gemma 2 → Gemma 4 swap is a column-of-record forward roll, allowed at this
-patch boundary because the X5 roadmap entry explicitly authorized it.
+INTENT.md invariant 5 (additive shrinkage, no silent expansion) requires every
+symbol newly rejected by the column-of-record to be named with a one-line
+rationale. Diff source: `data/source_provenance/gemma4_costs.json` (Gemma 4
+E4B, 198 measured symbols, 163 single-token) vs. the v0.3.7-tagged
+`gemma_costs.json` (Gemma 2 9B proxy, 167 single-token).
+
+Across the 198 audited symbols, **7 symbols** that the Gemma 2 proxy column
+admitted (worst=1) are rejected by the Gemma 4 column (worst=2). All seven
+show the same failure mode: bare=1 but spaced=2 — the Gemma 4 SentencePiece
+vocabulary lacks the leading-space (`▁`) variant for these glyphs, so any
+in-sentence occurrence (preceded by a space) splits into two tokens. Under
+the worst-of-{bare,spaced} contract these symbols are no longer admissible:
+
+- `‡` (U+2021 DOUBLE DAGGER, category `geometric-misc`) — Gemma 4 vocab has
+  the bare glyph but no `▁‡`; spaced=2. Rationale: low-frequency typographic
+  mark, dropped by Gemma 4's curated vocabulary.
+- `↔` (U+2194 LEFT RIGHT ARROW, category `arrow-math`) — bare=1, spaced=2.
+  Rationale: less-common bidirectional arrow; only the unprefixed form is in
+  vocab.
+- `◦` (U+25E6 WHITE BULLET, category `geometric-misc`) — bare=1, spaced=2.
+  Rationale: small white bullet has no leading-space variant; the more common
+  `•` (U+2022) remains admissible.
+- `假` (U+5047 "false / borrow", category `cjk-sample`) — bare=1, spaced=2.
+  Rationale: this specific CJK ideograph lacks `▁假` in the Gemma 4 vocab
+  (other CJK samples in the audit set still admit).
+- `必` (U+5FC5 "must / necessarily", category `cjk-sample`) — bare=1, spaced=2.
+  Rationale: same pattern — bare ideograph kept, leading-space variant
+  pruned.
+- `问` (U+95EE "ask / question", simplified, category `cjk-sample`) —
+  bare=1, spaced=2. Rationale: same pattern; the traditional `問` may still
+  admit but is not in the audit set.
+- `️` (U+FE0F VARIATION SELECTOR-16, category `emoji-sample`) — bare=1,
+  spaced=2. Rationale: the invisible emoji-presentation selector has no
+  leading-space variant; in practice it never appears word-initial in
+  natural text, but the contract is symmetric so it is recorded as dropped.
+
+These 7 leave the admissible alphabet in v0.3.8 — invariant 5 wins, the
+production-of-record IS the floor.
+
+**Three symbols are newly single-token under Gemma 4** that the Gemma 2
+proxy rejected: `∀` (U+2200), `∑` (U+2211), `◇` (U+25C7). These are **not**
+admissible-alphabet additions: the cross-vendor intersection in
+`audit_check_intersection.py` still excludes them because other columns
+(Anthropic, GPT-4o, Llama, Mistral, Qwen, DeepSeek) continue to reject
+them. They are recorded here for completeness — silent expansion is
+forbidden by invariant 5, so any future promotion would require an explicit
+spec edit, not a snapshot swap.
+
+Provenance pin policy (ROADMAP L7) applies: the Gemma 2 → Gemma 4 swap is a
+column-of-record forward roll, allowed at this patch boundary because the
+X5 roadmap entry explicitly authorized it.
 
 ### Note
 
