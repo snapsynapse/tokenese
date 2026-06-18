@@ -1,16 +1,16 @@
 name: tokenese
-version: 1.0.0
+version: 1.0.1
 license: MIT (skill) / spec under LICENSE-SPEC
 canonical_url: https://github.com/snapsynapse/tokenese/tree/main/skills/tokenese
 spec_repo: https://github.com/snapsynapse/tokenese
 spec_version: v0.3
 grammar_version: v0.3
 tkab_schema: tkab-check-1.1
-released: 2026-06-17
+released: 2026-06-18
 authors:
   - PAICE.work PBC
 hashes:
-  SKILL.md: f3d9ed66fcf13708bae35a2233e6478188f4431c523f63d6ae3ed0954080edce
+  SKILL.md: 7abfb86c54ad0b6ba7c58cf87ad9f3e5d0db821c0bab3323117a4d170de720f8
   audit_card.md: 4346950e6cfbd28c544ac5a0fab2146424c594ebc44d92f2f224819937529e03
   install_guide.md: f82810cc59e6034312e01b4cb992b9306e1b9a25f88409bf365938ed21fd2d2b
 toolchain:
@@ -25,7 +25,8 @@ trust_anchors:
   assistant_guide:
     path: ../../assistant-guide.txt
     profile: human-verifiable-assistant-guide 0.6.0
-    level: 3
+    level: 4
+    dns_anchor: _assistant-guide.tokenese.org
 cross_surface:
   - claude
   - chatgpt

@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-17 (N1 + N4 shipped; X5/X6/X7 + L7/L8/L9 carried).
+Status: living document. Last updated 2026-06-18 (X5 + L8 shipped; X6/X7 + L7/L9 carried).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -24,12 +24,12 @@ So the roadmap stays honest about what already exists:
   canonical slot-order telemetry. This is an X3 partial, not a normative grammar
   gate: old artifacts still parse and score unchanged.
 - Seven-column tokenizer-audited lexicon (OpenAI `o200k_base` + Anthropic
-  count-tokens + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 2 proxy),
+  count-tokens + Gemini + Qwen + DeepSeek + Llama 3 + Gemma 4 E4B native),
   reproducible via `audit_*.py` + `audit_check_intersection.py`; CI-gated on regression.
-  77 of 81 v0.2 admissible elements survive the expansion. **(X2 shipped v0.3.5)**
+  77 of 81 v0.2 admissible elements survive the expansion. **(X2 shipped v0.3.5; Gemma column promoted to native Gemma 4 in X5 v0.3.8)**
 - Canonical landing page at https://tokenese.org/ (GitHub Pages, WCAG 2.1 AA).
-- GuideCheck `assistant-guide.txt` at Level 3 live, Level 4 manifest in place
-  (cross-channel DNS anchor pending, see N1).
+- GuideCheck `assistant-guide.txt` at Level 4 live: repo + sidecar-manifest
+  sha256 + DNS TXT anchor at `_assistant-guide.tokenese.org`.
 - `spec.md` reconciled with v0.3 grammar; `relationships.yaml` and `ontology.json`
   promoted to v1.0.0 with v0.3 definitions. **(N3 shipped v0.3.3)**
 - Portable Tokenese skill bundle at `/skills/tokenese/` (SKILL.md, MANIFEST.yaml
@@ -47,6 +47,13 @@ So the roadmap stays honest about what already exists:
 - Gemma column promoted from `unsloth/gemma-2-9b` proxy to native Gemma 4
   (`mlx-community/gemma-4-e4b-it-4bit`, E4B on-device production runtime via
   omlx). New `audit_gemma4.py`; `audit_gemma.py` retired. **(X5 shipped v0.3.8)**
+- Spec-page parity audit: `docs/index.html`, `docs/llms.txt`, `README.md`,
+  `AGENTS.md`, and the `skills/tokenese/` bundle (1.0.1) refreshed to v0.3.8
+  reality — seven tokenizer columns enumerated, native Gemma 4 noted, test
+  count corrected (144 translator + 7 root = 151), GuideCheck Level 4
+  reflected on the landing page and in the skill manifest. The
+  DNS-anchored hosted assistant guide is intentionally untouched per
+  RELEASE_CHECKLIST line 68. **(L8 shipped v0.3.8)**
 
 ## Now (credibility-defining)
 
@@ -147,13 +154,6 @@ when the provenance pins are allowed to roll forward (proposed: only on a
 normative grammar minor bump, never on a patch release), and add a checklist
 entry to `RELEASE_CHECKLIST.md` that calls out the decision explicitly.
 Tie: invariant 6 (measured, not asserted); release discipline.
-
-### L8. Spec-page parity audit
-
-`docs/index.html` was last synced to grammar v0.3 in v0.3.1. After the v0.3.3
-reconciliation (N3) the landing page text should be diffed against the new
-`spec.md` and updated where it has drifted. Single docs PR.
-Tie: invariant 7 (human-auditable); public-face truthfulness.
 
 ### L9. Reusable skill scaffolding
 
