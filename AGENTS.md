@@ -24,7 +24,7 @@ Repo root: spec + design + conformance + governance docs. Treat as read-mostly.
   - `cli.py` — `tokenese-check` command
   - `AUDIT_CARD.md` — schema, outcome enum, decision order
   - `fixtures/` — 10 pair files (5 v0.2 + 5 v0.3)
-- `tests/`: 121 tests. `test_translator.py` (base), `test_golden.py`, `test_grammar_coverage.py`, `test_tkab.py`, `test_grammar_v03.py`.
+- `tests/`: 144 tests (as of v0.3.8). `test_translator.py` (base), `test_golden.py`, `test_grammar_coverage.py`, `test_tkab.py`, `test_grammar_v03.py`, and feature-specific suites added across v0.3.3 – v0.3.8.
 
 ## Scope locks (do not violate)
 
@@ -51,7 +51,7 @@ pip install -e .
 pytest -q
 ```
 
-Must show `121 passed` minimum (more is fine; fewer means regression).
+Must show `144 passed` minimum as of v0.3.8 (more is fine; fewer means regression). Repo-root tests (`test_audit_anthropic.py`, `test_audit_gemma4.py`) add 7 more; intersection check runs in CI.
 
 For grammar changes, also manually verify a v0.2 fixture still classifies correctly:
 
