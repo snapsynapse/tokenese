@@ -49,8 +49,8 @@ def _load_tokenizer(model_id: str):
     present and falls through to a network fetch otherwise. Fails loudly on
     cache miss + offline.
     """
-    from tokenizers import Tokenizer
     try:
+        from tokenizers import Tokenizer
         tok = Tokenizer.from_pretrained(model_id)
     except Exception as e:
         raise SystemExit(
