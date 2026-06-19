@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Social/OpenGraph image at `docs/imgs/og.png` (1280x634), reclaimed from the
+  GitHub repository social-preview upload. `docs/index.html` now declares
+  `og:image` and `twitter:image` pointing at `https://tokenese.org/imgs/og.png`,
+  closing the missing-preview gap surfaced during repo-polish.
+
 ## [0.3.8] - 2026-06-18
 
 ### Changed — Gemma column promoted to native Gemma 4 (ROADMAP X5)
