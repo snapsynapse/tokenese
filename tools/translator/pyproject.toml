@@ -20,6 +20,8 @@ dev = ["pytest>=8"]
 tokenese-translate = "tokenese_translator.cli:main"
 tokenese-mcp = "tokenese_translator.mcp_server:main"
 tokenese-check = "tkab.cli:main"
+tokenese-compression-eval = "tokenese_translator.compression_eval:main"
+tokenese-receiver-eval = "tokenese_translator.receiver_eval:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -28,6 +30,7 @@ include = ["tokenese_translator*", "tkab*"]
 [tool.setuptools.package-data]
 tokenese_translator = [
   "framesets.json",
+  "evals/*.json",
   "../data/*.json",
   "../data/*.tiktoken",
   "../data/source_provenance/*",

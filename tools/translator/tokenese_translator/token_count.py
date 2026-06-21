@@ -1,8 +1,9 @@
-"""Dual-tokenizer token counter.
+"""Tokenizer token counters.
 
 Returns token counts for a piece of text under:
   - o200k_base (OpenAI/GPT-4o/o-series/Codex era) via tiktoken and the
     bundled verified BPE table.
+  - cl100k_base (OpenAI GPT-4/GPT-3.5 era) via tiktoken.
   - Anthropic (claude-haiku-4-5 was the audited tokenizer per spec.md v0.1)
     via either (a) the cached per-symbol costs in data/anthropic_costs.json,
     summed conservatively, or (b) live API if --live-anthropic AND
@@ -81,6 +82,31 @@ def _o200k():
 
 def count_o200k(text: str) -> Optional[int]:
     enc = _o200k()
+    if enc is None:
+        return None
+    return len(enc.encode(text))
+
+
+# ---- cl100k (OpenAI) via tiktoken ----
+
+_CL100K = None
+
+
+def _cl100k():
+    global _CL100K
+    if _CL100K is not None:
+        return _CL100K
+    try:
+        import tiktoken  # type: ignore
+
+        _CL100K = tiktoken.get_encoding("cl100k_base")
+        return _CL100K
+    except Exception:
+        return None
+
+
+def count_cl100k(text: str) -> Optional[int]:
+    enc = _cl100k()
     if enc is None:
         return None
     return len(enc.encode(text))

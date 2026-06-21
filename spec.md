@@ -8,7 +8,7 @@ Design rationale: DESIGN.md
 Conformance: CONFORMANCE.md
 Reference toolchain: tools/translator/ (132 tests passing)
 
-A token-native interlingua for LLM-to-LLM communication: exchanges that are both more compressed and more accurate than any natural language, measured in actual tokenizer tokens, not characters. Compression comes from structure, not glyphs; accuracy comes from a fixed field grammar, a one-sense-per-word vocabulary, and typed literals. The whole scheme is measured, not asserted: the kill-criterion A/B (misparse-retry rate, dense vs prose) has been built but is not yet run — see ROADMAP N2.
+A token-native interlingua for LLM-to-LLM communication: precision-preserving structured exchanges with measured compression against equally precise English. Compression is regime-dependent and comes from structure English normally drops or explains verbosely: repeated multi-referent bindings, evidence class, confidence, ranked alternatives, repair/fallback state, and typed literals. Accuracy comes from a fixed field grammar, a one-sense-per-word vocabulary, and explicit repair. The whole scheme is measured, not asserted: the kill-criterion A/B (misparse-retry rate, dense vs prose) remains the validation gate — see ROADMAP N2.
 
 ## Design principles
 
@@ -18,6 +18,18 @@ A token-native interlingua for LLM-to-LLM communication: exchanges that are both
 4. Accuracy is a feature, not a casualty. Fixed field grammar, controlled vocabulary (one sense per word), and typed literals remove the ambiguity natural language carries. Tokenese should misparse less than English, not more.
 5. Self-repairing. A dedicated misparse signal forces fallback to natural language for the failed span only. Misparse-retry rate is the metric that validates the whole scheme: if retries eat the savings, the design has failed.
 6. The v0.3 invariants. INTENT.md §"Design invariants" is the normative list; in one line each: token-space only; audited lexicon (closed function vocabulary 1 token worst case, content admitted on tokens-per-semantic-unit advantage); not a pidgin (acquisition cost traded for precision); accuracy is a feature; self-repairing (`??` and the plain escape are mandatory); measured, not asserted (the A/B kill-criterion); human-auditable (the one-page audit card must let a competent human follow any conforming transcript). See INTENT.md §Design invariants for the normative list (this section is a teaching summary).
+
+### Measurement update: precision-first admission
+
+Session-24 second-level testing replaces the broad compression claim with a narrower admission rule: a construct advances only when it preserves precision across receivers and beats an equally precise English baseline in the regime it targets. Terse English is the baseline for flat status facts. Tokenese is expected to win mainly where English must either repeat structure or omit it: multi-referent sessions, ranked alternatives, evidence/confidence channels, explicit repair/fallback state, and spatial or semantic contrast.
+
+Current admission guidance from the Turnfile A/B and receiver tests:
+
+- Advance: multi-referent binding amortization, explicit evidence class, `confidence:N/M`, ordinal ranked alternatives, and explicit `repair:<slot> -> plain`.
+- Revise before admission: rank syntax must make ordinal semantics normative; advisory action syntax must not look like a command.
+- Drop or hold as written: broad `~=` / `!~=` semantic-neighborhood operators and dense table/status syntax that loses to terse English. Prefer explicit `near[...]` and polarity-safe `far_from[...]` forms for future tests.
+- Safety rule: state-changing commands require an explicit command marker and approval gate; advisory ranks are not commands.
+
 
 ## Admissible alphabet (audited 2026-06-17; columns: OpenAI o200k_base + Anthropic count-tokens claude-haiku-4-5 + Gemini gemini-2.5-flash + Qwen Qwen2.5-7B + DeepSeek DeepSeek-V3 + Llama Llama-3-8B + Gemma 4 mlx-community/gemma-4-e4b-it-4bit)
 
@@ -62,7 +74,7 @@ The above is the v0.2 wire grammar. Grammar v0.3 is additive and activated by th
 | `::` | type or scope qualifier |
 | `?` | query marker (op suffix: `get?`) |
 | `!` | imperative/priority marker |
-| `~` | approximate |
+| `~` | approximate; not admitted as semantic-neighborhood syntax (`~=` / `!~=` dropped as written after receiver tests) |
 | `^` | confidence slot prefix, 0-9 scale (`^7` = 0.7) |
 | `\|` | alternatives separator |
 | `&` | conjunction within slot |
@@ -103,21 +115,21 @@ v0.3 subdivides this into four addressable kinds (`repair-statement`, `repair-ha
 
 ## Example exchange
 
-Plain English (≈55 tokens):
+Example pending re-measurement (removed 2026-06-18). The prior example claimed
+≈55 vs ≈22 tokens. Measured on the certified tokenizers (o200k_base, cl100k_base)
+that exact pair came out 36 vs 47: the Tokenese form was *larger*, because dotted
+handles and sigil clusters (`@svc.logs.first-error` = 5 tokens, `!@svc.ok?` = 5,
+`@svc` = 2, `*>>` = 2) are multi-token out-of-distribution strings on BPE
+tokenizers trained on natural text.
 
-> Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?
-
-Tokenese v0.3 (≈22 tokens):
-
-```
-^grammar:v0.3
-^declare:level=L2
-@svc := supabase/edge-fn
-@svc.deploy >>> @svc.status
-!@svc.ok? *>> get @svc.logs.first-error +ts
-```
-
-Verified by `tokenese-check`. Target compression: 2.5-4x on operational exchanges; A/B measurement of misparse-retry rate is the kill-criterion (see ROADMAP N2).
+A replacement example will ship only with reproducible per-tokenizer counts, and
+only if it beats *terse* English (the fair baseline), not verbose/polite English.
+Open finding: most of the observed savings over verbose English come from
+terseness, which needs no designed language; the marginal gain from designed
+syntax appears mainly on structured/conditional payloads and only when operators
+are single-token in every certified tokenizer. The "2.5-4x compression" target is
+under review pending that measurement. The kill-criterion remains the A/B
+misparse-retry rate (see ROADMAP N2).
 
 ## Conformance
 
@@ -132,7 +144,7 @@ GuideCheck. Trust-anchored `assistant-guide.txt` (Level 3 live; Level 4 DNS anch
 The current open work is tracked in ROADMAP.md; the items still open are:
 
 - **N1.** Complete GuideCheck Level 4 (DNS TXT anchor at `_assistant-guide.tokenese.org`).
-- **N2.** The validating A/B experiment (the kill-criterion). Misparse-retry rate, calibration of self-reported channels, and reasoning-task accuracy inside dense vs prose spans, per-construct family.
+- **N2.** The validating A/B experiment (the kill-criterion). Misparse-retry rate, calibration of self-reported channels, and reasoning-task accuracy inside dense vs prose spans, per-construct family. Session-24 Turnfile tests support the precision-first pivot and should be folded into the next formal result package.
 - **X1.** Tokenese skill bundle (portable Agent Skill — cross-surface).
 - **X2.** Additional tokenizer columns (Gemini, Qwen, DeepSeek, Llama).
 - **X3.** Frameset registry promotion from report-only telemetry to a conformance gate (pending N2 measurements).

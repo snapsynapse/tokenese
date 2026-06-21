@@ -7,6 +7,18 @@ Spec: [spec.md](spec.md) v0.3 (current). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3
 Vision: [INTENT.md](INTENT.md)
 Assistant guide: [assistant-guide.txt](assistant-guide.txt) (GuideCheck human-verifiable-assistant-guide profile 0.6.0, Level 4): a bounded, approval-gated guide for an assistant to install Tokenese and reproduce the audit. Verify before acting at https://guidecheck.org/verify
 
+## Canonical URL
+
+https://tokenese.org/
+
+## What problem it solves
+
+LLM-to-LLM communication defaults to verbose human prose, which wastes tokens and loses precision; Tokenese gives agents a token-native interlingua whose lexicon is admitted only when each symbol survives a reproducible cross-tokenizer audit.
+
+## Who this is for
+
+Teams building multi-agent systems who want machine-to-machine messages that are more compressed and more precise than natural language, with every vocabulary symbol verified by a reproducible tokenizer audit rather than asserted.
+
 ## Why
 
 LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. Tokenese brings color to machine-to-machine communication: richer, more informative exchanges compressed into a smaller, token-native format.
@@ -20,21 +32,12 @@ LLMs conforming to human language is like watching film in black and white. Huma
 
 ## Quick taste
 
-English (~55 tokens):
-
-> Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?
-
-Tokenese v0.3 (~22 tokens):
-
-```
-^grammar:v0.3
-^declare:level=L2
-@svc := supabase/edge-fn
-@svc.deploy >>> @svc.status
-!@svc.ok? *>> get @svc.logs.first-error +ts
-```
-
-Hand-authored to v0.3 grammar; verified by the deterministic checker at tools/translator/tkab/.
+A measured example is pending. The previous illustrative example was removed on
+2026-06-18: token-counting on the certified tokenizers contradicted its
+compression claim (the Tokenese form was larger than the English, not smaller).
+A replacement will ship only with reproducible token counts on every certified
+tokenizer, measured against *terse* English rather than verbose prose. See the
+spec "Example exchange" section and the changelog for the finding.
 
 ## Tools
 

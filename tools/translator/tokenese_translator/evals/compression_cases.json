@@ -1,0 +1,86 @@
+{
+  "schema_version": "tokenese-compression-eval-1.0",
+  "baseline_policy": "Compression claims must compare against terse English, not polite or verbose English. Whole-message counts are authoritative; lexicon audits alone do not imply compression.",
+  "cases": [
+    {
+      "id": "old-flagship-deploy-status",
+      "description": "The retired README/spec example must remain a regression fixture because it is larger than both verbose and terse English on certified OpenAI tokenizers.",
+      "forms": [
+        {
+          "label": "verbose_english",
+          "text": "Could you check whether the deploy of the edge function to the Supabase project succeeded, and if it failed, look at the logs and tell me the first error with a timestamp?"
+        },
+        {
+          "label": "terse_english",
+          "text": "Check Supabase edge-function deploy status. If failed, return first log error with timestamp."
+        },
+        {
+          "label": "tokenese_v03_old",
+          "text": "^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n@svc.deploy >>> @svc.status\n!@svc.ok? *>> get @svc.logs.first-error +ts"
+        }
+      ],
+      "expect": [
+        {
+          "lhs": "tokenese_v03_old",
+          "op": "gt",
+          "rhs": "verbose_english"
+        },
+        {
+          "lhs": "tokenese_v03_old",
+          "op": "gt",
+          "rhs": "terse_english"
+        }
+      ]
+    },
+    {
+      "id": "structured-user-query",
+      "description": "A narrow structured-query win using compact field syntax.",
+      "forms": [
+        {
+          "label": "verbose_english",
+          "text": "Please give me the names and email addresses of all users who signed up in the last 7 days and have not yet verified their account."
+        },
+        {
+          "label": "terse_english",
+          "text": "List name, email of users signed up in last 7 days with unverified accounts."
+        },
+        {
+          "label": "compact_form",
+          "text": "get users{signup<7d, verified=false} >> name,email"
+        }
+      ],
+      "expect": [
+        {
+          "lhs": "compact_form",
+          "op": "lt",
+          "rhs": "terse_english"
+        }
+      ]
+    },
+    {
+      "id": "conditional-build-deploy",
+      "description": "A narrow conditional workflow win using single-token arrows.",
+      "forms": [
+        {
+          "label": "verbose_english",
+          "text": "First run the test suite. If all tests pass, build the project and deploy it to production. If any test fails, stop and report which test failed."
+        },
+        {
+          "label": "terse_english",
+          "text": "Run tests. If all pass: build, deploy to prod. If any fail: stop, report failing test."
+        },
+        {
+          "label": "compact_form",
+          "text": "run tests; all pass -> build, deploy prod; any fail -> stop, report fail"
+        }
+      ],
+      "expect": [
+        {
+          "lhs": "compact_form",
+          "op": "lt",
+          "rhs": "terse_english"
+        }
+      ]
+    }
+  ]
+}

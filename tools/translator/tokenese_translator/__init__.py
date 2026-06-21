@@ -19,7 +19,7 @@ from .readback import diff_readback
 from .renderer import render_line, render_transcript
 from .score import score_pair, score_pair_json
 from .session import Session
-from .token_count import count_dual, count_anthropic_cached, count_o200k
+from .token_count import count_dual, count_anthropic_cached, count_cl100k, count_o200k
 from .validator import audit_lexicon, validate_line, validate_transcript
 
 __all__ = [
@@ -42,6 +42,7 @@ __all__ = [
     "audit_lexicon",
     "count_dual",
     "count_o200k",
+    "count_cl100k",
     "count_anthropic_cached",
     "diff_readback",
     "classify_transcript",

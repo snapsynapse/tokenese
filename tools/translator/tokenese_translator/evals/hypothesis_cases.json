@@ -1,0 +1,532 @@
+{
+  "schema_version": "tokenese-hypothesis-eval-1.0",
+  "baseline_policy": "Each candidate is compared against the shortest English baseline that preserves the same operational or semantic information. Bare terse English is not a fair baseline when it drops precision channels, evidence class, alternatives, or disambiguating anchors.",
+  "ideas": [
+    {
+      "id": 1,
+      "name": "symbol-table amortization",
+      "hypothesis": "Handles lose in one-shot messages but can win when long referents recur across a session."
+    },
+    {
+      "id": 2,
+      "name": "whole-phrase admission",
+      "hypothesis": "Admit constructs by whole-message or phrase savings, not by glyph-level cost alone."
+    },
+    {
+      "id": 3,
+      "name": "domain packs",
+      "hypothesis": "Small declared domain grammars beat generic terse English on repeated domain workflows."
+    },
+    {
+      "id": 4,
+      "name": "dense tables",
+      "hypothesis": "Repeated fact shapes compress better as rows than as sentences or bullets."
+    },
+    {
+      "id": 5,
+      "name": "lossless elision defaults",
+      "hypothesis": "Grammar-level defaults can omit recoverable verbs, subjects, and branches without dropping meaning."
+    },
+    {
+      "id": 6,
+      "name": "tokenizer-native operators",
+      "hypothesis": "Operators chosen from tokenizer-native substrings beat dotted handles and sigil clusters."
+    },
+    {
+      "id": 7,
+      "name": "controlled abbreviation glossary",
+      "hypothesis": "Declared abbreviations can safely beat English after enough repetitions."
+    },
+    {
+      "id": 8,
+      "name": "precision channels",
+      "hypothesis": "Tokenese beats equally precise English when evidence, confidence, alternatives, and repair state are mandatory."
+    },
+    {
+      "id": 9,
+      "name": "distribution-first assertions",
+      "hypothesis": "Ranked probabilistic alternatives are more compact and more faithful than English hedges."
+    },
+    {
+      "id": 10,
+      "name": "semantic-neighborhood handoff",
+      "hypothesis": "Near/far anchors and anti-senses can reconstruct an intended local concept neighborhood across model families."
+    }
+  ],
+  "suspected_payoff_rank": [
+    {
+      "rank": 1,
+      "idea_ids": [8, 9, 10],
+      "label": "probabilistic semantic packets",
+      "reason": "Highest strategic fit: improves accuracy over English while preserving compression against equally precise prose."
+    },
+    {
+      "rank": 2,
+      "idea_ids": [1, 3, 7],
+      "label": "amortized domain session",
+      "reason": "Early token counts show strong savings when handles, a domain pack, and a glossary share setup overhead."
+    },
+    {
+      "rank": 3,
+      "idea_ids": [9],
+      "label": "distribution-first assertions",
+      "reason": "Large measured savings against equally precise English and strong alignment with the probabilistic-language premise."
+    },
+    {
+      "rank": 4,
+      "idea_ids": [1],
+      "label": "symbol-table amortization",
+      "reason": "Potentially strong for long repeated referents; weak for one-shot prompts."
+    },
+    {
+      "rank": 5,
+      "idea_ids": [8],
+      "label": "precision channels",
+      "reason": "Measured win against equally precise English; directly supports the more-accurate-than-English goal."
+    },
+    {
+      "rank": 6,
+      "idea_ids": [10],
+      "label": "semantic-neighborhood handoff",
+      "reason": "Measured token win and high strategic value; model-behavior validation is the critical unknown."
+    },
+    {
+      "rank": 7,
+      "idea_ids": [2],
+      "label": "whole-phrase admission",
+      "reason": "Good admission discipline, but more of a governance rule than a standalone language feature."
+    },
+    {
+      "rank": 8,
+      "idea_ids": [3],
+      "label": "domain packs",
+      "reason": "Useful when session scope is stable; weaker alone than when paired with handles and glossary."
+    },
+    {
+      "rank": 9,
+      "idea_ids": [7],
+      "label": "controlled glossary",
+      "reason": "Likely needs repetition to beat glossary overhead; still valuable when paired with domain packs."
+    },
+    {
+      "rank": 10,
+      "idea_ids": [5],
+      "label": "lossless defaults",
+      "reason": "Current fixture only breaks even; value depends on mechanically recoverable defaults and behavioral safety."
+    },
+    {
+      "rank": 11,
+      "idea_ids": [6],
+      "label": "tokenizer-native operators",
+      "reason": "Necessary substrate improvement, but unlikely to create large wins alone."
+    },
+    {
+      "rank": 12,
+      "idea_ids": [4],
+      "label": "dense repeated-shape payloads",
+      "reason": "The first compact table fixture lost to terse English; retest at larger row counts before treating this as a win."
+    }
+  ],
+  "synergy_groups": [
+    {
+      "id": "S1",
+      "idea_ids": [8, 9, 10],
+      "label": "probabilistic semantic packet",
+      "hypothesis": "Evidence, rank distributions, and near/far sense anchors together may beat English on both accuracy and tokens."
+    },
+    {
+      "id": "S2",
+      "idea_ids": [1, 3, 7],
+      "label": "amortized domain session",
+      "hypothesis": "A domain pack plus handle table plus glossary should cross break-even faster than any single one."
+    },
+    {
+      "id": "S3",
+      "idea_ids": [2, 5, 6],
+      "label": "tokenizer-native grammar redesign",
+      "hypothesis": "Whole-phrase admission, defaults, and audited cheap operators should remove the known v0.3 syntax penalty."
+    },
+    {
+      "id": "S4",
+      "idea_ids": [3, 4, 8],
+      "label": "domain fact table with precision lanes",
+      "hypothesis": "Structured rows plus evidence/confidence lanes may beat terse bullets without dropping uncertainty."
+    },
+    {
+      "id": "S5",
+      "idea_ids": [1, 4, 5],
+      "label": "session state table",
+      "hypothesis": "Repeated subject handles, row shape, and recoverable defaults combine well for multi-step status exchange."
+    },
+    {
+      "id": "P1",
+      "idea_ids": [8, 9],
+      "label": "precision distribution",
+      "hypothesis": "Evidence/confidence lanes plus ranked distributions should beat equally precise prose before adding semantic-neighborhood anchors."
+    },
+    {
+      "id": "P2",
+      "idea_ids": [8, 10],
+      "label": "anchored precision",
+      "hypothesis": "Evidence/confidence lanes plus near/far anchors should disambiguate sense more compactly than prose."
+    },
+    {
+      "id": "P3",
+      "idea_ids": [1, 7],
+      "label": "handle glossary",
+      "hypothesis": "A handle table and abbreviation glossary should amortize together on repeated referents."
+    }
+  ],
+  "cases": [
+    {
+      "id": "I1-symbol-table-amortization",
+      "idea_ids": [1],
+      "test_kind": "break-even-token-count",
+      "description": "Repeated long referent over a short session; candidate must include handle declaration overhead.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "Check pcegwmrsxzzznowwnksu Supabase edge-function deploy status. If pcegwmrsxzzznowwnksu Supabase edge-function deploy failed, get pcegwmrsxzzznowwnksu Supabase edge-function deploy logs first error with timestamp. Then summarize pcegwmrsxzzznowwnksu Supabase edge-function deploy owner and retry state."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "@a=pcegwmrsxzzznowwnksu supabase edge-fn deploy\nget @a status\nif fail -> get @a logs first-error+ts\nthen get @a owner retry-state"
+        }
+      ],
+      "behavioral_metrics": ["binding preserved", "referent collision count", "break-even reference count"]
+    },
+    {
+      "id": "I2-whole-phrase-admission",
+      "idea_ids": [2],
+      "test_kind": "phrase-savings",
+      "description": "Measure phrase-level constructs as whole semantic units rather than isolated glyphs.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "If tests fail, stop and report the first failing test with timestamp. If tests pass, build and deploy production."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "tests fail -> stop report first-fail+ts; pass -> build deploy prod"
+        }
+      ],
+      "behavioral_metrics": ["condition preservation", "branch order preservation"]
+    },
+    {
+      "id": "I3-domain-pack-devops",
+      "idea_ids": [3],
+      "test_kind": "domain-pack-token-count",
+      "description": "A small declared devops pack over several operations.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "For the API service in production, check CI, deploy status, and logs. If CI failed, return the first log error with timestamp. If severity is at least 2, roll back production."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "^pack:devops\nsvc api prod\nci? deploy? logs?\nci:fail -> logs:first err+ts\nsev>=2 -> rollback prod"
+        }
+      ],
+      "behavioral_metrics": ["pack recognized", "domain slot preservation", "unsafe implicit action count"]
+    },
+    {
+      "id": "I4-dense-table-status",
+      "idea_ids": [4],
+      "test_kind": "row-shape-token-count",
+      "description": "Repeated status facts encoded as a compact table.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_table"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "API is blocked; Sam owns logs. UI passed; Alex owns ship. Docs are risky; Lee owns review. Worker failed; Jo owns rollback."
+        },
+        {
+          "label": "candidate_table",
+          "text": "item,status,owner,next\napi,blocked,sam,logs\nui,pass,alex,ship\ndocs,risk,lee,review\nworker,fail,jo,rollback"
+        }
+      ],
+      "behavioral_metrics": ["row count", "column preservation", "cell transposition count"]
+    },
+    {
+      "id": "I5-lossless-elision-defaults",
+      "idea_ids": [5],
+      "test_kind": "default-recovery",
+      "description": "Candidate relies on declared defaults: query by default, same subject, fail branch inherits previous operation.",
+      "baselines": ["explicit_terse_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "explicit_terse_english",
+          "text": "Query Supabase edge-function deploy status. If the deploy failed, query the first log error with timestamp. If the deploy passed, report ready."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "^default:? same-subject fail-branch\nsupabase.edgefn.deploy status\nfail: logs.err[0]+ts\npass: ready"
+        }
+      ],
+      "behavioral_metrics": ["default recoverability", "implicit subject recovery", "ambiguous branch count"]
+    },
+    {
+      "id": "I6-tokenizer-native-operators",
+      "idea_ids": [6],
+      "test_kind": "syntax-penalty-ablation",
+      "description": "Compare old dotted/sigil syntax against cheap ASCII operator alternatives.",
+      "baselines": ["old_v03_syntax", "terse_english"],
+      "candidates": ["candidate_operator_syntax"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "Check Supabase edge-function deploy status. If failed, return first log error with timestamp."
+        },
+        {
+          "label": "old_v03_syntax",
+          "text": "^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n@svc.deploy >>> @svc.status\n!@svc.ok? *>> get @svc.logs.first-error +ts"
+        },
+        {
+          "label": "candidate_operator_syntax",
+          "text": "svc=supabase edgefn deploy\nsvc -> status\nsvc ok? no: logs err[0]+ts"
+        }
+      ],
+      "behavioral_metrics": ["operator token cost", "parser ambiguity", "human audit rating"]
+    },
+    {
+      "id": "I7-controlled-abbreviation-glossary",
+      "idea_ids": [7],
+      "test_kind": "glossary-break-even",
+      "description": "Abbreviations include declaration overhead and must be recoverable from the glossary.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "Check the edge function deploy. If the edge function deploy failed, return the edge function error with timestamp. If edge function severity is at least 2, roll back the edge function deploy."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "^abbr ef=edge-function, ts=timestamp, sev=severity\nchk ef deploy\nfail -> ef err+ts\nsev>=2 -> rollback ef deploy"
+        }
+      ],
+      "behavioral_metrics": ["glossary expansion accuracy", "break-even repetition count", "abbreviation collision count"]
+    },
+    {
+      "id": "I8-precision-channels",
+      "idea_ids": [8],
+      "test_kind": "equal-precision-token-count",
+      "description": "English baseline preserves evidence class, confidence, alternatives, and action ranking.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_tokenese"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "Observed status is up with confidence 8 of 9. The inferred cause ranking is OOM first at 6, disk second at 3, and network third at 1. The guessed next action ranking is restart at 5, inspect logs at 4, and rollback at 2. If the receiver is unsure about the timestamp slot, it must ask for repair in plain English."
+        },
+        {
+          "label": "candidate_tokenese",
+          "text": "status:up ev:obs confidence:8/9\ncause[oom:6 disk:3 net:1] ev:guess\nact[restart:5 logs:4 rollback:2] ev:guess\nrepair:timestamp -> plain"
+        }
+      ],
+      "behavioral_metrics": ["evidence preservation", "confidence preservation", "rank preservation", "dropped alternative count", "repair-state preservation"]
+    },
+    {
+      "id": "I9-distribution-first-assertions",
+      "idea_ids": [9],
+      "test_kind": "distribution-fidelity",
+      "description": "Distribution syntax makes ranked alternatives primary rather than prose hedges.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_distribution"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "For cause, assign OOM weight 6, disk weight 3, and network weight 1 based on observation. For fix, assign restart weight 5, inspect logs weight 4, and rollback weight 2 as a guess."
+        },
+        {
+          "label": "candidate_distribution",
+          "text": "cause[oom:6 disk:3 net:1]@obs\nfix[restart:5 logs:4 rollback:2]@guess"
+        }
+      ],
+      "behavioral_metrics": ["ordinal rank preservation", "weight preservation", "probability-misread count"]
+    },
+    {
+      "id": "I10-semantic-neighborhood-handoff",
+      "idea_ids": [10],
+      "test_kind": "cross-model-sense-disambiguation",
+      "description": "Near/far anchors should reconstruct intended local concept neighborhoods without shared embeddings.",
+      "baselines": ["disambiguating_english"],
+      "candidates": ["candidate_neighborhood"],
+      "forms": [
+        {
+          "label": "disambiguating_english",
+          "text": "Use guardrail to mean a safety policy constraint, not a user-interface rail, physical railing, or mere preference. Treat it as closer to a binding policy than to optional guidance."
+        },
+        {
+          "label": "candidate_neighborhood",
+          "text": "guardrail ~= safety-policy !~= ui-rail !~= physical-rail !~= preference\nnear:binding-policy far:optional-guidance"
+        }
+      ],
+      "behavioral_metrics": ["sense-choice accuracy", "confuser rejection", "near/far rank preservation", "cross-family variance"]
+    },
+    {
+      "id": "S1-probabilistic-semantic-packet",
+      "idea_ids": [8, 9, 10],
+      "test_kind": "synergy-token-and-behavior",
+      "description": "Combined precision, distribution, and semantic-neighborhood payload.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_packet"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "Use guardrail to mean a safety policy constraint, not a UI rail or preference. Observed evidence supports the policy sense at weight 7, the compliance-control sense at 6, the preference sense at negative 5, and the UI-rail sense at negative 8. Confidence is 8 of 9."
+        },
+        {
+          "label": "candidate_packet",
+          "text": "guardrail ~= safety-policy !~= ui-rail !~= preference\nev:obs ^8\nsense[policy:7 compliance-control:6 preference:-5 ui-rail:-8]"
+        }
+      ],
+      "behavioral_metrics": ["sense-choice accuracy", "weight preservation", "evidence preservation", "token synergy over individual cases"]
+    },
+    {
+      "id": "S2-amortized-domain-session",
+      "idea_ids": [1, 3, 7],
+      "test_kind": "synergy-break-even",
+      "description": "Domain pack plus handle plus abbreviation glossary over a repeated operational session.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_session"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "For pcegwmrsxzzznowwnksu production edge function, check deploy status, check CI, check logs, and check severity. If pcegwmrsxzzznowwnksu production edge function CI failed, return first pcegwmrsxzzznowwnksu production edge function log error with timestamp. If pcegwmrsxzzznowwnksu production edge function severity is at least 2, roll back pcegwmrsxzzznowwnksu production edge function."
+        },
+        {
+          "label": "candidate_session",
+          "text": "^pack:devops\n^abbr ef=edge-function, ts=timestamp, sev=severity\n@p=pcegwmrsxzzznowwnksu prod ef\n?p deploy ci logs sev\nci:fail -> logs:first err+ts\nsev>=2 -> rollback @p"
+        }
+      ],
+      "behavioral_metrics": ["pack recognized", "glossary expansion", "handle resolution", "break-even turn count"]
+    },
+    {
+      "id": "S3-tokenizer-native-grammar-redesign",
+      "idea_ids": [2, 5, 6],
+      "test_kind": "synergy-syntax-ablation",
+      "description": "Whole-phrase admission plus recoverable defaults plus cheap operators.",
+      "baselines": ["terse_english", "old_v03_syntax"],
+      "candidates": ["candidate_redesign"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "Check Supabase edge-function deploy status. If failed, return first log error with timestamp."
+        },
+        {
+          "label": "old_v03_syntax",
+          "text": "^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n@svc.deploy >>> @svc.status\n!@svc.ok? *>> get @svc.logs.first-error +ts"
+        },
+        {
+          "label": "candidate_redesign",
+          "text": "^d:? same fail\nsupabase edgefn deploy status\nfail -> logs err[0]+ts"
+        }
+      ],
+      "behavioral_metrics": ["syntax token cost", "default recoverability", "semantic equivalence"]
+    },
+    {
+      "id": "S4-domain-fact-table-precision-lanes",
+      "idea_ids": [3, 4, 8],
+      "test_kind": "synergy-table-precision",
+      "description": "Domain table with evidence and confidence lanes.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_table"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "For API, observed status is blocked with confidence 8 and Sam owns logs. For UI, observed status passed with confidence 7 and Alex owns ship. For docs, guessed status is risky with confidence 5 and Lee owns review. For worker, observed status failed with confidence 8 and Jo owns rollback."
+        },
+        {
+          "label": "candidate_table",
+          "text": "^pack:status\nitem,status,ev,^,owner,next\napi,blocked,obs,8,sam,logs\nui,pass,obs,7,alex,ship\ndocs,risk,guess,5,lee,review\nworker,fail,obs,8,jo,rollback"
+        }
+      ],
+      "behavioral_metrics": ["row preservation", "evidence preservation", "confidence preservation", "domain slot recognition"]
+    },
+    {
+      "id": "S5-session-state-table",
+      "idea_ids": [1, 4, 5],
+      "test_kind": "synergy-session-state-table",
+      "description": "Repeated subject handle plus row-shaped state plus recoverable defaults.",
+      "baselines": ["explicit_terse_english"],
+      "candidates": ["candidate_state_table"],
+      "forms": [
+        {
+          "label": "explicit_terse_english",
+          "text": "For pcegwmrsxzzznowwnksu Supabase edge function deploy, query status, owner, retry state, and next action. If status is failed, query first log error and timestamp. If retry state is blocked, report owner and next action."
+        },
+        {
+          "label": "candidate_state_table",
+          "text": "^default:? same-subject\n@a=pcegwmrsxzzznowwnksu supabase edgefn deploy\nfield,val\nstatus,?\nowner,?\nretry,?\nnext,?\nstatus:fail -> logs.err[0]+ts\nretry:blocked -> owner+next"
+        }
+      ],
+      "behavioral_metrics": ["handle resolution", "row preservation", "default recoverability", "branch condition preservation"]
+    },
+    {
+      "id": "P1-precision-distribution",
+      "idea_ids": [8, 9],
+      "test_kind": "pair-token-and-rank",
+      "description": "Pair evidence/confidence channels with ranked distributions without semantic-neighborhood anchors.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_pair"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "Observed evidence with confidence 8 of 9 supports OOM at weight 6, disk at weight 3, and network at weight 1. The guessed fix ranking is restart at 5, inspect logs at 4, and rollback at 2."
+        },
+        {
+          "label": "candidate_pair",
+          "text": "ev:obs ^8 cause[oom:6 disk:3 net:1]\nev:guess fix[restart:5 logs:4 rollback:2]"
+        }
+      ],
+      "behavioral_metrics": ["evidence preservation", "confidence preservation", "ordinal rank preservation", "probability-misread count"]
+    },
+    {
+      "id": "P2-anchored-precision",
+      "idea_ids": [8, 10],
+      "test_kind": "pair-sense-precision",
+      "description": "Pair evidence/confidence channels with semantic-neighborhood anchors.",
+      "baselines": ["equal_precision_english"],
+      "candidates": ["candidate_pair"],
+      "forms": [
+        {
+          "label": "equal_precision_english",
+          "text": "Use guardrail to mean a safety policy constraint, not a UI rail or preference. This sense is observed in the current policy text with confidence 8 of 9."
+        },
+        {
+          "label": "candidate_pair",
+          "text": "guardrail ~= safety-policy !~= ui-rail !~= preference\nev:obs ^8 src:policy-text"
+        }
+      ],
+      "behavioral_metrics": ["sense-choice accuracy", "confuser rejection", "evidence preservation", "confidence preservation"]
+    },
+    {
+      "id": "P3-handle-glossary",
+      "idea_ids": [1, 7],
+      "test_kind": "pair-break-even",
+      "description": "Pair handles with declared abbreviations over repeated operational references.",
+      "baselines": ["terse_english"],
+      "candidates": ["candidate_pair"],
+      "forms": [
+        {
+          "label": "terse_english",
+          "text": "Check pcegwmrsxzzznowwnksu production edge function deploy status. If pcegwmrsxzzznowwnksu production edge function failed, return pcegwmrsxzzznowwnksu production edge function error with timestamp."
+        },
+        {
+          "label": "candidate_pair",
+          "text": "^abbr ef=edge-function, ts=timestamp\n@p=pcegwmrsxzzznowwnksu prod ef deploy\ncheck @p status\nfail -> @p err+ts"
+        }
+      ],
+      "behavioral_metrics": ["handle resolution", "glossary expansion", "break-even reference count"]
+    }
+  ]
+}
