@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-18 (X5 + L8 shipped; X6/X7 + L7/L9 carried).
+Status: living document. Last updated 2026-06-22 (X7 + L7 shipped; X6/L9 carried).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -19,7 +19,7 @@ So the roadmap stays honest about what already exists:
 
 - Grammar v0.3 with parser, renderer, and a centralized handle lexer; deterministic
   per-pair conformance checker; CLI (`tokenese-check`); MCP server (parse, validate,
-  to-english, check-pair, score-pair); TKAB scoring harness. 144/144 tests.
+  to-english, check-pair, score-pair); TKAB scoring harness. 156/156 translator tests.
 - Initial report-only frameset registry (`framesets.json`) for common ops and
   canonical slot-order telemetry. This is an X3 partial, not a normative grammar
   gate: old artifacts still parse and score unchanged.
@@ -49,11 +49,19 @@ So the roadmap stays honest about what already exists:
   omlx). New `audit_gemma4.py`; `audit_gemma.py` retired. **(X5 shipped v0.3.8)**
 - Spec-page parity audit: `docs/index.html`, `docs/llms.txt`, `README.md`,
   `AGENTS.md`, and the `skills/tokenese/` bundle (1.0.1) refreshed to v0.3.8
-  reality — seven tokenizer columns enumerated, native Gemma 4 noted, test
-  count corrected (144 translator + 7 root = 151), GuideCheck Level 4
+  reality — seven tokenizer columns enumerated, native Gemma 4 noted, then-current
+  test count corrected (144 translator + 7 root = 151), GuideCheck Level 4
   reflected on the landing page and in the skill manifest. The
   DNS-anchored hosted assistant guide is intentionally untouched per
   RELEASE_CHECKLIST line 68. **(L8 shipped v0.3.8)**
+- Skill-bundle hash drift guard (`tools/skills/compute_hashes.sh --check` +
+  `.github/workflows/skill_hashes.yml`): CI fails when the pinned skill files
+  (`SKILL.md`, `audit_card.md`, `install_guide.md`) drift from
+  `skills/tokenese/MANIFEST.yaml`. **(X7 shipped v0.3.9 pending release)**
+- Provenance-pin policy documented in `RELEASE_CHECKLIST.md`: source
+  provenance pins may roll only on normative grammar minor/major releases, or
+  on an explicitly roadmap-authorized column-of-record swap; patch releases
+  must leave `_provenance()` source hashes stable. **(L7 shipped v0.3.9 pending release)**
 
 ## Now (credibility-defining)
 
@@ -99,15 +107,6 @@ offline columns and drift is caught fast. Same pattern can extend to any future
 API-gated tokenizer (e.g. a hosted Anthropic model swap).
 Tie: invariant 5, parity between offline and API-gated columns.
 
-### X7. Skill-bundle hash drift guard
-
-X1 (v0.3.4) pins three hashes in `skills/tokenese/MANIFEST.yaml` (SKILL.md,
-audit_card.md, install_guide.md). Add a CI check via the shipped
-`tools/skills/compute_hashes.sh` that fails when any of those files change
-without the manifest being re-hashed. Mirrors the spirit of N4 at the skill
-level.
-Tie: skill provenance, GuideCheck alignment for the skill's own install guide.
-
 ## Later (ecosystem and reach)
 
 ### L1. Reference SDKs beyond Python
@@ -143,17 +142,6 @@ Generate the `og.png` social card (currently omitted) and run the promo flow
 (dev.to, blog, LinkedIn) once N2 has a result worth announcing. Announce on
 evidence, not intent.
 Tie: adoption; deliberately sequenced after N2 so the pitch is measured.
-
-### L7. Provenance-pin policy
-
-Both N3 (v0.3.3) and X2 (v0.3.5) deliberately left
-`tools/translator/data/source_provenance/*.json` untouched to keep
-`_provenance()` byte-identical and the measurement claim stable across docs-only
-releases. That was the right call — but the policy isn't written down. Document
-when the provenance pins are allowed to roll forward (proposed: only on a
-normative grammar minor bump, never on a patch release), and add a checklist
-entry to `RELEASE_CHECKLIST.md` that calls out the decision explicitly.
-Tie: invariant 6 (measured, not asserted); release discipline.
 
 ### L9. Reusable skill scaffolding
 

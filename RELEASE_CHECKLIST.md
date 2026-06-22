@@ -4,7 +4,7 @@ A bounded, repeatable procedure for every release tag in `snapsynapse/tokenese`.
 This document is the source of truth — if a step here disagrees with practice,
 update the doc, not the practice.
 
-Last reviewed: 2026-06-17 (v0.3.x series).
+Last reviewed: 2026-06-22 (v0.3.x series).
 
 ## Release classes
 
@@ -22,7 +22,7 @@ Last reviewed: 2026-06-17 (v0.3.x series).
    - `tools/translator/tokenese_translator/__init__.py` `__version__`
    - `skills/tokenese/MANIFEST.yaml` if any of the three pinned skill files changed (recompute via `tools/skills/compute_hashes.sh`)
 3. **CHANGELOG entry** under a new `[X.Y.Z] - YYYY-MM-DD` heading. Clear `[Unreleased]`.
-4. **Tests:** `cd tools/translator && pytest -q` — must show ≥ 132 passing (current baseline; adjust upward as the suite grows).
+4. **Tests:** `cd tools/translator && pytest -q` — must show ≥ 156 passing (current baseline; adjust upward as the suite grows).
 5. **Backward-compat sanity:** `tokenese-check --pair tools/translator/tkab/fixtures/TKAB-W1.pair.json` still outputs `outcome: win-conformant`.
 6. **Docs touched check:** if README, AGENTS, spec, DESIGN, CONFORMANCE, GRAMMAR-vX.Y were changed, scan for version-stamp drift before opening PR.
 7. **Open PR** with title pattern: `<area>: <summary> (ROADMAP <ref> if applicable)`. Body must list:
@@ -74,6 +74,20 @@ All of "Patch" and "Minor" plus:
 - [ ] `audit_check_intersection.py` exits 0 against the new snapshot — no admissible-alphabet symbol is silently dropped.
 - [ ] Every newly-rejected symbol is enumerated in the CHANGELOG entry with a one-line rationale (INTENT.md invariant 5, ROADMAP L7).
 - [ ] If the change is a column-of-record swap (model variant change, proxy → native, etc.), the prior column's snapshot is preserved at the previous release tag (do not delete commit history) and the swap is justified in the CHANGELOG.
+
+## Source-provenance pin policy
+
+`tools/translator/data/source_provenance/SHA256SUMS.txt` is part of the measured-claim surface. Patch releases must leave `_provenance()` source hashes byte-stable unless the roadmap explicitly authorizes a column-of-record swap.
+
+- [ ] For patch releases: confirm no source-provenance pins changed, or cite the roadmap item that authorizes the exception.
+- [ ] For minor or major grammar releases: roll source-provenance pins only after the normative spec/design/conformance changes are complete, then document the roll in the CHANGELOG.
+- [ ] For docs-only releases: update live docs, not source-provenance snapshots.
+
+## Skill-bundle gates (when skills/tokenese pinned files change)
+
+- [ ] Run `tools/skills/compute_hashes.sh` after editing `skills/tokenese/SKILL.md`, `skills/tokenese/audit_card.md`, or `skills/tokenese/install_guide.md`.
+- [ ] Run `tools/skills/compute_hashes.sh --check`; the `Skill bundle hashes` CI job enforces the same check on PRs.
+- [ ] If the skill manifest changes, update `skills/tokenese/CHANGELOG.md` and the version/date fields in `skills/tokenese/MANIFEST.yaml` when appropriate.
 
 ## Hosted-page gates (when docs/ changes)
 

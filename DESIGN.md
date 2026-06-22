@@ -179,3 +179,30 @@ Maintainer amendment 2026-06-12: invariant 2 narrowed. The 1-token rule binds th
 Deferred: delta-coding (needs paired readback + separate probe), templates (v0.3), worked-pair analogy beyond teaching/query use.
 
 The A/B against Codex 5.5 measures per-construct: misparse-retry rate (stratified by construct family, since binding, scope, sense, and triangulation errors have different causes and fixes), calibration of self-reported channels, and reasoning-task accuracy inside dense vs prose spans. Cold-start conformance (a fresh model given only the spec must parse novel recombinations, not just spec-shaped examples) becomes the standing regression test of the language itself.
+
+## 10. Precision-pivot spec direction and open questions resolution
+
+This section records the ratified spec-direction and open questions resolved by the Session 26 A/B and receiver evaluations.
+
+### The six open questions resolved
+
+1. **Rank as first-class ordinal syntax:** Yes, but naming is insufficient. Bracketed numbers are defined as ordinal weights unless a score scale is explicitly declared.
+2. **Confidence notation:** `confidence:N/M` replaces the legacy `^N` shorthand in examples where receiver fidelity is critical. `^N` remains optional and untrusted.
+3. **Repair notation:** `repair:<slot> -> plain` replaces the legacy `?? <slot> plain` for clearer receiver recovery.
+4. **Semantic neighborhood:** The `~=` and `!~=` operators are abandoned due to receiver misinterpretation. Use explicit `near[...]` and polarity-safe `far_from[...]` constructs.
+5. **Safety command markers:** State-changing commands require an explicit command marker and approval gate (e.g. `cmd! <action> <target> gate:<approver>`). Advisory rankings must never be parsed as commands.
+6. **Receiver pass rate for spec changes:** Spec changes require the per-dimension thresholds met on at least 2 independent receiver families (families being distinct model lineages).
+
+### Recommended grammar direction (interim spec draft)
+
+The following syntax represents the precision-preserving grammar direction:
+
+```text
+@a=<long referent>                         # binding only; never imperative
+status @a:up ev:obs confidence:8/9         # line-local evidence + confidence
+cause_rank @a[oom:6 disk:3 net:1] ev:guess # ordinal weights (declare score scale to override)
+act_rank @a[restart:5 logs:4 rollback-review:2] ev:guess  # advisory ranks
+repair @a.timestamp -> plain               # explicit repair/fallback
+# state-changing command form, gated:
+# cmd! restart @a gate:<approver>
+```

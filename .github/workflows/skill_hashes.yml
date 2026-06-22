@@ -1,0 +1,32 @@
+name: Skill bundle hashes
+
+# ROADMAP X7: fail when pinned skill files change without refreshing
+# skills/tokenese/MANIFEST.yaml.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/tokenese/SKILL.md'
+      - 'skills/tokenese/audit_card.md'
+      - 'skills/tokenese/install_guide.md'
+      - 'skills/tokenese/MANIFEST.yaml'
+      - 'tools/skills/compute_hashes.sh'
+      - '.github/workflows/skill_hashes.yml'
+  pull_request:
+    paths:
+      - 'skills/tokenese/SKILL.md'
+      - 'skills/tokenese/audit_card.md'
+      - 'skills/tokenese/install_guide.md'
+      - 'skills/tokenese/MANIFEST.yaml'
+      - 'tools/skills/compute_hashes.sh'
+      - '.github/workflows/skill_hashes.yml'
+  workflow_dispatch: {}
+
+jobs:
+  skill-hashes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify skill manifest hashes
+        run: tools/skills/compute_hashes.sh --check

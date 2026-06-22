@@ -8,6 +8,12 @@ Tokenese is an open specification for a token-native interlingua: a language LLM
 
 LLMs conforming to human language is like watching film in black and white. Human languages were shaped by human constraints: serial speech, limited working memory, social hedging, redundancy against noisy air. Models inherit all of that overhead and none of its benefits. Tokenese is an attempt to bring color to machine-to-machine communication: exchanges that feel richer and more informative to the participants while compressing into a smaller, token-native format. The bet is that accuracy and compression are not a tradeoff here; natural language is so far from the efficient frontier that a designed language can win on both axes at once.
 
+## Retained compression goal and precision-pivot
+
+1. Retained goal (North-Star): "Tokenese is a compression language." This remains the long-term objective of the standard. While current evidence indicates Tokenese does not outperform terse English on flat/simple content, the compression intent is explicitly retained. The path to this goal is to expand the regimes of exploitable structure and design tokenizer-native syntax.
+2. Interim position: Tokenese is a precision-preserving structured interlingua with measured compression against equally precise English. It concentrates compression where English drops structure or explains verbosely: evidence class, confidence, ranked alternatives, repair/fallback state, and multi-referent amortization with reuse.
+3. Trajectory relationship: The interim position is a step toward the long-term goal, not a replacement. Spec changes during the interim must increase receiver-safe density and must not foreclose the long-term compression goal.
+
 ## Design invariants
 
 1. Token-space only. No embeddings, no KV-cache sharing, no latent-channel exchange. Everything crosses the wire as text each party tokenizes independently. Security and cross-vendor portability both require this.
@@ -51,6 +57,7 @@ Testable claims, no central oracle. Two claim classes: (1) lexicon admissibility
 
 ## Changelog
 
+- 2026-06-22: Precision-pivot sync. Satisfied OQ#6 cross-model receiver gate (all dimensions scored PASS across Claude, Gemini, and Codex). Synced the ratified spec-direction and open questions resolution to DESIGN.md and INTENT.md (retained long-term compression goal + precision-pivot trajectory).
 - 2026-06-18: DNS live. Verified `tokenese.org` resolves to GitHub Pages (185.199.108-111.153, `www` -> snapsynapse.github.io, HTTPS 200) and the Level 4 cross-channel hash anchor `_assistant-guide.tokenese.org` now returns its TXT record (`sha256=151c29d1...`, url=`https://tokenese.org/.well-known/assistant-guide.txt`). The "DNS pending" / "Level 3 until it propagates" notes below are resolved: hosted-tier surfaces and the Level 4 assistant-guide anchor are both fully live.
 - 2026-06-17 (release v0.3.2): X3 partial, report-only frameset registry. Added typed slot signatures for common ops (`deploy`, `get`, `run`, `set`, `fix`), packaged `validate_framesets`, MCP surface, and TKAB `frameset_validation` telemetry. Patch release; no normative grammar change and no checker outcome changes.
 - 2026-06-17 (release v0.3.1): GuideCheck adoption. Added `assistant-guide.txt` (bounded "install Tokenese and reproduce the lexicon audit" task) as a trust-anchored byte-identical pair (repo root + `docs/.well-known/`) with a Level 4 sidecar manifest. Synced the landing page and `llms.txt` to grammar v0.3. Patch release; no normative grammar change. Level 4 cross-channel hash anchor (DNS TXT at `_assistant-guide.tokenese.org`) pending one registrar record; Level 3 structure complete until it propagates.

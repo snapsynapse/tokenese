@@ -137,22 +137,20 @@ Reference checker. The deterministic per-pair scorer lives at `tools/translator/
 
 MCP surface. `tokenese_translator.mcp_server` exposes parse / validate / to_english / check_pair / score_pair / classify_misparse / validate_framesets / grammar_info. Verifier-anywhere posture per the conformance philosophy in INTENT.md.
 
-GuideCheck. Trust-anchored `assistant-guide.txt` (Level 3 live; Level 4 DNS anchor pending — ROADMAP N1).
+GuideCheck. Trust-anchored `assistant-guide.txt` is Level 4 live: the repo and hosted `.well-known` guide are byte-identical, the sidecar manifest pins sha256 and byte count, and the DNS TXT record at `_assistant-guide.tokenese.org` advertises the live hash.
 
 ## Open questions (current)
 
 The current open work is tracked in ROADMAP.md; the items still open are:
 
-- **N1.** Complete GuideCheck Level 4 (DNS TXT anchor at `_assistant-guide.tokenese.org`).
 - **N2.** The validating A/B experiment (the kill-criterion). Misparse-retry rate, calibration of self-reported channels, and reasoning-task accuracy inside dense vs prose spans, per-construct family. Session-24 Turnfile tests support the precision-first pivot and should be folded into the next formal result package.
-- **X1.** Tokenese skill bundle (portable Agent Skill — cross-surface).
-- **X2.** Additional tokenizer columns (Gemini, Qwen, DeepSeek, Llama).
 - **X3.** Frameset registry promotion from report-only telemetry to a conformance gate (pending N2 measurements).
 - **X4.** Hosted conformance checker at tokenese.dev.
+- **X6.** Live tokenizer CI for API-gated tokenizer columns, starting with Gemini.
 
 Open questions (v0.2 agenda) — closed-status note:
 
-Closed since v0.1: items 2 (vocabulary registry — partial via `framesets.json`), 4 (multi-statement / quoting — addressed by `"""..."""` raw source quotes in v0.3), 5 (CJK content vocab — admitted by amended Invariant 2 per INTENT 2026-06-12). Open: items 1 (live A/B → ROADMAP N2), 3 (instruction-following inside dense — measured by N2), 6 (third+ tokenizer columns → ROADMAP X2).
+Closed since v0.1: items 2 (vocabulary registry — partial via `framesets.json`), 4 (multi-statement / quoting — addressed by `"""..."""` raw source quotes in v0.3), 5 (CJK content vocab — admitted by amended Invariant 2 per INTENT 2026-06-12), 6 (third+ tokenizer columns — shipped via ROADMAP X2). Open: items 1 (live A/B → ROADMAP N2) and 3 (instruction-following inside dense — measured by N2).
 
 ## Naming and prior art
 

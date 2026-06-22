@@ -22,6 +22,7 @@ tokenese-mcp = "tokenese_translator.mcp_server:main"
 tokenese-check = "tkab.cli:main"
 tokenese-compression-eval = "tokenese_translator.compression_eval:main"
 tokenese-receiver-eval = "tokenese_translator.receiver_eval:main"
+tokenese-n2-report = "tokenese_translator.n2_report:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

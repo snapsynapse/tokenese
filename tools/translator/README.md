@@ -77,6 +77,19 @@ misparses, repair events, source-authority conflicts, and outcome
 according to PRD-027 R5.3/R5.4 and R6.3. Outcomes are a closed
 enumeration documented in `tkab/AUDIT_CARD.md`.
 
+## N2 static package report
+
+`tokenese-n2-report` assembles the deterministic pre-live-run package for
+ROADMAP N2: compression regression counts, exploratory hypothesis counts, static
+receiver term coverage, and TKAB fixture outcomes. It does not close N2; it
+reports the live multi-family A/B requirements that still need external receiver
+runs.
+
+```bash
+tokenese-n2-report --format markdown
+tokenese-n2-report --format json
+```
+
 ## Grammar v0.3
 
 The translator and checker support grammar **v0.3** — an additive, fully

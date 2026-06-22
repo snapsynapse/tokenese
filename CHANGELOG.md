@@ -12,6 +12,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   GitHub repository social-preview upload. `docs/index.html` now declares
   `og:image` and `twitter:image` pointing at `https://tokenese.org/imgs/og.png`,
   closing the missing-preview gap surfaced during repo-polish.
+- `tools/skills/compute_hashes.sh --check` and `.github/workflows/skill_hashes.yml`
+  for ROADMAP X7. The check fails when `skills/tokenese/SKILL.md`,
+  `audit_card.md`, or `install_guide.md` drift from the hashes pinned in
+  `skills/tokenese/MANIFEST.yaml`.
+- `tokenese-n2-report`: a deterministic ROADMAP N2 static package report that
+  combines compression regression counts, hypothesis counts, receiver term
+  coverage, TKAB fixture outcomes, and the remaining live A/B closure
+  requirements.
+
+### Changed
+
+- Synced the precision-pivot spec-direction and open questions resolution to
+  `DESIGN.md` (new section 10) and `INTENT.md` after the OQ#6 cross-model
+  receiver gate was fully satisfied. The long-term compression goal is
+  explicitly retained as the North-Star in `INTENT.md` alongside the precision-pivot
+  trajectory.
+- `ROADMAP.md`, `spec.md`, and `RELEASE_CHECKLIST.md` now reflect the shipped
+  GuideCheck Level 4, skill-bundle, and tokenizer-column work. ROADMAP L7 is
+  closed by documenting the source-provenance pin policy in the release gates.
+- Current-status docs now report the live verification baseline: 156 translator
+  tests plus 7 repo-root audit-surface tests.
+
 
 ## [0.3.8] - 2026-06-18
 
