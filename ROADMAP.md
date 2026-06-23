@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-22 (X7 + L7 shipped; X6/L9 carried).
+Status: living document. Last updated 2026-06-23 (v0.3.9 cut; X7 + L7 shipped; X6/L9 carried).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -57,11 +57,11 @@ So the roadmap stays honest about what already exists:
 - Skill-bundle hash drift guard (`tools/skills/compute_hashes.sh --check` +
   `.github/workflows/skill_hashes.yml`): CI fails when the pinned skill files
   (`SKILL.md`, `audit_card.md`, `install_guide.md`) drift from
-  `skills/tokenese/MANIFEST.yaml`. **(X7 shipped v0.3.9 pending release)**
+  `skills/tokenese/MANIFEST.yaml`. **(X7 shipped v0.3.9)**
 - Provenance-pin policy documented in `RELEASE_CHECKLIST.md`: source
   provenance pins may roll only on normative grammar minor/major releases, or
   on an explicitly roadmap-authorized column-of-record swap; patch releases
-  must leave `_provenance()` source hashes stable. **(L7 shipped v0.3.9 pending release)**
+  must leave `_provenance()` source hashes stable. **(L7 shipped v0.3.9)**
 
 ## Now (credibility-defining)
 

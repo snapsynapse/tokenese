@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.9] - 2026-06-23
+
 ### Added
 
 - Social/OpenGraph image at `docs/imgs/og.png` (1280x634), reclaimed from the
@@ -33,7 +35,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   closed by documenting the source-provenance pin policy in the release gates.
 - Current-status docs now report the live verification baseline: 156 translator
   tests plus 7 repo-root audit-surface tests.
-
+- Retired the stale S1 receiver fixture form that still used abandoned
+  `~=` / `!~=` semantic-neighborhood operators. S1 now uses explicit
+  `near[...]`, polarity-safe `far_from[...]`, and `confidence:8/9`, bringing the
+  deterministic receiver static floor above the `0.75` release threshold.
 
 ## [0.3.8] - 2026-06-18
 

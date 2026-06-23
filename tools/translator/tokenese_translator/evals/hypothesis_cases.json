@@ -367,7 +367,7 @@
         },
         {
           "label": "candidate_neighborhood",
-          "text": "guardrail ~= safety-policy !~= ui-rail !~= physical-rail !~= preference\nnear:binding-policy far:optional-guidance"
+          "text": "guardrail near[safety-policy binding-policy] far_from[ui-rail physical-rail preference optional-guidance]"
         }
       ],
       "behavioral_metrics": ["sense-choice accuracy", "confuser rejection", "near/far rank preservation", "cross-family variance"]
@@ -386,7 +386,7 @@
         },
         {
           "label": "candidate_packet",
-          "text": "guardrail ~= safety-policy !~= ui-rail !~= preference\nev:obs ^8\nsense[policy:7 compliance-control:6 preference:-5 ui-rail:-8]"
+          "text": "guardrail near[safety-policy:7 compliance-control:6] far_from[preference:5 ui-rail:8] ev:observed confidence:8/9"
         }
       ],
       "behavioral_metrics": ["sense-choice accuracy", "weight preservation", "evidence preservation", "token synergy over individual cases"]
@@ -504,7 +504,7 @@
         },
         {
           "label": "candidate_pair",
-          "text": "guardrail ~= safety-policy !~= ui-rail !~= preference\nev:obs ^8 src:policy-text"
+          "text": "guardrail near[safety-policy] far_from[ui-rail preference] ev:observed confidence:8/9 src:policy-text"
         }
       ],
       "behavioral_metrics": ["sense-choice accuracy", "confuser rejection", "evidence preservation", "confidence preservation"]

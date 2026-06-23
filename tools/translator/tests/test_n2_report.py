@@ -27,16 +27,13 @@ def test_n2_report_summarizes_non_cherry_picked_hypotheses():
     )
 
 
-def test_n2_report_surfaces_receiver_static_floor_failures():
+def test_n2_report_passes_receiver_static_floor():
     report = build_report()
     receiver = report["receiver_static"]
 
-    assert receiver["threshold_pass"] is False
-    assert receiver["min_score"] < receiver["min_score_threshold"]
-    assert any(
-        case["id"] == "S1-probabilistic-semantic-packet"
-        for case in receiver["cases_below_threshold"]
-    )
+    assert receiver["threshold_pass"] is True
+    assert receiver["min_score"] >= receiver["min_score_threshold"]
+    assert receiver["cases_below_threshold"] == []
 
 
 def test_n2_report_includes_tkab_fixture_outcomes():
