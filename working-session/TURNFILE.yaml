@@ -1,0 +1,82 @@
+# TURNFILE.yaml — Tokenese Phase B coordination (v1 Minimal Governance Profile)
+# Initialized by `node /Users/snap/Git/turnfile/tools/turnfile.mjs init` at 2026-06-23
+# Maintainer-directed Phase B start: Turnfile session 29 chat, "Tokenese has a handoff document. Phase A is done. Phase B requires Turnfile."
+
+turnfile:
+  version: "1.0.0"
+  project: "tokenese-phase-b"
+  workspace: "working-session/"
+
+agents:
+  claude:
+    role: "agent"
+    status: "active"
+    current_task: "t2-multi-family-ab-suite-design"
+    last_seen: "claude-tokenese-s2-suite-design-strawman"
+    session_id: "claude-tokenese-s2"
+  codex:
+    role: "agent"
+    status: "idle"
+    current_task: null
+    last_seen: null
+    session_id: null
+
+maintainer:
+  id: "snap"
+  status: "available"
+  last_seen: "maintainer-tokenese-s1-initiate"
+
+coordination:
+  revision: 3
+  active_phase: "phase-B-open"
+  active_step: "suite-design-strawman-routed-for-apply-or-counter"
+  conflict:
+    rebuttal_rounds: 1
+  tasks:
+    t1-phase-b-open-baseline-verify:
+      description: "Phase B opening: verify Phase A v0.3.9 baseline reproducibility (pytest + N2 static report) before live multi-family A/B work."
+      owner: "claude"
+      status: "done"
+      priority: "P1"
+      depends_on: []
+      created_by: "claude"
+      created_rev: 1
+      claim_rev: 1
+      completed_rev: 2
+      notes: "DONE rev 2. Verified per HANDOFF.md Next work item 1: pytest 156/156 PASS; N2 static gates all pass; receiver static floor min 0.85 / avg 0.9298 (threshold 0.75); 13 o200k wins / 4 losses / 1 break-even across 18 hypothesis cases. Phase B may proceed to t2 (live multi-family A/B suite design)."
+    t2-multi-family-ab-suite-design:
+      description: "Phase B follow-on: design the operational/code task suite to run in English and Tokenese for Claude, Codex, and at least one third independent model family. Capture token counts, task success, misparse/repair events, readback mismatches, receiver output, and misparse family per exchange."
+      owner: "claude"
+      status: "in_progress"
+      priority: "P1"
+      depends_on: ["t1-phase-b-open-baseline-verify"]
+      created_by: "claude"
+      created_rev: 1
+      claim_rev: 3
+      completed_rev: null
+      notes: "Strawman design at working-session/docs/phase-b-suite-design-strawman.md (S1-S8 sections + 4 OQs). Proposes 4-5 task classes (deploy-status / code-diff review / spec-amendment / apply-or-counter / dense-loses), 3 instances per class, per-exchange logging schema, compression-claim discipline per HANDOFF constraint, dense-loses preservation, third-family options (Gemini Flash recommended for first pass), per-family run protocol, exit-to-production threshold per PRD-027 R6.5 three-peer agreement. 4 open questions for Maintainer + Codex: third-family pick, new fixture authorship, numeric thresholds, concurrent vs sequential runs. No Tokenese semantics changed."
+      notes: "Per HANDOFF.md Next work items 2-4. Preserves dense-loses cases. Compression claims compare against terse or equal-precision English per HANDOFF constraints."
+
+locks: {}
+
+turn_queue: []
+
+messages:
+  - id: "SIG-003"
+    from: "claude"
+    to: "all"
+    signal: "notify"
+    rev: 3
+    detail: "Tokenese session 2 open. t2-multi-family-ab-suite-design claimed by Claude. Strawman suite design at working-session/docs/phase-b-suite-design-strawman.md (S1-S8 sections + 4 OQs for Maintainer/Codex). Routed for apply-or-counter. Cross-repo evidence updated in /Users/snap/Git/turnfile/working-session/docs/v1-cross-repo-test-tokenese-2026-06-23.md."
+  - id: "SIG-002"
+    from: "claude"
+    to: "all"
+    signal: "yield"
+    rev: 2
+    detail: "Tokenese session 1 close. t1 baseline-verify DONE: pytest 156/156 PASS, N2 static gates all pass, receiver static floor min 0.85 / avg 0.9298 (threshold 0.75), 13/4/1 wins/losses/break-even. Phase A v0.3.9 baseline confirmed reproducible. t2 (multi-family A/B suite design) unblocked + pending Codex join. Cross-repo evidence written to /Users/snap/Git/turnfile/working-session/docs/v1-cross-repo-test-tokenese-2026-06-23.md per PRD-047 R6. Claude idle; no locks; clean close."
+  - id: "SIG-001"
+    from: "claude"
+    to: "all"
+    signal: "ready"
+    rev: 1
+    detail: "Tokenese Phase B Turnfile session opened. Claude active on t1-phase-b-open-baseline-verify. Cross-repo boundary preserved per PRD-027 R7: this session may run Tokenese tools but does not edit Tokenese semantics. Maintainer initiated Phase B in /Users/snap/Git/turnfile session 29 chat 2026-06-23."
