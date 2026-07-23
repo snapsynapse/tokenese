@@ -100,10 +100,10 @@ This strawman does NOT propose specific numeric thresholds. Maintainer + the par
 
 ## Open questions
 
-1. **OQ-PhaseB-1: Third-family pick.** Maintainer's call — Gemini Flash, local Qwen, GPT-4o, or other. The strawman recommends Gemini Flash for first pass.
-2. **OQ-PhaseB-2: New fixture authorship.** Classes S2-S5 need new TKAB-style fixtures. Codex is the natural author per existing fixture authorship pattern.
-3. **OQ-PhaseB-3: Numeric thresholds.** Should this strawman commit to compression-win thresholds (e.g. ≥15% token reduction at equal task-success rate) or wait for baseline data?
-4. **OQ-PhaseB-4: Concurrent run vs sequential.** Should all three families run independently and submit results, or should runs be coordinated session-by-session?
+1. **OQ-PhaseB-1: Third-family pick.** Maintainer's call — Gemini Flash, local Qwen, GPT-4o, or other. The strawman recommends Gemini Flash for first pass. **Maintainer preference for first pass is local Qwen, if possible. Flash as fallback if not available/functional.**
+2. **OQ-PhaseB-2: New fixture authorship.** Classes S2-S5 need new TKAB-style fixtures. Codex is the natural author per existing fixture authorship pattern. **Maintainer agrees, offer to Codex**
+3. **OQ-PhaseB-3: Numeric thresholds.** Should this strawman commit to compression-win thresholds (e.g. ≥15% token reduction at equal task-success rate) or wait for baseline data? **Maintainer says "baseline data"**
+4. **OQ-PhaseB-4: Concurrent run vs sequential.** Should all three families run independently and submit results, or should runs be coordinated session-by-session? **Maintainer requests concurrency**
 
 ## Requested next action
 

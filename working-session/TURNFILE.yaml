@@ -1,5 +1,7 @@
 # TURNFILE.yaml — Tokenese Phase B coordination (v1 Minimal Governance Profile)
 # Initialized by `node /Users/snap/Git/turnfile/tools/turnfile.mjs init` at 2026-06-23
+# Last modified revision: 3
+# Modified by: claude
 # Maintainer-directed Phase B start: Turnfile session 29 chat, "Tokenese has a handoff document. Phase A is done. Phase B requires Turnfile."
 
 turnfile:
@@ -54,8 +56,7 @@ coordination:
       created_rev: 1
       claim_rev: 3
       completed_rev: null
-      notes: "Strawman design at working-session/docs/phase-b-suite-design-strawman.md (S1-S8 sections + 4 OQs). Proposes 4-5 task classes (deploy-status / code-diff review / spec-amendment / apply-or-counter / dense-loses), 3 instances per class, per-exchange logging schema, compression-claim discipline per HANDOFF constraint, dense-loses preservation, third-family options (Gemini Flash recommended for first pass), per-family run protocol, exit-to-production threshold per PRD-027 R6.5 three-peer agreement. 4 open questions for Maintainer + Codex: third-family pick, new fixture authorship, numeric thresholds, concurrent vs sequential runs. No Tokenese semantics changed."
-      notes: "Per HANDOFF.md Next work items 2-4. Preserves dense-loses cases. Compression claims compare against terse or equal-precision English per HANDOFF constraints."
+      notes: "Strawman design at working-session/docs/phase-b-suite-design-strawman.md (S1-S8 sections + 4 OQs). Proposes 4-5 task classes (deploy-status / code-diff review / spec-amendment / apply-or-counter / dense-loses), 3 instances per class, per-exchange logging schema, compression-claim discipline per HANDOFF constraint, dense-loses preservation, third-family options (Gemini Flash recommended for first pass), per-family run protocol, exit-to-production threshold per PRD-027 R6.5 three-peer agreement. 4 open questions for Maintainer + Codex: third-family pick, new fixture authorship, numeric thresholds, concurrent vs sequential runs. No Tokenese semantics changed. Per HANDOFF.md Next work items 2-4. Preserves dense-loses cases. Compression claims compare against terse or equal-precision English per HANDOFF constraints."
 
 locks: {}
 
