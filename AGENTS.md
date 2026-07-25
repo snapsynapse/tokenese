@@ -1,5 +1,7 @@
 # Agents Guide — snapsynapse/tokenese
 
+> Repo archived 2026-07-25, read-only; see [POST-MORTEM.md](POST-MORTEM.md). The guidance below is historical.
+
 This repository contains the Tokenese token-native interlingua specification (`spec.md`, `DESIGN.md`, `CONFORMANCE.md`, `INTENT.md`, `GRAMMAR-v0.3.md`) and a deterministic Tokenese→English translator + scorer under `tools/translator/`.
 
 Read this file before making changes. It defines architecture, scope locks, conventions, and how to verify changes.

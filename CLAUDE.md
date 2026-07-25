@@ -1,5 +1,7 @@
 # CLAUDE.md — agent guidance for `tokenese`
 
+> Repo archived 2026-07-25, read-only; see [POST-MORTEM.md](POST-MORTEM.md). The guidance below is historical.
+
 Concise orientation for coding agents. For the full architecture, scope locks,
 and PR conventions, read [AGENTS.md](AGENTS.md) first — this file summarizes and
 points into it.

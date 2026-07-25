@@ -1,6 +1,6 @@
 # Tokenese Roadmap
 
-Status: living document. Last updated 2026-06-23 (v0.3.9 cut; X7 + L7 shipped; X6/L9 carried).
+Status: closed 2026-07-25. Repo archived; see [POST-MORTEM.md](POST-MORTEM.md). Last substantive update 2026-06-23 (v0.3.9 cut; X7 + L7 shipped; X6/L9 carried).
 
 This roadmap is downstream of [INTENT.md](INTENT.md) and [DESIGN.md](DESIGN.md).
 Every item must pass the admission criteria in INTENT: claims are measured not
@@ -66,6 +66,8 @@ So the roadmap stays honest about what already exists:
 ## Now (credibility-defining)
 
 ### N2. The validating A/B experiment (the kill-criterion)
+
+Closed: not run; project archived 2026-07-25 before the experiment; see [POST-MORTEM.md](POST-MORTEM.md) for why it no longer needed to run.
 
 The central claim, more compressed AND more accurate, is unproven until measured.
 Run a live A/B between model families (Claude vs Codex, then a third) on a fixed

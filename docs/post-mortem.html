@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Tokenese Post-Mortem</title>
+  <meta name="description" content="Archived 2026-07-25. The designed-interlingua premise was measured and falsified: Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. A measured post-mortem of the idea and its 70-year lineage.">
+  <meta name="author" content="Sam Rogers">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="theme-color" content="#5EE6C4">
+  <link rel="canonical" href="https://tokenese.org/post-mortem.html">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="mask-icon" href="/favicon.svg" color="#5EE6C4">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="alternate" type="text/plain" href="https://tokenese.org/llms.txt" title="LLM-readable summary">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Tokenese">
+  <meta property="og:title" content="Tokenese Post-Mortem">
+  <meta property="og:description" content="The designed-interlingua premise, measured and falsified. Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. Repo archived 2026-07-25.">
+  <meta property="og:url" content="https://tokenese.org/post-mortem.html">
+  <meta property="og:image" content="https://tokenese.org/imgs/og.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="634">
+  <meta property="og:image:alt" content="Tokenese: a token-native interlingua for LLM-to-LLM communication.">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-07-25T00:00:00Z">
+  <meta property="article:modified_time" content="2026-07-25T00:00:00Z">
+  <meta property="article:author" content="Sam Rogers">
+  <meta property="article:publisher" content="https://paice.work/">
+  <meta property="article:section" content="Open Specs">
+  <meta property="article:tag" content="tokenese">
+  <meta property="article:tag" content="post-mortem">
+  <meta property="article:tag" content="llm-interlingua">
+  <meta property="article:tag" content="negative-result">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tokenese Post-Mortem">
+  <meta name="twitter:description" content="The designed-interlingua premise, measured and falsified. Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. Repo archived 2026-07-25.">
+  <meta name="twitter:site" content="@snapsynapse">
+  <meta name="twitter:creator" content="@snapsynapse">
+  <meta name="twitter:image" content="https://tokenese.org/imgs/og.png">
+  <meta name="twitter:image:alt" content="Tokenese: a token-native interlingua for LLM-to-LLM communication.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Tokenese Post-Mortem",
+    "alternativeHeadline": "A measured post-mortem of the designed-interlingua idea",
+    "description": "The designed-interlingua premise was measured and falsified: Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. This post-mortem records the measurement, the 70-year lineage of the idea, why JSON plus natural language won, and the pre-registered conditions under which the idea would be worth revisiting.",
+    "inLanguage": "en",
+    "url": "https://tokenese.org/post-mortem.html",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://tokenese.org/post-mortem.html" },
+    "datePublished": "2026-07-25",
+    "dateModified": "2026-07-25",
+    "author": {
+      "@type": "Person",
+      "name": "Sam Rogers",
+      "url": "https://paice.work/",
+      "affiliation": { "@type": "Organization", "name": "PAICE.work PBC" }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PAICE.work PBC",
+      "url": "https://paice.work/",
+      "logo": { "@type": "ImageObject", "url": "https://paice.work/logo.png" }
+    },
+    "isPartOf": { "@type": "CreativeWork", "name": "PAICE.work Open Specs" },
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "copyrightHolder": { "@type": "Organization", "name": "PAICE.work PBC" },
+    "copyrightYear": 2026
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --bg-alt: #1a1d27;
+      --surface2: #242836;
+      --text: #e1e4ed;
+      --text-muted: #8b90a0;
+      --accent: #5EE6C4;
+      --accent-hover: #8ff2dc;
+      --border: #2e3345;
+      --green: #4ecb71;
+      --red: #ff6b6b;
+      --code-bg: #0b0d13;
+      --code-text: #e1e4ed;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      --max-width: 860px;
+      --radius: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+    article p a, article li a {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+    }
+    article p a:hover, article li a:hover { text-decoration-color: var(--accent-hover); }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.5rem 1rem;
+      z-index: 100;
+    }
+    .skip-link:focus { left: 0; }
+
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1.5rem; }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    nav .logo svg { color: var(--accent-hover); flex: 0 0 auto; }
+    nav .logo:hover svg { color: var(--accent); }
+    nav .links { display: flex; align-items: center; gap: 1.5rem; font-size: 0.9rem; }
+    nav .links a { color: var(--text-muted); }
+    nav .links a:hover { color: var(--text); text-decoration: none; }
+
+    .status-flag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--red);
+      color: var(--red);
+      margin-bottom: 1.25rem;
+    }
+
+    header.page-header { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+    header.page-header h1 {
+      font-size: 2.4rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    header.page-header .meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    header.page-header .meta p { margin-bottom: 0.35rem; }
+
+    article { padding: 2.5rem 0 4rem; }
+    article h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 2.75rem 0 1rem;
+    }
+    article h2:first-child { margin-top: 0; }
+    article p { margin-bottom: 1rem; }
+    article ul, article ol { margin: 0 0 1.25rem 1.5rem; }
+    article li { margin-bottom: 0.5rem; }
+    article li p { margin-bottom: 0.35rem; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      background: var(--bg-alt);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 0 0 1.25rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .verdict {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .verdict p:last-child { margin-bottom: 0; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 0 0 1.5rem;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    caption {
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 0.75rem 1rem 0.25rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    th {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-alt);
+    }
+    .lineage table { min-width: 900px; }
+    td.num { font-family: var(--mono); white-space: nowrap; }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    code { font-family: var(--mono); font-size: 0.88em; color: var(--accent); }
+    pre code { color: var(--code-text); font-size: 1em; }
+
+    .backlinks {
+      margin-top: 3rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-meta p { margin-bottom: 0.25rem; }
+    .footer-meta a, .footer-links a { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border); }
+    .footer-links a:hover { text-decoration-color: var(--accent-hover); }
+
+    @media (max-width: 768px) {
+      header.page-header h1 { font-size: 1.8rem; }
+      header.page-header { padding: 2.5rem 0 2rem; }
+      .footer-grid { flex-direction: column; }
+      pre { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<nav aria-label="Main navigation">
+  <div class="container">
+    <a href="/" class="logo" aria-label="Tokenese home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <path d="M13 7 L6 16 L13 25" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="16" r="3" fill="currentColor"/>
+        <path d="M19 7 L26 16 L19 25" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Tokenese</span>
+    </a>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+<div class="container">
+
+<header class="page-header">
+  <p class="status-flag">Archived · Final</p>
+  <h1>Post-mortem: Tokenese, and the designed-interlingua idea</h1>
+  <div class="meta">
+    <p>Date: <time datetime="2026-07-25">2026-07-25</time>. Status: final. This repository is archived. The spec, tooling, and audit scripts are preserved intact as evidence, not as product.</p>
+    <p>Verdict scope: not just this repo. This document is a measured post-mortem of the idea this repo espoused: that a designed, compressed, machine-native language for LLM-to-LLM communication can beat natural language on cost and precision at once.</p>
+  </div>
+</header>
+
+<article>
+
+<h2 id="verdict">Verdict</h2>
+<div class="verdict">
+  <p>The idea loses. Not narrowly, and not because this implementation was sloppy. It loses structurally, for reasons that apply to every project in the 70-year lineage it belongs to, and this repository is unusual only in that it built the instruments to measure its own failure and then did so.</p>
+  <p>The one-sentence version: the winners bolted precision onto the outside of natural language (schemas and constrained decoding) and pushed density below the text (caching, pricing, latent exchange), leaving the language layer human-native. Every project that instead created a new surface form died.</p>
+</div>
+
+<h2 id="claimed">What Tokenese claimed</h2>
+<p>From INTENT.md as originally written:</p>
+<blockquote>
+  <p>Tokenese is an open specification for a token-native interlingua: a language LLMs use to communicate with each other that is denser and more precise than any human language. [...] The bet is that accuracy and compression are not a tradeoff here; natural language is so far from the efficient frontier that a designed language can win on both axes at once.</p>
+</blockquote>
+<p>The headline example claimed a &gt;2x token saving. The spec targeted 2.5-4x compression. Every lexicon element was to be admitted only by reproducible cross-tokenizer audit, which turned out to be the project's most important design decision, because the audit is what killed the claim.</p>
+
+<h2 id="measurement">What measurement showed</h2>
+<p>On 2026-06-18, pre-publish validation of an announcement post re-counted the flagship example on the certified tokenizers. The claim reversed.</p>
+<div class="table-wrap">
+  <table>
+    <caption>Flagship example, re-counted on the certified tokenizers</caption>
+    <thead>
+      <tr><th scope="col">Tokenizer</th><th scope="col">English</th><th scope="col">Tokenese</th><th scope="col">Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>o200k_base</td><td class="num">36</td><td class="num">47</td><td>Tokenese 1.31x LARGER</td></tr>
+      <tr><td>cl100k_base</td><td class="num">37</td><td class="num">48</td><td>Tokenese 1.30x LARGER</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>The claimed figures (English ~55, Tokenese ~22) had been eyeballed, never measured, violating the repo's own invariant 6 ("measured, not asserted"). Controlled re-examination of the premise followed. Same semantic task, encoded multiple ways:</p>
+<div class="table-wrap">
+  <table>
+    <caption>Same semantic task, multiple encodings, token counts</caption>
+    <thead>
+      <tr><th scope="col">Form</th><th scope="col">o200k</th><th scope="col">cl100k</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Verbose polite English (the old baseline)</td><td class="num">36</td><td class="num">37</td></tr>
+      <tr><td>Terse English</td><td class="num">18</td><td class="num">19</td></tr>
+      <tr><td>Tokenese v0.3 as specified (sigils, dotted handles)</td><td class="num">47</td><td class="num">48</td></tr>
+      <tr><td>Word-based Tokenese</td><td class="num">17</td><td class="num">18</td></tr>
+      <tr><td>Keyword-minimal English</td><td class="num">16</td><td class="num">17</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>Findings, in order of importance:</p>
+<ol>
+  <li>Most of the apparent savings was terseness, not language design. Verbose 36 to terse 18 is a 2x win with zero spec, zero learning cost, and full readability. The fair baseline for any designed language is terse English, and against that baseline the designed forms are a wash.</li>
+  <li>The designed syntax actively hurt. Dotted handles and sigil clusters are out-of-distribution for BPE tokenizers and shatter: <code>@svc.logs.first-error</code> is 5 tokens, <code>!@svc.ok?</code> is 5, <code>edge-fn</code> is 3. The v0.3 grammar used exactly the constructs that tokenize worst.</li>
+  <li>A narrow honest win survived: roughly 20-25% over terse English on structured/conditional payloads built from operators that audit to a single token (<code>-&gt;</code>, <code>&gt;&gt;&gt;</code>, <code>::</code>). Real, modest, fragile, and nowhere near the 2.5-4x target.</li>
+  <li>BPE tokenizers are trained on natural text, so English is already near one token per word, including function words. There is no large efficiency frontier gap for a designed language to capture. The founding premise is false for short messages, which is what inter-agent messages are.</li>
+</ol>
+<p>The spec pivoted honestly (the "precision-pivot": lead with precision, auditability, portability; retain compression as a long-term goal). The live cross-family A/B experiment (ROADMAP N2, the self-declared kill-criterion) was designed but never run. It does not need to run. The demand evidence (five unique visitors in the final fortnight, zero external adopters, zero inbound interest across six weeks public) answers the question the experiment was built to ask at a level below its resolution.</p>
+
+<h2 id="built">What was built</h2>
+<p>Recorded so the testament shows the failure was not rigor:</p>
+<ul>
+  <li>A spec with seven design invariants, wire grammar v0.3, conformance claim classes, and admission criteria for changes.</li>
+  <li>A seven-column tokenizer audit (OpenAI o200k_base, Anthropic count-tokens, Gemini, Qwen2.5, DeepSeek-V3, Llama 3, Gemma 4 E4B native), reproducible via the <code>audit_*.py</code> scripts, CI-gated against silent alphabet expansion.</li>
+  <li>A deterministic Tokenese-to-English translator, validator, per-pair scorer (TKAB), MCP server, and 163 passing tests. Scoring only, never generation, by scope lock.</li>
+  <li>GuideCheck Level 4 trust anchoring with a DNS TXT hash anchor and daily drift CI (retired at archive).</li>
+  <li>A static receiver-comprehension floor (min 0.85 against a 0.75 threshold) and an N2 static package report.</li>
+</ul>
+<p>The audit methodology is the salvage. It is, as far as we know, the only reproducible cross-vendor worst-case token-cost audit of a designed lexicon, and it is exactly the instrument that falsified the project that built it.</p>
+
+<h2 id="lineage">The lineage: 70 years of the same idea</h2>
+<p>Tokenese is not a new idea. It is the LLM-era instance of a recurring one.</p>
+<div class="table-wrap lineage">
+  <table>
+    <caption>Designed machine-language projects, 1950s to 2026</caption>
+    <thead>
+      <tr><th scope="col">Era</th><th scope="col">Project</th><th scope="col">Intent</th><th scope="col">Method</th><th scope="col">Fate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1950s-90s</td><td>Interlingua MT (KBMT, Eurotra)</td><td>N squared language pairs become N via a universal meaning representation</td><td>Hand-crafted language-neutral semantics</td><td>Lost to statistical, then neural MT, which learned from the substrate instead of designing above it</td></tr>
+      <tr><td>1955-</td><td>Loglan / Lojban</td><td>An unambiguous logical language</td><td>Predicate-logic grammar, one parse per utterance</td><td>Never adopted for MT or agents; hobbyist community</td></tr>
+      <tr><td>early 1990s</td><td>KQML</td><td>Knowledge-level agent messaging</td><td>Speech-act performatives (<code>ask-if</code>, <code>tell</code>), layered envelope</td><td>Performative semantics too weak; implementations could not interoperate</td></tr>
+      <tr><td>~2000</td><td>FIPA-ACL</td><td>Fix KQML with formal semantics</td><td>Logic-grounded pre/postconditions over agent beliefs and intentions</td><td>Semantic over-engineering, heavyweight tooling; the web and REST won; agent research went dormant</td></tr>
+      <tr><td>2001-</td><td>Semantic Web (RDF, OWL, SPARQL)</td><td>Machine-interpretable meaning layer for the web</td><td>Triples, description-logic ontologies, reasoners</td><td>High modeling cost, poor ergonomics; survives in niche knowledge graphs; JSON+REST won the general case</td></tr>
+      <tr><td>1990s-</td><td>Controlled natural languages (Attempto, ASD-STE100)</td><td>Restrict English until it parses deterministically</td><td>Grammar subset plus controlled vocabulary</td><td>Survives only where regulation mandates it; nobody volunteers into it</td></tr>
+      <tr><td>2023-</td><td>LLMLingua</td><td>Compress prompts, keep performance</td><td>Statistical token pruning of natural language</td><td>Real traction: up to 20x on long prompts, peer-reviewed. Note what it is not: not a language</td></tr>
+      <tr><td>2025</td><td>SynthLang</td><td>Glyph/kanji symbolic prompt language</td><td>Symbol substitution for verbose instructions</td><td>Self-reported 40-70% claims, no independent validation, requires decoding rules in-prompt; hobby traction</td></tr>
+      <tr><td>2025</td><td>TOON and compact-JSON notations</td><td>Token-cheaper structured payloads</td><td>Slims JSON syntax overhead</td><td>Niche traction. Compresses JSON, not language</td></tr>
+      <tr><td>2025</td><td>Gibberlink</td><td>Agent-to-agent audio handshake</td><td>GGWave encoding</td><td>Viral demo, zero infrastructure adoption</td></tr>
+      <tr><td>2024-</td><td>Agora protocol</td><td>Negotiated efficient routines between agents</td><td>Protocol negotiation with NL fallback</td><td>Conceptual; no ecosystem</td></tr>
+      <tr><td>2024-</td><td>DroidSpeak, CIPHER, neuralese / latent communication</td><td>Skip text entirely</td><td>KV-cache exchange, embedding exchange, emergent codes</td><td>Where efficiency research actually went: 2-24x latency wins reported, TTFT speedups up to two orders of magnitude. Architecture-coupled, not cross-vendor</td></tr>
+      <tr><td>2026</td><td>Tokenese (this repo)</td><td>Token-native audited interlingua, denser and more precise at once</td><td>Empirical tokenizer-audit admission gate, fixed field grammar, repair channel</td><td>Premise measured false by its own instruments; archived</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="common-intent">The common intent</h2>
+<p>Four bets recur across the entire lineage, near-verbatim:</p>
+<ol>
+  <li>Ambiguity is waste, and formal semantics will fix it. FIPA's belief-logic preconditions, Lojban's single parse, Attempto's controlled grammar, Tokenese invariant 4 ("one statement, one reading").</li>
+  <li>The machine channel should not pay human-language overhead. Interlingua MT, SynthLang, neuralese, Tokenese's founding metaphor of models "watching film in black and white."</li>
+  <li>A neutral interlingua beats N squared pairwise mappings. Interlingua MT, KIF, Tokenese's cross-vendor portability invariant.</li>
+  <li>Machine communication should be auditable and verifiable. FIPA formal semantics, OWL reasoners, Tokenese invariant 7 (human-auditability).</li>
+</ol>
+<p>All four intents are legitimate. That is the trap. Each intent is real, and each has now been satisfied by a mechanism that is not a designed language.</p>
+
+<h2 id="common-methodology">The common methodology</h2>
+<p>The lineage also shares its methods:</p>
+<ul>
+  <li>An operator or performative vocabulary (KQML performatives, Tokenese sigils, SynthLang glyphs).</li>
+  <li>A grammar restricted until parsing is deterministic.</li>
+  <li>A controlled vocabulary, one sense per word.</li>
+  <li>An admission gate for new elements (FIPA standardization, Tokenese's tokenizer audit; the audit being empirical was this repo's novelty).</li>
+  <li>A teaching payload: because none of these languages exist in training data, every participant must be taught in-context or in-spec, per session or per developer, forever.</li>
+</ul>
+
+<h2 id="failure-law">The failure law</h2>
+<p>Stated once, plainly:</p>
+<p><strong>Every project that created a new surface form died. Every survivor compressed within the incumbent substrate.</strong></p>
+<ul>
+  <li>LLMLingua prunes English. Survived.</li>
+  <li>TOON slims JSON. Survived, niche.</li>
+  <li>Constrained decoding restricts English and JSON emission. Won outright.</li>
+  <li>KV-cache and latent exchange skip text where both ends share an architecture. Thriving in research.</li>
+  <li>KQML, FIPA-ACL, Lojban, the Semantic Web's reasoning layer, SynthLang, Gibberlink, Tokenese introduced new surfaces. All dead or dying.</li>
+</ul>
+
+<h2 id="why-json-won">Why JSON plus natural language won</h2>
+<p>Four mechanisms, each independently sufficient:</p>
+<ol>
+  <li>Substrate gravity. Tokenizers are trained on English, code, and JSON, so the incumbent is near-optimal in the very currency (tokens) that challengers compete on. A designed language fights the training prior, the tokenizer economics, and the tooling ecosystem simultaneously. This repo measured the effect precisely: the designed form was 1.3x larger than the prose it replaced.</li>
+  <li>Precision was solved orthogonally. The winning stack separates carrier from contract: the carrier stays familiar text, and precision comes from JSON Schema plus constrained decoding, which makes invalid output unrepresentable at the sampler. That is better determinism than any grammar spec can offer, enforced at generation time rather than checked after, at zero acquisition cost. MCP (JSON-RPC) and A2A (typed JSON schemas) are explicit about this design choice, and they are the only protocols in this space with adoption: on the order of 97M monthly SDK downloads and production use in a large majority of enterprise agent teams by mid-2026.</li>
+  <li>Compression was solved orthogonally. Prompt caching, falling token prices, growing context windows, statistical pruning (LLMLingua), and latent exchange turned compression into an infrastructure property rather than a language property. The ~20-25% residual win Tokenese measured on narrow payload classes is smaller than a typical quarter of token price decline.</li>
+  <li>Asymmetric acquisition cost. The incumbent costs every participant nothing. A designed language charges a teaching payload per session, per model, forever, against per-message savings that round to noise. FIPA paid this cost in developer learning; Tokenese pays it in prompt tokens. Same ledger, same sign.</li>
+</ol>
+
+<h2 id="survives">What survives</h2>
+<ul>
+  <li>The audit methodology. A reproducible, CI-gated, worst-case cross-tokenizer cost audit is useful to anyone designing identifiers, DSL syntax, or structured output formats that LLMs will emit. The scripts remain in the <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">repo</a> and remain runnable.</li>
+  <li>The negative result itself. Published measured falsifications are rare in this space; most projects in the lineage table simply stopped updating.</li>
+  <li>The discipline. "Measured, not asserted" (invariant 6) is the reason this post-mortem exists instead of a slowly rotting landing page.</li>
+  <li>The precision intents. They were legitimate, and they are served today by JSON Schema, constrained decoding, and typed protocol contracts.</li>
+</ul>
+
+<h2 id="revival">Revival conditions</h2>
+<p>Pre-registered and falsifiable, so this document can be proven wrong rather than argued with. The designed-interlingua idea becomes worth revisiting only if at least one of these becomes true:</p>
+<ol>
+  <li>A major vendor ships a tokenizer deliberately trained on a designed agent-language corpus, making the designed surface cheap by construction and collapsing the substrate-gravity argument.</li>
+  <li>A vendor-neutral latent-exchange standard emerges, collapsing the cross-vendor rationale that forced token-space text in the first place (invariant 1), and a plain-text interlingua becomes the fallback layer of that standard.</li>
+  <li>Someone demonstrates, with reproducible cross-tokenizer counts and a live misparse-retry accounting, a designed language beating terse English by more than 2x on a general task distribution, not a curated payload class.</li>
+  <li>Inference pricing inverts its trend for multiple consecutive years, making per-message token savings economically decisive again.</li>
+</ol>
+<p>Absent those, the answer to "should we design a language for the machines?" is: no. Be terse, emit JSON against a schema, cache your prompts, and let the sampler enforce your grammar.</p>
+
+<h2 id="timeline">Timeline</h2>
+<ul>
+  <li><time datetime="2026-06-12">2026-06-12</time>: repo provisioned. Spec v0.1.0, dual-tokenizer audit.</li>
+  <li><time datetime="2026-06-16">2026-06-16</time>: repo public, tokenese.org live, landing page ships.</li>
+  <li><time datetime="2026-06-17">2026-06-17</time>: seven-column audit complete, GuideCheck Level 4 anchoring.</li>
+  <li><time datetime="2026-06-18">2026-06-18</time>: pre-publish validation falsifies the flagship example. The announcement post is pulled. Premise re-examination measured and recorded.</li>
+  <li><time datetime="2026-06-22">2026-06-22</time>: precision-pivot ratified into spec and INTENT.</li>
+  <li><time datetime="2026-06-23">2026-06-23</time>: v0.3.9 released. Phase A closed. Phase B (live A/B) opened.</li>
+  <li><time datetime="2026-06-25">2026-06-25</time>: Phase B stalls at fixture authorship. No further substantive work occurs.</li>
+  <li><time datetime="2026-07-25">2026-07-25</time>: viability teardown run. Baseline: 0 stars, 0 forks, 5 unique visitors in 14 days, 0 external adopters, package never published. Archive verdict taken. This document written. Repo archived.</li>
+</ul>
+
+<h2 id="reproduce">Reproduce the falsification</h2>
+<pre><code>python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+./.venv/bin/python - &lt;&lt;'PY'
+import tiktoken
+o = tiktoken.get_encoding("o200k_base"); c = tiktoken.get_encoding("cl100k_base")
+def m(s): return len(o.encode(s)), len(c.encode(s))
+english = ("Could you check whether the deploy of the edge function to the "
+           "Supabase project succeeded, and if it failed, look at the logs and "
+           "tell me the first error with a timestamp?")
+tokenese = ("^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n"
+            "@svc.deploy &gt;&gt;&gt; @svc.status\n!@svc.ok? *&gt;&gt; get @svc.logs.first-error +ts")
+terse = ("Check Supabase edge-function deploy status. If failed, return first "
+         "log error with timestamp.")
+print("verbose english", m(english))   # (36, 37)
+print("tokenese v0.3  ", m(tokenese))  # (47, 48)
+print("terse english  ", m(terse))     # (18, 19)
+PY</code></pre>
+<p>The full lexicon audit remains reproducible via <code>audit_symbols.py</code> and siblings; see the repository README.</p>
+
+<h2 id="provenance">Provenance</h2>
+<p>Compiled 2026-07-25 by the maintainer with agent assistance, from: the 2026-06-18 premise re-examination (measured in this repo's own venv), the repo's spec and design documents, GitHub traffic instruments, and a survey of the protocol landscape as of mid-2026 (MCP/A2A adoption reporting, latent communication survey literature, and the public record of each lineage project). Corrections that come with measurements are welcome; the repo is archived, so file them against the maintainer's active projects or via the contact on tokenese.org.</p>
+
+<aside class="backlinks" role="note">
+  <strong>Where to go from here.</strong> The archived landing page and spec overview remain at <a href="/">tokenese.org</a>. The full spec, audit scripts, and toolchain are preserved at the <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub repository</a>.
+</aside>
+
+</article>
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-meta">
+        <p>Tokenese, archived 2026-07-25 &middot; final release: grammar v0.3 / tools v0.3.9 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
+        <p>A <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a> open spec by <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

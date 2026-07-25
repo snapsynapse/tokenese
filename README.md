@@ -1,27 +1,28 @@
 # Tokenese
 
-A token-native interlingua for LLM-to-LLM communication. More compressed AND more precise than any human language, measured in real tokenizer tokens, not characters.
+> Archived 2026-07-25. This repository is preserved intact as a measured post-mortem of the designed-interlingua idea. Read [POST-MORTEM.md](POST-MORTEM.md) first: it is the authoritative closing document. The spec and tools below remain as evidence and remain runnable, but the project is concluded and unmaintained.
+
+Tokenese was an attempt at a token-native interlingua for LLM-to-LLM communication, intended to be more compressed and more precise than human prose, measured in real tokenizer tokens. Measurement went the other way: the designed form cost more tokens than the terse English it replaced. See [POST-MORTEM.md](POST-MORTEM.md).
 
 Canonical home: https://tokenese.org/
-Spec: [spec.md](spec.md) v0.3 (current). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3.md).
+Spec: [spec.md](spec.md) v0.3 (final). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3.md).
 Vision: [INTENT.md](INTENT.md)
-Assistant guide: [assistant-guide.txt](assistant-guide.txt) (GuideCheck human-verifiable-assistant-guide profile 0.6.0, Level 4): a bounded, approval-gated guide for an assistant to install Tokenese and reproduce the audit. Verify before acting at https://guidecheck.org/verify
 
 ## Canonical URL
 
 https://tokenese.org/
 
-## What problem it solves
+## What problem it tried to solve
 
-LLM-to-LLM communication defaults to verbose human prose, which wastes tokens and loses precision; Tokenese gives agents a token-native interlingua whose lexicon is admitted only when each symbol survives a reproducible cross-tokenizer audit.
+LLM-to-LLM communication defaults to verbose human prose. The bet was that a token-native interlingua, with every lexicon element admitted by a reproducible cross-tokenizer audit, could beat prose on both cost and precision. The measured answer: terse English plus schemas already wins; the designed syntax tokenizes worse than the prose it replaces. POST-MORTEM.md carries the full accounting.
 
-## Who this is for
+## Who this is for now
 
-Teams building multi-agent systems who want machine-to-machine messages that are more compressed and more precise than natural language, with every vocabulary symbol verified by a reproducible tokenizer audit rather than asserted.
+Anyone designing DSL syntax, identifiers, or structured output formats that LLMs will emit: the cross-tokenizer audit methodology here remains reproducible and useful. And anyone tempted to design a machine language for agents: read the post-mortem first.
 
-## Why
+## Why it existed
 
-LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. Tokenese brings color to machine-to-machine communication: richer, more informative exchanges compressed into a smaller, token-native format.
+The founding metaphor: LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. The premise failed on measurement because BPE tokenizers are trained on natural text, making English near-optimal in token space already. The metaphor was wrong: the film was already in color.
 
 ## How it works
 
@@ -32,12 +33,12 @@ LLMs conforming to human language is like watching film in black and white. Huma
 
 ## Quick taste
 
-A measured example is pending. The previous illustrative example was removed on
-2026-06-18: token-counting on the certified tokenizers contradicted its
-compression claim (the Tokenese form was larger than the English, not smaller).
-A replacement will ship only with reproducible token counts on every certified
-tokenizer, measured against *terse* English rather than verbose prose. See the
-spec "Example exchange" section and the changelog for the finding.
+No measured example ever shipped, and none will. The original illustrative
+example was removed on 2026-06-18 when token-counting on the certified
+tokenizers reversed its compression claim (the Tokenese form was 1.3x larger
+than the English, not 2.5x smaller). That finding, reproduced and generalized,
+is the core of [POST-MORTEM.md](POST-MORTEM.md), which includes the
+reproduction script.
 
 ## Tools
 
@@ -57,11 +58,11 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py
 
 ## Status
 
-Grammar v0.3 current. Release v0.3.9 is a patch tooling release: the seven-column tokenizer audit is complete (the Gemma column is now native Gemma 4 E4B, the on-device PAICE production generator). The base translator, golden fixtures, TKAB deterministic scorer, grammar-v0.3 features, MCP smoke tests, compression/hypothesis evals, N2 static package report, and report-only frameset registry pass 156/156 tests; the repo-root security and Gemma 4 audit-surface tests add 7 more (163 total). The deterministic N2 receiver static floor now passes the 0.75 threshold after retiring the stale S1 semantic-neighborhood operator form. A cross-surface portable skill ships at [skills/tokenese/](skills/tokenese/). The hosted assistant guide is anchored at GuideCheck Level 4 via a DNS TXT record at `_assistant-guide.tokenese.org`, with a daily drift-detection CI job. The validating A/B experiment between Claude and Codex remains the open downstream measurement; see [tools/translator/tkab/AUDIT_CARD.md](tools/translator/tkab/AUDIT_CARD.md).
+Archived 2026-07-25. Release v0.3.9 (2026-06-23) is the final release. The N2 live cross-family A/B experiment, the project's self-declared kill-criterion, was designed but never run; the demand evidence made it unnecessary. [POST-MORTEM.md](POST-MORTEM.md) is the closing document.
 
 ## Contributing
 
-Contributions welcome; every change passes the admission criteria in [INTENT.md](INTENT.md). See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: claims must be measured, not asserted.
+The repo is archived and read-only. Corrections that come with measurements are welcome via the contact on https://tokenese.org/. The historical admission criteria remain in [INTENT.md](INTENT.md) and [CONTRIBUTING.md](CONTRIBUTING.md); the short version was always: claims must be measured, not asserted.
 
 ## License
 
@@ -71,4 +72,4 @@ Code: MIT. Specification text: CC BY 4.0. See [LICENSE](LICENSE) and [LICENSE-SP
 
 Coding agents should read [AGENTS.md](AGENTS.md) first.
 
-Last updated: 2026-06-17
+Last updated: 2026-07-25

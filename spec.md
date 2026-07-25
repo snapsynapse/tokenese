@@ -1,14 +1,17 @@
 # Tokenese Specification
+
+> Archive notice: this spec is preserved as a historical record. The project was archived 2026-07-25; see [POST-MORTEM.md](POST-MORTEM.md).
+
 Version: 0.3
 Date: 2026-06-17
-Status: current
+Status: final (historical; project archived 2026-07-25)
 Canonical: https://tokenese.org/
 Grammar delta: GRAMMAR-v0.3.md
 Design rationale: DESIGN.md
 Conformance: CONFORMANCE.md
 Reference toolchain: tools/translator/ (132 tests passing)
 
-A token-native interlingua for LLM-to-LLM communication: precision-preserving structured exchanges with measured compression against equally precise English. Compression is regime-dependent and comes from structure English normally drops or explains verbosely: repeated multi-referent bindings, evidence class, confidence, ranked alternatives, repair/fallback state, and typed literals. Accuracy comes from a fixed field grammar, a one-sense-per-word vocabulary, and explicit repair. The whole scheme is measured, not asserted: the kill-criterion A/B (misparse-retry rate, dense vs prose) remains the validation gate — see ROADMAP N2.
+A token-native interlingua for LLM-to-LLM communication: precision-preserving structured exchanges with measured compression against equally precise English. Compression is regime-dependent and comes from structure English normally drops or explains verbosely: repeated multi-referent bindings, evidence class, confidence, ranked alternatives, repair/fallback state, and typed literals. Accuracy comes from a fixed field grammar, a one-sense-per-word vocabulary, and explicit repair. The whole scheme is measured, not asserted: the kill-criterion A/B (misparse-retry rate, dense vs prose) was the validation gate (ROADMAP N2). It was never run; the project was archived before it, for reasons recorded in POST-MORTEM.md.
 
 ## Design principles
 

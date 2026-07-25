@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [Archive] - 2026-07-25
+
+- Added `POST-MORTEM.md`, the authoritative closing document; repo archived.
+- Retired the GuideCheck assistant guide, the `_assistant-guide.tokenese.org` DNS TXT anchor, and the `dns_anchor.yml` drift-detection workflow.
+- Updated README, ROADMAP, INTENT, and the landing page to archive framing.
+- No code changes; 163 tests still passing at archive time.
+
 ## [0.3.9] - 2026-06-23
 
 ### Added

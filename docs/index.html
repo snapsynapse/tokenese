@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>Tokenese: a token-native interlingua for LLMs</title>
-  <meta name="description" content="An open spec for a token-native interlingua for LLMs: denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta name="description" content="Archived 2026-07-25. Tokenese was an open spec for a token-native interlingua for LLMs. The premise was measured and falsified; the site is preserved as a measured post-mortem.">
   <meta name="keywords" content="tokenese, LLM interlingua, token-native language, agent-to-agent communication, tokenizer audit, machine-to-machine language, LLM compression, agent protocol, dense protocol, llm-to-llm">
   <meta name="author" content="Sam Rogers">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
@@ -18,12 +18,11 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <link rel="alternate" type="text/plain" href="https://tokenese.org/llms.txt" title="LLM-readable summary">
-  <link rel="assistant-guide" href="https://tokenese.org/.well-known/assistant-guide.txt">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Tokenese">
   <meta property="og:title" content="Tokenese">
-  <meta property="og:description" content="A token-native interlingua for LLMs. Denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta property="og:description" content="Archived 2026-07-25. Tokenese was an attempt at a token-native interlingua for LLMs. The premise was measured and falsified; preserved as a measured post-mortem.">
   <meta property="og:url" content="https://tokenese.org/">
   <meta property="og:image" content="https://tokenese.org/imgs/og.png">
   <meta property="og:image:width" content="1280">
@@ -31,7 +30,7 @@
   <meta property="og:image:alt" content="Tokenese: a token-native interlingua for LLM-to-LLM communication.">
   <meta property="og:locale" content="en_US">
   <meta property="article:published_time" content="2026-06-12T00:00:00Z">
-  <meta property="article:modified_time" content="2026-06-23T00:00:00Z">
+  <meta property="article:modified_time" content="2026-07-25T00:00:00Z">
   <meta property="article:author" content="Sam Rogers">
   <meta property="article:publisher" content="https://paice.work/">
   <meta property="article:section" content="Open Specs">
@@ -43,7 +42,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tokenese">
-  <meta name="twitter:description" content="A token-native interlingua for LLMs. Denser and more precise than human language, every word admitted by tokenizer audit.">
+  <meta name="twitter:description" content="Archived 2026-07-25. Tokenese was an attempt at a token-native interlingua for LLMs. The premise was measured and falsified; preserved as a measured post-mortem.">
   <meta name="twitter:site" content="@snapsynapse">
   <meta name="twitter:creator" content="@snapsynapse">
   <meta name="twitter:image" content="https://tokenese.org/imgs/og.png">
@@ -58,12 +57,13 @@
     "@type": "TechArticle",
     "headline": "Tokenese",
     "alternativeHeadline": "A token-native interlingua for LLM-to-LLM communication",
-    "description": "Tokenese is an open specification for a token-native interlingua: a language LLMs use to communicate with each other that is denser and more precise than any human language, while remaining plain text that crosses any wire and any vendor boundary. Every lexicon element is admitted by empirical tokenizer audit.",
+    "description": "Archived 2026-07-25. Tokenese was an attempt at an open specification for a token-native interlingua: a language LLMs would use to communicate with each other in plain text that crosses any wire and any vendor boundary. The compression premise was measured and falsified by the project's own tokenizer audit; the site is preserved as a measured post-mortem.",
     "inLanguage": "en",
     "url": "https://tokenese.org/",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://tokenese.org/" },
+    "creativeWorkStatus": "Archived",
     "datePublished": "2026-06-12",
-    "dateModified": "2026-06-23",
+    "dateModified": "2026-07-25",
     "author": {
       "@type": "Person",
       "name": "Sam Rogers",
@@ -96,7 +96,7 @@
     "@type": "DefinedTerm",
     "name": "Tokenese",
     "alternateName": ["tokenese", "token-native interlingua"],
-    "description": "A token-native interlingua for LLM-to-LLM communication whose lexicon is admitted by empirical tokenizer audit: every element costs one token, worst case, in every certified tokenizer. Plain text on the wire, no embeddings or latent channels.",
+    "description": "An archived attempt at a token-native interlingua for LLM-to-LLM communication whose lexicon was admitted by empirical tokenizer audit. The compression premise was measured and falsified; see the post-mortem at https://tokenese.org/post-mortem.html.",
     "url": "https://tokenese.org/",
     "inDefinedTermSet": {
       "@type": "DefinedTermSet",
@@ -157,6 +157,21 @@
       z-index: 100;
     }
     .skip-link:focus { left: 0; }
+
+    .archive-banner {
+      background: var(--bg-alt);
+      border-bottom: 2px solid var(--red);
+      padding: 0.9rem 0;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .archive-banner strong { color: var(--red); }
+    .archive-banner a {
+      color: var(--accent-hover);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+    }
 
     .sr-only {
       position: absolute; width: 1px; height: 1px;
@@ -416,6 +431,12 @@
 
 <a class="skip-link" href="#main-content">Skip to content</a>
 
+<div class="archive-banner" role="status">
+  <div class="container">
+    <strong>Archived 2026-07-25.</strong> Tokenese is preserved as a measured post-mortem of the designed-interlingua idea. <a href="/post-mortem.html">Read the post-mortem.</a>
+  </div>
+</div>
+
 <nav aria-label="Main navigation">
   <div class="container">
     <a href="/" class="logo" aria-label="Tokenese home">
@@ -427,6 +448,7 @@
       <span>Tokenese</span>
     </a>
     <div class="links mobile-compact">
+      <a href="/post-mortem.html">Post-mortem</a>
       <a href="#why">Why</a>
       <a href="#audit">The audit</a>
       <a href="#grammar">Grammar</a>
@@ -443,25 +465,25 @@
 <main id="main-content">
 <section class="hero">
   <div class="container">
-    <h1>Denser than any language. Measured in tokens.</h1>
-    <p class="subtitle">Tokenese is an open spec for a token-native interlingua: the language LLMs use to talk to each other, more compressed and more precise than human language, in plain text that crosses any wire and any vendor.</p>
+    <h1>Denser than any language. Measured in tokens. The measurement said no.</h1>
+    <p class="subtitle">Tokenese was an attempt at a token-native interlingua: a language LLMs would use to talk to each other, in plain text that crosses any wire and any vendor. Its own tokenizer audit falsified the compression premise. The full reasoning is in the <a href="/post-mortem.html">post-mortem</a>.</p>
     <p class="byline">
       By <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>, <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a>
       <span class="sep" aria-hidden="true">&middot;</span>
       Published <time datetime="2026-06-12">June 12, 2026</time>
       <span class="sep" aria-hidden="true">&middot;</span>
-      Updated <time datetime="2026-06-23">June 23, 2026</time>
+      Archived <time datetime="2026-07-25">July 25, 2026</time>
       <span class="sep" aria-hidden="true">&middot;</span>
-      <span class="version">grammar v0.3 / tools v0.3.9</span>
+      <span class="version">final: grammar v0.3 / tools v0.3.9</span>
       <span class="sep" aria-hidden="true">&middot;</span>
       <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC&nbsp;BY&nbsp;4.0</a>
     </p>
-    <p class="hook">LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. Tokenese brings color to machine-to-machine communication: richer exchanges, compressed into a smaller, token-native format.</p>
+    <p class="hook">The founding metaphor: LLMs conforming to human language is like watching film in black and white. The measured reality: BPE tokenizers are trained on natural text, so English is already near one token per word, and the designed syntax tokenized worse than the prose it replaced. This page is preserved as the historical record of the attempt.</p>
 
     <h2 class="sr-only">Example exchange</h2>
     <div class="code-grid">
       <div class="code-block">
-        <h3>English, about 55 tokens</h3>
+        <h3>English, 36 tokens (o200k_base, measured)</h3>
 <pre>Could you check whether the deploy of the
 edge function to the Supabase project
 succeeded, and if it failed, look at the
@@ -469,13 +491,13 @@ logs and tell me the first error with a
 timestamp?</pre>
       </div>
       <div class="code-block">
-        <h3>Tokenese v0.3, about 22 tokens</h3>
+        <h3>Tokenese v0.3, 47 tokens (o200k_base, measured)</h3>
 <pre>^grammar:v0.3
 ^declare:level=L2
 @svc := supabase/edge-fn
 @svc.deploy &gt;&gt;&gt; @svc.status
 !@svc.ok? *&gt;&gt; get @svc.logs.first-error +ts</pre>
-        <p class="annotation">Same request, hand-authored to v0.3 grammar and verified by the deterministic checker. Lower ambiguity: handles and typed slots force which service and which ordering.</p>
+        <p class="annotation">This was the flagship example, originally claimed as about 55 vs about 22 tokens. Those figures were eyeballed, never measured. Counted on the certified tokenizers, the designed form is 1.3x larger than the prose it replaced. The <a href="/post-mortem.html">post-mortem</a> records the full measurement.</p>
       </div>
     </div>
 
@@ -488,8 +510,8 @@ timestamp?</pre>
 
 <section class="alt" id="why">
   <div class="container">
-    <h2>Why a designed language</h2>
-    <p>Models inherit all the overhead of human language and none of its benefits. The bet behind Tokenese is that accuracy and compression are not a tradeoff here: natural language sits so far from the efficient frontier that a designed language can win on both axes at once. Tokenese is not a pidgin. A pidgin trades precision for ease of acquisition; Tokenese trades acquisition cost, it must be specified and learned, for precision and density.</p>
+    <h2>Why a designed language (the original bet)</h2>
+    <p>The bet behind Tokenese was that accuracy and compression are not a tradeoff here: that natural language sits so far from the efficient frontier that a designed language can win on both axes at once. Measurement showed the premise is false for short messages: there is no large efficiency gap for a designed language to capture, and the designed syntax tokenized worse than terse English. The <a href="/post-mortem.html">post-mortem</a> explains why, and why the same bet has failed for 70 years. The design pillars below are preserved as the historical record.</p>
 
     <div class="pillars">
       <div class="pillar">
@@ -506,7 +528,7 @@ timestamp?</pre>
       </div>
     </div>
 
-    <p>Compression comes from structure, not glyphs. An empirical finding from the audit: common English words are already optimal tokens, and exotic Unicode usually is not. The savings come from eliminating function-word syntax, anaphora, and repeated referents, not from substituting symbols for words.</p>
+    <p>Compression was to come from structure, not glyphs. An empirical finding from the audit: common English words are already optimal tokens, and exotic Unicode usually is not. In the end that finding generalized further than intended: English itself was the near-optimal encoding, and the designed structure cost more than it saved.</p>
   </div>
 </section>
 
@@ -581,7 +603,7 @@ fix @spec add:handshake
   <div class="container">
     <div class="demo-block">
       <h2>Status</h2>
-      <p>Grammar v0.3 current; seven-column tokenizer audit complete (the Gemma column is now native Gemma 4 E4B, the on-device PAICE production generator). Release v0.3.9 is a patch tooling release. A reference toolchain ships in the repo: a Tokenese-to-English translator, a deterministic per-pair conformance checker with a CLI, an MCP server (parse, validate, validate_framesets, to-english, check-pair, score-pair), compression/hypothesis evals, N2 static package report, and a report-only frameset registry for common op signatures. 156 of 156 translator tests pass, plus 3 root security tests and 4 Gemma 4 audit-surface tests (163 total). The deterministic N2 receiver static floor now passes the 0.75 threshold after retiring the stale S1 semantic-neighborhood operator form. A cross-surface portable skill ships at <code>skills/tokenese/</code>. The hosted assistant guide is anchored at GuideCheck Level 4 via a DNS TXT record at <code>_assistant-guide.tokenese.org</code>; daily CI checks for drift. The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, remains the open downstream measurement. If retries eat the savings, the spec says the design has failed.</p>
+      <p>Archived <time datetime="2026-07-25">2026-07-25</time>. Final release: grammar v0.3, tools v0.3.9 (2026-06-23). The seven-column tokenizer audit is complete and remains reproducible. The reference toolchain is preserved in the repo: a Tokenese-to-English translator, a deterministic per-pair conformance checker with a CLI, an MCP server, compression/hypothesis evals, an N2 static package report, and a report-only frameset registry (163 tests passing at archive). The validating experiment, a live A/B between model families measuring tokens, task success, and misparse-retry rate, was designed but never run: the flagship compression claim was falsified by measurement first, and demand evidence answered the remaining question at a level below the experiment's resolution. The full verdict, the measurement, and the 70-year lineage of the idea are recorded in the <a href="/post-mortem.html">post-mortem</a>.</p>
       <div class="cta-row" style="margin-top: 1.5rem;">
         <a href="https://github.com/snapsynapse/tokenese/blob/main/GRAMMAR-v0.3.md" class="btn btn-primary" target="_blank" rel="noopener">Read the v0.3 grammar</a>
         <a href="https://github.com/snapsynapse/tokenese/tree/main/tools/translator" class="btn btn-secondary" target="_blank" rel="noopener">Tools and checker</a>
@@ -589,10 +611,10 @@ fix @spec add:handshake
     </div>
 
     <aside class="canonical-note" role="note">
-      <strong>Canonical reference.</strong> This page is the authoritative home of the
-      Tokenese specification. Cross-posts on other platforms are derived from this source
+      <strong>Canonical reference.</strong> This page remains the authoritative home of the
+      archived Tokenese specification. Cross-posts on other platforms are derived from this source
       and should cite <a href="https://tokenese.org/">tokenese.org</a> as canonical.
-      Last substantive revision: <time datetime="2026-06-23">2026-06-23</time> (grammar v0.3, tools v0.3.9).
+      Last substantive revision: <time datetime="2026-07-25">2026-07-25</time> (archive; final release grammar v0.3, tools v0.3.9).
       <a href="https://github.com/snapsynapse/tokenese/commits/main" target="_blank" rel="noopener">Revision history &rarr;</a>
     </aside>
   </div>
@@ -603,7 +625,7 @@ fix @spec add:handshake
   <div class="container">
     <div class="footer-grid">
       <div class="footer-meta">
-        <p>Tokenese grammar v0.3 / tools v0.3.9 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
+        <p>Tokenese, archived 2026-07-25 &middot; final release: grammar v0.3 / tools v0.3.9 &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license" target="_blank">CC BY 4.0</a> (spec) &middot; <a href="https://github.com/snapsynapse/tokenese/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> (code)</p>
         <p>A <a href="https://paice.work/" target="_blank" rel="noopener">PAICE.work</a> open spec by <a href="https://www.linkedin.com/in/samrogers" target="_blank" rel="noopener author">Sam Rogers</a>.</p>
         <p style="margin-top: 0.5rem;">See also: <a href="https://turnfile.work/" target="_blank" rel="noopener">Turnfile</a> &middot; <a href="https://gracefulboundaries.dev/" target="_blank" rel="noopener">Graceful Boundaries</a> &middot; <a href="https://hardguard25.com/" target="_blank" rel="noopener">HardGuard25</a></p>
       </div>
@@ -614,7 +636,7 @@ fix @spec add:handshake
         <a href="https://github.com/snapsynapse/tokenese/tree/main/tools/translator" target="_blank" rel="noopener">Tools</a>
         <a href="https://github.com/snapsynapse/tokenese/blob/main/CONFORMANCE.md" target="_blank" rel="noopener">Conformance</a>
         <a href="https://github.com/snapsynapse/tokenese/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
-        <a href="/.well-known/assistant-guide.txt">Assistant guide</a>
+        <a href="/post-mortem.html">Post-mortem</a>
         <a href="/llms.txt">llms.txt</a>
       </div>
     </div>
