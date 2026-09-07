@@ -1,6 +1,6 @@
 # PROJECT_CONTEXT.md — Tokenese
 
-ARCHIVED 2026-07-25. Repo is read-only, preserved as a measured post-mortem of the designed-interlingua idea. Read POST-MORTEM.md first; descriptions below are historical.
+ARCHIVED 2026-07-25. Repo is read-only, preserved as a post-mortem of negative results and unfinished validation. Conclusion amended 2026-09-07; archive retained. Read POST-MORTEM.md first; descriptions below are historical.
 
 Context for content, docs, and skill workflows operating on this repo.
 

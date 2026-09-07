@@ -67,7 +67,7 @@ So the roadmap stays honest about what already exists:
 
 ### N2. The validating A/B experiment (the kill-criterion)
 
-Closed: not run; project archived 2026-07-25 before the experiment; see [POST-MORTEM.md](POST-MORTEM.md) for why it no longer needed to run.
+Closed: not run; project archived 2026-07-25 before the experiment; see [POST-MORTEM.md](POST-MORTEM.md) for the archive decision. Closure did not experimentally establish the behavioral failure criterion.
 
 The central claim, more compressed AND more accurate, is unproven until measured.
 Run a live A/B between model families (Claude vs Codex, then a third) on a fixed

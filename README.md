@@ -1,8 +1,8 @@
 # Tokenese
 
-> Archived 2026-07-25. This repository is preserved intact as a measured post-mortem of the designed-interlingua idea. Read [POST-MORTEM.md](POST-MORTEM.md) first: it is the authoritative closing document. The spec and tools below remain as evidence and remain runnable, but the project is concluded and unmaintained.
+> Archived 2026-07-25. This repository is preserved as a post-mortem of Tokenese's negative results and unfinished validation. Read [POST-MORTEM.md](POST-MORTEM.md) first: it is the authoritative closing document. The spec and tools below remain as evidence and remain runnable, but the project is concluded and unmaintained.
 
-Tokenese was an attempt at a token-native interlingua for LLM-to-LLM communication, intended to be more compressed and more precise than human prose, measured in real tokenizer tokens. Measurement went the other way: the designed form cost more tokens than the terse English it replaced. See [POST-MORTEM.md](POST-MORTEM.md).
+Tokenese was an attempt at a token-native interlingua for LLM-to-LLM communication, intended to be more compressed and more precise than human prose, measured in real tokenizer tokens. The flagship example cost more tokens than terse English; the broader behavioral claim remained unproven. See [POST-MORTEM.md](POST-MORTEM.md).
 
 Canonical home: https://tokenese.org/
 Spec: [spec.md](spec.md) v0.3 (final). Grammar: [GRAMMAR-v0.3.md](GRAMMAR-v0.3.md).
@@ -14,7 +14,7 @@ https://tokenese.org/
 
 ## What problem it tried to solve
 
-LLM-to-LLM communication defaults to verbose human prose. The bet was that a token-native interlingua, with every lexicon element admitted by a reproducible cross-tokenizer audit, could beat prose on both cost and precision. The measured answer: terse English plus schemas already wins; the designed syntax tokenizes worse than the prose it replaces. POST-MORTEM.md carries the full accounting.
+LLM-to-LLM communication defaults to verbose human prose. The bet was that a token-native interlingua, with every lexicon element admitted by a reproducible cross-tokenizer audit, could beat prose on both cost and precision. The flagship syntax cost more tokens than terse English. The combined compression and accuracy claim remained unproven. POST-MORTEM.md carries the full accounting.
 
 ## Who this is for now
 
@@ -22,13 +22,13 @@ Anyone designing DSL syntax, identifiers, or structured output formats that LLMs
 
 ## Why it existed
 
-The founding metaphor: LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. The premise failed on measurement because BPE tokenizers are trained on natural text, making English near-optimal in token space already. The metaphor was wrong: the film was already in color.
+The founding metaphor: LLMs conforming to human language is like watching film in black and white. Human languages carry overhead shaped by human constraints: serial speech, social hedging, redundancy against noisy air. The flagship compression claim failed measurement. That result did not establish an optimal encoding of meaning or resolve the broader behavioral hypothesis.
 
 ## How it works
 
 - Token-space only. Plain text crosses the wire; each party tokenizes independently. No embeddings, no shared latents, no vendor lock.
 - Tokenizer-audited lexicon. A symbol enters the vocabulary only if it costs 1 token, worst case, in every certified tokenizer (currently OpenAI o200k_base + Anthropic). Audit scripts included; claims are reproducible.
-- Compression from structure, not glyphs. Fixed field grammar, controlled vocabulary, in-band symbol table for repeated referents. Empirical finding: common English words are already optimal tokens; exotic Unicode usually is not.
+- Compression from structure, not glyphs. Fixed field grammar, controlled vocabulary, in-band symbol table for repeated referents. Measurement rule: individual token costs require audit; whole-message savings require separate measurement.
 - Self-repairing. `??` misparse signal and a plain-English escape hatch are mandatory.
 
 ## Quick taste
@@ -36,8 +36,8 @@ The founding metaphor: LLMs conforming to human language is like watching film i
 No measured example ever shipped, and none will. The original illustrative
 example was removed on 2026-06-18 when token-counting on the certified
 tokenizers reversed its compression claim (the Tokenese form was 1.3x larger
-than the English, not 2.5x smaller). That finding, reproduced and generalized,
-is the core of [POST-MORTEM.md](POST-MORTEM.md), which includes the
+than the English, not 2.5x smaller). That finding, reproduced on two tokenizers,
+is the negative result documented in [POST-MORTEM.md](POST-MORTEM.md), which includes the
 reproduction script.
 
 ## Tools
@@ -58,7 +58,7 @@ ANTHROPIC_API_KEY=... .venv/bin/python audit_anthropic.py
 
 ## Status
 
-Archived 2026-07-25. Release v0.3.9 (2026-06-23) is the final release. The N2 live cross-family A/B experiment, the project's self-declared kill-criterion, was designed but never run; the demand evidence made it unnecessary. [POST-MORTEM.md](POST-MORTEM.md) is the closing document.
+Archived 2026-07-25. Release v0.3.9 (2026-06-23) is the final release. The N2 live cross-family A/B experiment, the project's self-declared kill-criterion, was designed but never run. Limited adoption and the lack of a validated advantage supported archiving, without settling the technical hypothesis. [POST-MORTEM.md](POST-MORTEM.md) is the closing document.
 
 ## Contributing
 
@@ -72,4 +72,4 @@ Code: MIT. Specification text: CC BY 4.0. See [LICENSE](LICENSE) and [LICENSE-SP
 
 Coding agents should read [AGENTS.md](AGENTS.md) first.
 
-Last updated: 2026-07-25
+Last updated: 2026-09-07 (conclusion amended; archive retained)

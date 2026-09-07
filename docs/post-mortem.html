@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>Tokenese Post-Mortem</title>
-  <meta name="description" content="Archived 2026-07-25. The designed-interlingua premise was measured and falsified: Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. A measured post-mortem of the idea and its 70-year lineage.">
+  <meta name="description" content="Tokenese failed to demonstrate its combined compression and accuracy goal. The flagship compression claim was falsified; the live A/B remained unrun. Archived 2026-07-25; conclusion amended 2026-09-07.">
   <meta name="author" content="Sam Rogers">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#5EE6C4">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Tokenese">
   <meta property="og:title" content="Tokenese Post-Mortem">
-  <meta property="og:description" content="The designed-interlingua premise, measured and falsified. Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. Repo archived 2026-07-25.">
+  <meta property="og:description" content="Tokenese failed to demonstrate its combined compression and accuracy goal. The flagship compression claim was falsified; the live A/B remained unrun. Archived 2026-07-25; conclusion amended 2026-09-07.">
   <meta property="og:url" content="https://tokenese.org/post-mortem.html">
   <meta property="og:image" content="https://tokenese.org/imgs/og.png">
   <meta property="og:image:width" content="1280">
@@ -29,7 +29,7 @@
   <meta property="og:image:alt" content="Tokenese: a token-native interlingua for LLM-to-LLM communication.">
   <meta property="og:locale" content="en_US">
   <meta property="article:published_time" content="2026-07-25T00:00:00Z">
-  <meta property="article:modified_time" content="2026-07-25T00:00:00Z">
+  <meta property="article:modified_time" content="2026-09-07T00:00:00Z">
   <meta property="article:author" content="Sam Rogers">
   <meta property="article:publisher" content="https://paice.work/">
   <meta property="article:section" content="Open Specs">
@@ -40,7 +40,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tokenese Post-Mortem">
-  <meta name="twitter:description" content="The designed-interlingua premise, measured and falsified. Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. Repo archived 2026-07-25.">
+  <meta name="twitter:description" content="Tokenese failed to demonstrate its combined compression and accuracy goal. The flagship compression claim was falsified; the live A/B remained unrun. Archived 2026-07-25; conclusion amended 2026-09-07.">
   <meta name="twitter:site" content="@snapsynapse">
   <meta name="twitter:creator" content="@snapsynapse">
   <meta name="twitter:image" content="https://tokenese.org/imgs/og.png">
@@ -51,13 +51,13 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "Tokenese Post-Mortem",
-    "alternativeHeadline": "A measured post-mortem of the designed-interlingua idea",
-    "description": "The designed-interlingua premise was measured and falsified: Tokenese v0.3 tokenized 1.3x larger than the prose it replaced. This post-mortem records the measurement, the 70-year lineage of the idea, why JSON plus natural language won, and the pre-registered conditions under which the idea would be worth revisiting.",
+    "alternativeHeadline": "Negative results and an unfinished validation",
+    "description": "Tokenese failed to demonstrate its combined compression and accuracy goal. The flagship compression claim was falsified; the live A/B remained unrun. Archived 2026-07-25; conclusion amended 2026-09-07.",
     "inLanguage": "en",
     "url": "https://tokenese.org/post-mortem.html",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://tokenese.org/post-mortem.html" },
     "datePublished": "2026-07-25",
-    "dateModified": "2026-07-25",
+    "dateModified": "2026-09-07",
     "author": {
       "@type": "Person",
       "name": "Sam Rogers",
@@ -328,201 +328,83 @@
 <div class="container">
 
 <header class="page-header">
-  <p class="status-flag">Archived · Final</p>
-  <h1>Post-mortem: Tokenese, and the designed-interlingua idea</h1>
+  <p class="status-flag">Archived</p>
+  <h1>Tokenese: negative results and an unfinished validation</h1>
   <div class="meta">
-    <p>Date: <time datetime="2026-07-25">2026-07-25</time>. Status: final. This repository is archived. The spec, tooling, and audit scripts are preserved intact as evidence, not as product.</p>
-    <p>Verdict scope: not just this repo. This document is a measured post-mortem of the idea this repo espoused: that a designed, compressed, machine-native language for LLM-to-LLM communication can beat natural language on cost and precision at once.</p>
+    <p>Archived: <time datetime="2026-07-25">2026-07-25</time>. Amended: <time datetime="2026-09-07">2026-09-07</time>.</p>
+    <p>Status: archived and unmaintained. The spec, tooling, and audit scripts remain available as experimental artifacts.</p>
   </div>
 </header>
-
 <article>
-
 <h2 id="verdict">Verdict</h2>
-<div class="verdict">
-  <p>The idea loses. Not narrowly, and not because this implementation was sloppy. It loses structurally, for reasons that apply to every project in the 70-year lineage it belongs to, and this repository is unusual only in that it built the instruments to measure its own failure and then did so.</p>
-  <p>The one-sentence version: the winners bolted precision onto the outside of natural language (schemas and constrained decoding) and pushed density below the text (caching, pricing, latent exchange), leaving the language layer human-native. Every project that instead created a new surface form died.</p>
-</div>
-
+<p>Tokenese failed to demonstrate its founding promise: cross-vendor LLM communication that is both more compact and more precise than natural language. Its flagship compression claim was falsified. The live A/B experiment needed to evaluate accuracy and repair costs was never completed.</p>
+<p>Archiving remains justified by the negative measurement, weak adoption signal, and unresolved costs of teaching, integration, and semantic coordination. The evidence supports stopping investment; it does not establish that every designed agent language must fail. Narrower benefits remain unproven.</p>
 <h2 id="claimed">What Tokenese claimed</h2>
-<p>From INTENT.md as originally written:</p>
-<blockquote>
-  <p>Tokenese is an open specification for a token-native interlingua: a language LLMs use to communicate with each other that is denser and more precise than any human language. [...] The bet is that accuracy and compression are not a tradeoff here; natural language is so far from the efficient frontier that a designed language can win on both axes at once.</p>
-</blockquote>
-<p>The headline example claimed a &gt;2x token saving. The spec targeted 2.5-4x compression. Every lexicon element was to be admitted only by reproducible cross-tokenizer audit, which turned out to be the project's most important design decision, because the audit is what killed the claim.</p>
-
+<p>The original INTENT.md proposed a plain-text interlingua that would be denser and more precise than human language. The spec targeted 2.5-4x compression. Its explicit failure criterion was live misparse-retry accounting: if retries consumed the token savings, the design had failed.</p>
+<p>Lexicon audits and parser conformance were necessary checks, but neither could establish this combined behavioral claim.</p>
 <h2 id="measurement">What measurement showed</h2>
-<p>On 2026-06-18, pre-publish validation of an announcement post re-counted the flagship example on the certified tokenizers. The claim reversed.</p>
-<div class="table-wrap">
-  <table>
-    <caption>Flagship example, re-counted on the certified tokenizers</caption>
-    <thead>
-      <tr><th scope="col">Tokenizer</th><th scope="col">English</th><th scope="col">Tokenese</th><th scope="col">Result</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>o200k_base</td><td class="num">36</td><td class="num">47</td><td>Tokenese 1.31x LARGER</td></tr>
-      <tr><td>cl100k_base</td><td class="num">37</td><td class="num">48</td><td>Tokenese 1.30x LARGER</td></tr>
-    </tbody>
-  </table>
-</div>
-<p>The claimed figures (English ~55, Tokenese ~22) had been eyeballed, never measured, violating the repo's own invariant 6 ("measured, not asserted"). Controlled re-examination of the premise followed. Same semantic task, encoded multiple ways:</p>
-<div class="table-wrap">
-  <table>
-    <caption>Same semantic task, multiple encodings, token counts</caption>
-    <thead>
-      <tr><th scope="col">Form</th><th scope="col">o200k</th><th scope="col">cl100k</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Verbose polite English (the old baseline)</td><td class="num">36</td><td class="num">37</td></tr>
-      <tr><td>Terse English</td><td class="num">18</td><td class="num">19</td></tr>
-      <tr><td>Tokenese v0.3 as specified (sigils, dotted handles)</td><td class="num">47</td><td class="num">48</td></tr>
-      <tr><td>Word-based Tokenese</td><td class="num">17</td><td class="num">18</td></tr>
-      <tr><td>Keyword-minimal English</td><td class="num">16</td><td class="num">17</td></tr>
-    </tbody>
-  </table>
-</div>
-<p>Findings, in order of importance:</p>
-<ol>
-  <li>Most of the apparent savings was terseness, not language design. Verbose 36 to terse 18 is a 2x win with zero spec, zero learning cost, and full readability. The fair baseline for any designed language is terse English, and against that baseline the designed forms are a wash.</li>
-  <li>The designed syntax actively hurt. Dotted handles and sigil clusters are out-of-distribution for BPE tokenizers and shatter: <code>@svc.logs.first-error</code> is 5 tokens, <code>!@svc.ok?</code> is 5, <code>edge-fn</code> is 3. The v0.3 grammar used exactly the constructs that tokenize worst.</li>
-  <li>A narrow honest win survived: roughly 20-25% over terse English on structured/conditional payloads built from operators that audit to a single token (<code>-&gt;</code>, <code>&gt;&gt;&gt;</code>, <code>::</code>). Real, modest, fragile, and nowhere near the 2.5-4x target.</li>
-  <li>BPE tokenizers are trained on natural text, so English is already near one token per word, including function words. There is no large efficiency frontier gap for a designed language to capture. The founding premise is false for short messages, which is what inter-agent messages are.</li>
-</ol>
-<p>The spec pivoted honestly (the "precision-pivot": lead with precision, auditability, portability; retain compression as a long-term goal). The live cross-family A/B experiment (ROADMAP N2, the self-declared kill-criterion) was designed but never run. It does not need to run. The demand evidence (five unique visitors in the final fortnight, zero external adopters, zero inbound interest across six weeks public) answers the question the experiment was built to ask at a level below its resolution.</p>
-
-<h2 id="built">What was built</h2>
-<p>Recorded so the testament shows the failure was not rigor:</p>
-<ul>
-  <li>A spec with seven design invariants, wire grammar v0.3, conformance claim classes, and admission criteria for changes.</li>
-  <li>A seven-column tokenizer audit (OpenAI o200k_base, Anthropic count-tokens, Gemini, Qwen2.5, DeepSeek-V3, Llama 3, Gemma 4 E4B native), reproducible via the <code>audit_*.py</code> scripts, CI-gated against silent alphabet expansion.</li>
-  <li>A deterministic Tokenese-to-English translator, validator, per-pair scorer (TKAB), MCP server, and 163 passing tests. Scoring only, never generation, by scope lock.</li>
-  <li>GuideCheck Level 4 trust anchoring with a DNS TXT hash anchor and daily drift CI (retired at archive).</li>
-  <li>A static receiver-comprehension floor (min 0.85 against a 0.75 threshold) and an N2 static package report.</li>
-</ul>
-<p>The audit methodology is the salvage. It is, as far as we know, the only reproducible cross-vendor worst-case token-cost audit of a designed lexicon, and it is exactly the instrument that falsified the project that built it.</p>
-
-<h2 id="lineage">The lineage: 70 years of the same idea</h2>
-<p>Tokenese is not a new idea. It is the LLM-era instance of a recurring one.</p>
-<div class="table-wrap lineage">
-  <table>
-    <caption>Designed machine-language projects, 1950s to 2026</caption>
-    <thead>
-      <tr><th scope="col">Era</th><th scope="col">Project</th><th scope="col">Intent</th><th scope="col">Method</th><th scope="col">Fate</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1950s-90s</td><td>Interlingua MT (KBMT, Eurotra)</td><td>N squared language pairs become N via a universal meaning representation</td><td>Hand-crafted language-neutral semantics</td><td>Lost to statistical, then neural MT, which learned from the substrate instead of designing above it</td></tr>
-      <tr><td>1955-</td><td>Loglan / Lojban</td><td>An unambiguous logical language</td><td>Predicate-logic grammar, one parse per utterance</td><td>Never adopted for MT or agents; hobbyist community</td></tr>
-      <tr><td>early 1990s</td><td>KQML</td><td>Knowledge-level agent messaging</td><td>Speech-act performatives (<code>ask-if</code>, <code>tell</code>), layered envelope</td><td>Performative semantics too weak; implementations could not interoperate</td></tr>
-      <tr><td>~2000</td><td>FIPA-ACL</td><td>Fix KQML with formal semantics</td><td>Logic-grounded pre/postconditions over agent beliefs and intentions</td><td>Semantic over-engineering, heavyweight tooling; the web and REST won; agent research went dormant</td></tr>
-      <tr><td>2001-</td><td>Semantic Web (RDF, OWL, SPARQL)</td><td>Machine-interpretable meaning layer for the web</td><td>Triples, description-logic ontologies, reasoners</td><td>High modeling cost, poor ergonomics; survives in niche knowledge graphs; JSON+REST won the general case</td></tr>
-      <tr><td>1990s-</td><td>Controlled natural languages (Attempto, ASD-STE100)</td><td>Restrict English until it parses deterministically</td><td>Grammar subset plus controlled vocabulary</td><td>Survives only where regulation mandates it; nobody volunteers into it</td></tr>
-      <tr><td>2023-</td><td>LLMLingua</td><td>Compress prompts, keep performance</td><td>Statistical token pruning of natural language</td><td>Real traction: up to 20x on long prompts, peer-reviewed. Note what it is not: not a language</td></tr>
-      <tr><td>2025</td><td>SynthLang</td><td>Glyph/kanji symbolic prompt language</td><td>Symbol substitution for verbose instructions</td><td>Self-reported 40-70% claims, no independent validation, requires decoding rules in-prompt; hobby traction</td></tr>
-      <tr><td>2025</td><td>TOON and compact-JSON notations</td><td>Token-cheaper structured payloads</td><td>Slims JSON syntax overhead</td><td>Niche traction. Compresses JSON, not language</td></tr>
-      <tr><td>2025</td><td>Gibberlink</td><td>Agent-to-agent audio handshake</td><td>GGWave encoding</td><td>Viral demo, zero infrastructure adoption</td></tr>
-      <tr><td>2024-</td><td>Agora protocol</td><td>Negotiated efficient routines between agents</td><td>Protocol negotiation with NL fallback</td><td>Conceptual; no ecosystem</td></tr>
-      <tr><td>2024-</td><td>DroidSpeak, CIPHER, neuralese / latent communication</td><td>Skip text entirely</td><td>KV-cache exchange, embedding exchange, emergent codes</td><td>Where efficiency research actually went: 2-24x latency wins reported, TTFT speedups up to two orders of magnitude. Architecture-coupled, not cross-vendor</td></tr>
-      <tr><td>2026</td><td>Tokenese (this repo)</td><td>Token-native audited interlingua, denser and more precise at once</td><td>Empirical tokenizer-audit admission gate, fixed field grammar, repair channel</td><td>Premise measured false by its own instruments; archived</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<h2 id="common-intent">The common intent</h2>
-<p>Four bets recur across the entire lineage, near-verbatim:</p>
-<ol>
-  <li>Ambiguity is waste, and formal semantics will fix it. FIPA's belief-logic preconditions, Lojban's single parse, Attempto's controlled grammar, Tokenese invariant 4 ("one statement, one reading").</li>
-  <li>The machine channel should not pay human-language overhead. Interlingua MT, SynthLang, neuralese, Tokenese's founding metaphor of models "watching film in black and white."</li>
-  <li>A neutral interlingua beats N squared pairwise mappings. Interlingua MT, KIF, Tokenese's cross-vendor portability invariant.</li>
-  <li>Machine communication should be auditable and verifiable. FIPA formal semantics, OWL reasoners, Tokenese invariant 7 (human-auditability).</li>
-</ol>
-<p>All four intents are legitimate. That is the trap. Each intent is real, and each has now been satisfied by a mechanism that is not a designed language.</p>
-
-<h2 id="common-methodology">The common methodology</h2>
-<p>The lineage also shares its methods:</p>
-<ul>
-  <li>An operator or performative vocabulary (KQML performatives, Tokenese sigils, SynthLang glyphs).</li>
-  <li>A grammar restricted until parsing is deterministic.</li>
-  <li>A controlled vocabulary, one sense per word.</li>
-  <li>An admission gate for new elements (FIPA standardization, Tokenese's tokenizer audit; the audit being empirical was this repo's novelty).</li>
-  <li>A teaching payload: because none of these languages exist in training data, every participant must be taught in-context or in-spec, per session or per developer, forever.</li>
-</ul>
-
-<h2 id="failure-law">The failure law</h2>
-<p>Stated once, plainly:</p>
-<p><strong>Every project that created a new surface form died. Every survivor compressed within the incumbent substrate.</strong></p>
-<ul>
-  <li>LLMLingua prunes English. Survived.</li>
-  <li>TOON slims JSON. Survived, niche.</li>
-  <li>Constrained decoding restricts English and JSON emission. Won outright.</li>
-  <li>KV-cache and latent exchange skip text where both ends share an architecture. Thriving in research.</li>
-  <li>KQML, FIPA-ACL, Lojban, the Semantic Web's reasoning layer, SynthLang, Gibberlink, Tokenese introduced new surfaces. All dead or dying.</li>
-</ul>
-
-<h2 id="why-json-won">Why JSON plus natural language won</h2>
-<p>Four mechanisms, each independently sufficient:</p>
-<ol>
-  <li>Substrate gravity. Tokenizers are trained on English, code, and JSON, so the incumbent is near-optimal in the very currency (tokens) that challengers compete on. A designed language fights the training prior, the tokenizer economics, and the tooling ecosystem simultaneously. This repo measured the effect precisely: the designed form was 1.3x larger than the prose it replaced.</li>
-  <li>Precision was solved orthogonally. The winning stack separates carrier from contract: the carrier stays familiar text, and precision comes from JSON Schema plus constrained decoding, which makes invalid output unrepresentable at the sampler. That is better determinism than any grammar spec can offer, enforced at generation time rather than checked after, at zero acquisition cost. MCP (JSON-RPC) and A2A (typed JSON schemas) are explicit about this design choice, and they are the only protocols in this space with adoption: on the order of 97M monthly SDK downloads and production use in a large majority of enterprise agent teams by mid-2026.</li>
-  <li>Compression was solved orthogonally. Prompt caching, falling token prices, growing context windows, statistical pruning (LLMLingua), and latent exchange turned compression into an infrastructure property rather than a language property. The ~20-25% residual win Tokenese measured on narrow payload classes is smaller than a typical quarter of token price decline.</li>
-  <li>Asymmetric acquisition cost. The incumbent costs every participant nothing. A designed language charges a teaching payload per session, per model, forever, against per-message savings that round to noise. FIPA paid this cost in developer learning; Tokenese pays it in prompt tokens. Same ledger, same sign.</li>
-</ol>
-
+<p>On 2026-06-18, token counting contradicted the flagship example's estimated saving. These counts were reproduced on 2026-09-07:</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Form</th><th scope="col">o200k_base</th><th scope="col">cl100k_base</th></tr></thead><tbody>
+<tr><td>Verbose English</td><td>36</td><td>37</td></tr>
+<tr><td>Terse English</td><td>18</td><td>19</td></tr>
+<tr><td>Tokenese v0.3</td><td>47</td><td>48</td></tr>
+</tbody></table></div>
+<p>The claimed figures, approximately 55 English tokens versus 22 Tokenese tokens, had been estimated rather than measured. Tokenese actually cost about 1.3x the verbose English and 2.5-2.6x the terse English on this example. The result disproves that compression claim, not the efficiency of every possible designed representation.</p>
+<p>The subsequent precision pivot explored repeated references, evidence labels, confidence, ranked alternatives, and repair state. Re-running the exploratory suite yields 13 token-count wins, four losses, and one tie on o200k_base across 18 comparisons. These are hand-authored candidates, not a representative sample of successful live exchanges.</p>
+<p>Baseline choice materially affects those results. In the symbol-table case, the supplied English repeats the full referent and costs 84 tokens against 44 for the candidate. Stating the subject once reduces the English to 38 (cl100k_base: 92, 45, and 40 respectively). The shorter wording preserves the requested operations on inspection; receiver equivalence has not been tested.</p>
+<p>Shortened English used for that check:</p>
+<blockquote><p>For pcegwmrsxzzznowwnksu Supabase edge-function deploy: check status; if failed, return first log error with timestamp; then report owner and retry state.</p></blockquote>
+<p>The reported static receiver floor, minimum 0.85 against a 0.75 threshold, measures expected-term coverage in the candidate text. It does not measure receiver comprehension, correct bindings, negation, or task accuracy. Earlier receiver smoke tests informed syntax revisions but did not complete the planned comparative evaluation.</p>
+<h2 id="stopped">Why the project stopped</h2>
+<p>The archive review recorded zero stars, forks, and external adopters; five unique visitors in the preceding 14 days; and an unpublished package. These are historical observations from 2026-07-25, not current measurements or a controlled test of demand.</p>
+<p>That limited adoption signal and the lack of a validated advantage supported ending investment. They did not answer the live A/B experiment's technical question. N2 was closed administratively without being run; the original behavioral failure criterion was not experimentally established.</p>
+<span id="common-intent"></span><span id="common-methodology"></span><span id="failure-law"></span>
+<h2 id="lineage">Historical evidence and its limits</h2>
+<p>Related work identifies recurring obstacles, but the projects below tested different objectives. Their outcomes are not repeated tests of Tokenese's compression-and-accuracy hypothesis.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Comparison</th><th scope="col">Evidence</th><th scope="col">Implication for Tokenese</th></tr></thead><tbody>
+<tr><td>FIPA-ACL</td><td>Its formal semantics left implementation conformance testing unresolved. <a href="https://fipa.org/specs/fipa00037/PC00037E.html">Specification</a></td><td>Defining meaning does not prove that implementations preserve it.</td></tr>
+<tr><td>Controlled natural languages</td><td>Caterpillar replaced an unenforceable approach with narrower translation goals; General Motors' controlled authoring reached production. <a href="https://aclanthology.org/J14-1005.pdf">Survey</a></td><td>Outcomes are mixed; enforceability and a bounded use case matter.</td></tr>
+<tr><td>RDF and SPARQL</td><td>Wikimedia operates a SPARQL query service using RDF. <a href="https://doc.wikimedia.org/wikidata-query-rdf/query-service-parent/index.html">Implementation</a></td><td>Specialized adoption contradicts a blanket failure verdict without establishing universal suitability.</td></tr>
+<tr><td>Agora</td><td>It combines natural language with standardized and generated routines according to communication frequency. <a href="https://arxiv.org/abs/2410.11905">Paper</a></td><td>Reuse and specialization are relevant alternatives to a universal replacement language.</td></tr>
+<tr><td>LLMLingua</td><td>It reports prompt-compression gains on specified datasets. <a href="https://arxiv.org/abs/2310.05736">Paper</a></td><td>It provides comparative evidence for another approach, not a test of Tokenese.</td></tr>
+</tbody></table></div>
+<p>This history supports skepticism about whether broad benefits can repay teaching, integration, semantic coordination, and adoption costs. Tokenese provided no compelling evidence that it overcame those obstacles. Specialized success would support its tested workload, not the original general claim.</p>
+<p>The former lineage table mixed translation systems, logical languages, knowledge representation, audio transport, and LLM research into a single failure narrative. This amendment replaces that narrative with sourced comparisons. Historical analogy informs the investment decision; it cannot substitute for the missing experiment.</p>
+<span id="why-json-won"></span>
+<h2 id="alternatives">Alternatives and unresolved costs</h2>
+<ol><li>Whole-message token counts matter. Cheap vocabulary elements did not make the flagship message cheap. This does not establish that English is an optimal encoding of meaning.</li><li>Schemas and constrained decoding can enforce output structure. They do not ensure correct values or shared interpretation. <a href="https://openai.com/index/introducing-structured-outputs-in-the-api/">Structured Outputs limitations</a></li><li>Teaching and integration costs must be counted for every approach. Shared setup may amortize over repeated exchanges; Tokenese did not establish an end-to-end advantage after setup, readbacks, repairs, and fallbacks.</li><li>Caching and other compression methods belong in a workload-specific comparison. Falling token prices alone neither prove nor disprove a language's relative efficiency.</li></ol>
+<span id="built"></span>
 <h2 id="survives">What survives</h2>
-<ul>
-  <li>The audit methodology. A reproducible, CI-gated, worst-case cross-tokenizer cost audit is useful to anyone designing identifiers, DSL syntax, or structured output formats that LLMs will emit. The scripts remain in the <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">repo</a> and remain runnable.</li>
-  <li>The negative result itself. Published measured falsifications are rare in this space; most projects in the lineage table simply stopped updating.</li>
-  <li>The discipline. "Measured, not asserted" (invariant 6) is the reason this post-mortem exists instead of a slowly rotting landing page.</li>
-  <li>The precision intents. They were legitimate, and they are served today by JSON Schema, constrained decoding, and typed protocol contracts.</li>
-</ul>
-
-<h2 id="revival">Revival conditions</h2>
-<p>Pre-registered and falsifiable, so this document can be proven wrong rather than argued with. The designed-interlingua idea becomes worth revisiting only if at least one of these becomes true:</p>
-<ol>
-  <li>A major vendor ships a tokenizer deliberately trained on a designed agent-language corpus, making the designed surface cheap by construction and collapsing the substrate-gravity argument.</li>
-  <li>A vendor-neutral latent-exchange standard emerges, collapsing the cross-vendor rationale that forced token-space text in the first place (invariant 1), and a plain-text interlingua becomes the fallback layer of that standard.</li>
-  <li>Someone demonstrates, with reproducible cross-tokenizer counts and a live misparse-retry accounting, a designed language beating terse English by more than 2x on a general task distribution, not a curated payload class.</li>
-  <li>Inference pricing inverts its trend for multiple consecutive years, making per-message token savings economically decisive again.</li>
-</ol>
-<p>Absent those, the answer to "should we design a language for the machines?" is: no. Be terse, emit JSON against a schema, cache your prompts, and let the sampler enforce your grammar.</p>
-
+<ul><li>Reproducible cross-tokenizer audits for evaluating vocabulary and syntax.</li><li>The measured failure of the flagship compression claim.</li><li>A translator, validator, scorer, MCP interface, and archived test suite (163 passing tests reported at closure).</li><li>Exploratory fixtures and syntax observations that can inform future tests, with their baseline and semantic-validation limits made explicit.</li></ul>
+<h2 id="revival">Conditions for reconsideration</h2>
+<p>A small benchmark win alone would not justify reopening. Reconsideration would require a concrete recurring workload, evidence of a material benefit, and an explanation of which historical obstacle the approach overcomes. A bounded evaluation would need to:</p>
+<ol><li>Freeze candidates and success thresholds before testing on held-out tasks across independent receiver families.</li><li>Compare against carefully shortened English and compact structured data carrying equivalent information.</li><li>Count setup, messages, readbacks, repairs, fallbacks, and failures; measure meaning preservation and successful task completion.</li><li>Demonstrate a useful advantage after integration costs. Any conclusion applies to the tested workload and conditions.</li></ol>
+<p>Until such evidence exists, the repository remains archived. The unresolved hypothesis does not itself justify further investment.</p>
 <h2 id="timeline">Timeline</h2>
-<ul>
-  <li><time datetime="2026-06-12">2026-06-12</time>: repo provisioned. Spec v0.1.0, dual-tokenizer audit.</li>
-  <li><time datetime="2026-06-16">2026-06-16</time>: repo public, tokenese.org live, landing page ships.</li>
-  <li><time datetime="2026-06-17">2026-06-17</time>: seven-column audit complete, GuideCheck Level 4 anchoring.</li>
-  <li><time datetime="2026-06-18">2026-06-18</time>: pre-publish validation falsifies the flagship example. The announcement post is pulled. Premise re-examination measured and recorded.</li>
-  <li><time datetime="2026-06-22">2026-06-22</time>: precision-pivot ratified into spec and INTENT.</li>
-  <li><time datetime="2026-06-23">2026-06-23</time>: v0.3.9 released. Phase A closed. Phase B (live A/B) opened.</li>
-  <li><time datetime="2026-06-25">2026-06-25</time>: Phase B stalls at fixture authorship. No further substantive work occurs.</li>
-  <li><time datetime="2026-07-25">2026-07-25</time>: viability teardown run. Baseline: 0 stars, 0 forks, 5 unique visitors in 14 days, 0 external adopters, package never published. Archive verdict taken. This document written. Repo archived.</li>
-</ul>
-
-<h2 id="reproduce">Reproduce the falsification</h2>
-<pre><code>python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
-./.venv/bin/python - &lt;&lt;'PY'
+<ul><li>2026-06-12: repo provisioned. Spec v0.1.0, dual-tokenizer audit.</li><li>2026-06-16: repo public, tokenese.org live, landing page ships.</li><li>2026-06-17: seven-column audit complete, GuideCheck Level 4 anchoring.</li><li>2026-06-18: pre-publish validation falsifies the flagship example. The announcement post is pulled. Premise re-examination measured and recorded.</li><li>2026-06-22: precision-pivot ratified into spec and INTENT.</li><li>2026-06-23: v0.3.9 released. Phase A closed. Phase B (live A/B) opened.</li><li>2026-06-25: Phase B stalls at fixture authorship. Implementation work stops.</li><li>2026-07-25: viability teardown run. Baseline: 0 stars, 0 forks, 5 unique visitors in 14 days, 0 external adopters, package never published. Archive verdict taken. This document written. Repo archived.</li><li>2026-09-07: conclusion corrected; counts reproduced and baseline sensitivity checked. Archive retained; the live A/B remains unrun.</li></ul>
+<h2 id="reproduce">Reproduce the headline result</h2>
+<p>Literal</p>
+<pre><code class="language-bash">python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+./.venv/bin/python - &lt;&lt;&#x27;PY&#x27;
 import tiktoken
-o = tiktoken.get_encoding("o200k_base"); c = tiktoken.get_encoding("cl100k_base")
+o = tiktoken.get_encoding(&quot;o200k_base&quot;); c = tiktoken.get_encoding(&quot;cl100k_base&quot;)
 def m(s): return len(o.encode(s)), len(c.encode(s))
-english = ("Could you check whether the deploy of the edge function to the "
-           "Supabase project succeeded, and if it failed, look at the logs and "
-           "tell me the first error with a timestamp?")
-tokenese = ("^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n"
-            "@svc.deploy &gt;&gt;&gt; @svc.status\n!@svc.ok? *&gt;&gt; get @svc.logs.first-error +ts")
-terse = ("Check Supabase edge-function deploy status. If failed, return first "
-         "log error with timestamp.")
-print("verbose english", m(english))   # (36, 37)
-print("tokenese v0.3  ", m(tokenese))  # (47, 48)
-print("terse english  ", m(terse))     # (18, 19)
-PY</code></pre>
-<p>The full lexicon audit remains reproducible via <code>audit_symbols.py</code> and siblings; see the repository README.</p>
-
-<h2 id="provenance">Provenance</h2>
-<p>Compiled 2026-07-25 by the maintainer with agent assistance, from: the 2026-06-18 premise re-examination (measured in this repo's own venv), the repo's spec and design documents, GitHub traffic instruments, and a survey of the protocol landscape as of mid-2026 (MCP/A2A adoption reporting, latent communication survey literature, and the public record of each lineage project). Corrections that come with measurements are welcome; the repo is archived, so file them against the maintainer's active projects or via the contact on tokenese.org.</p>
-
-<aside class="backlinks" role="note">
-  <strong>Where to go from here.</strong> The archived landing page and spec overview remain at <a href="/">tokenese.org</a>. The full spec, audit scripts, and toolchain are preserved at the <a href="https://github.com/snapsynapse/tokenese" target="_blank" rel="noopener">GitHub repository</a>.
-</aside>
-
+english = (&quot;Could you check whether the deploy of the edge function to the &quot;
+           &quot;Supabase project succeeded, and if it failed, look at the logs and &quot;
+           &quot;tell me the first error with a timestamp?&quot;)
+tokenese = (&quot;^grammar:v0.3\n^declare:level=L2\n@svc := supabase/edge-fn\n&quot;
+            &quot;@svc.deploy &gt;&gt;&gt; @svc.status\n!@svc.ok? *&gt;&gt; get @svc.logs.first-error +ts&quot;)
+terse = (&quot;Check Supabase edge-function deploy status. If failed, return first &quot;
+         &quot;log error with timestamp.&quot;)
+print(&quot;verbose english&quot;, m(english))   # (36, 37)
+print(&quot;tokenese v0.3  &quot;, m(tokenese))  # (47, 48)
+print(&quot;terse english  &quot;, m(terse))     # (18, 19)
+PY
+</code></pre>
+<p>The full lexicon audit remains reproducible via <code>audit_symbols.py</code> and siblings; see README.</p>
+<h2 id="provenance">Provenance and correction</h2>
+<p>The original post-mortem was compiled on 2026-07-25 from repository artifacts, token measurements, recorded GitHub traffic, and a historical landscape review. The 2026-09-07 amendment reproduces the headline counts, examines the <a href="https://github.com/snapsynapse/tokenese/blob/main/tools/translator/tokenese_translator/evals/hypothesis_cases.json">exploratory fixtures</a> and <a href="https://github.com/snapsynapse/tokenese/blob/main/tools/translator/tokenese_translator/receiver_eval.py">receiver scoring</a>, and replaces broad historical assertions with the sources linked above.</p>
+<p>The amendment corrects the inference from a failed example to a failed category, the substitution of adoption figures for behavioral validation, and the description of static term coverage as comprehension. The archive decision is retained. No live A/B result is claimed.</p>
 </article>
 </div>
 </main>
